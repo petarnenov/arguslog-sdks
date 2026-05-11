@@ -6,10 +6,28 @@ export interface OpenApiToolParam {
   required: boolean;
   /** Coarse JSON Schema type — used to pick the right zod constructor at runtime. */
   type: 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'unknown';
+  /** Per-param description sourced from the OpenAPI parameter doc (or a default fallback).
+   *  Curated tools may omit it; the runtime falls back to "<name> — required/optional." */
+  description?: string;
+}
+
+export interface ToolAnnotations {
+  /** Human-friendly title shown by MCP clients that surface it (Claude Desktop, Cursor, …). */
+  title?: string;
+  /** True iff the operation does not modify state — GET requests, basically. */
+  readOnlyHint?: boolean;
+  /** True iff repeating the call with the same args has the same effect (DELETE / PUT / GET). */
+  idempotentHint?: boolean;
+  /** True iff the call irreversibly mutates state — DELETE, or POST endpoints that revoke / archive. */
+  destructiveHint?: boolean;
+  /** True iff the tool reaches outside the agent's sandbox (always true for us — we hit the Arguslog API). */
+  openWorldHint?: boolean;
 }
 
 export interface OpenApiTool {
   name: string;
+  /** Human-friendly title (e.g. "Orgs / list mine"); MCP clients fall back to {@code name}. */
+  title?: string;
   description: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   path: string;
@@ -17,11 +35,17 @@ export interface OpenApiTool {
   queryParams: OpenApiToolParam[];
   /** When true the tool also accepts a free-form `body` arg dispatched as the JSON request body. */
   hasBody: boolean;
+  /** JSON Schema for the tool's success response (200/2xx body). Absent for tools where
+   *  the OpenAPI spec doesn't declare a schema or for curated tools that don't bother. */
+  outputSchema?: Record<string, unknown> | null;
+  /** MCP capability annotations. Absent → MCP clients treat the tool as no-hint default. */
+  annotations?: ToolAnnotations;
 }
 
 export const OPENAPI_TOOLS: OpenApiTool[] = [
   {
-    "name": "arguslog_release_controller_get",
+    "name": "arguslog_release_get",
+    "title": "Release get",
     "description": "GET /api/v1/projects/{projectId}/releases/{id}\n\nMethod: GET /api/v1/projects/{projectId}/releases/{id}",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/releases/{id}",
@@ -29,19 +53,49 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "version": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/releases/{id}",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_release_controller_update",
+    "name": "arguslog_release_update",
+    "title": "Release update",
     "description": "PUT /api/v1/projects/{projectId}/releases/{id}\n\nMethod: PUT /api/v1/projects/{projectId}/releases/{id}",
     "method": "PUT",
     "path": "/api/v1/projects/{projectId}/releases/{id}",
@@ -49,19 +103,49 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "version": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "PUT /api/v1/projects/{projectId}/releases/{id}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_release_controller_delete",
+    "name": "arguslog_release_delete",
+    "title": "Release delete",
     "description": "DELETE /api/v1/projects/{projectId}/releases/{id}\n\nMethod: DELETE /api/v1/projects/{projectId}/releases/{id}",
     "method": "DELETE",
     "path": "/api/v1/projects/{projectId}/releases/{id}",
@@ -69,19 +153,30 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/projects/{projectId}/releases/{id}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_rule_controller_get_1",
+    "name": "arguslog_alert_rule_get_1",
+    "title": "Alert rule get 1",
     "description": "GET /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: GET /api/v1/projects/{projectId}/alert-rules/{id}",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
@@ -89,19 +184,62 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/JsonNode"
+        },
+        "actions": {
+          "$ref": "#/components/schemas/JsonNode"
+        },
+        "throttleSeconds": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/alert-rules/{id}",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_rule_controller_update_1",
+    "name": "arguslog_alert_rule_update_1",
+    "title": "Alert rule update 1",
     "description": "PUT /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: PUT /api/v1/projects/{projectId}/alert-rules/{id}",
     "method": "PUT",
     "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
@@ -109,19 +247,62 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/JsonNode"
+        },
+        "actions": {
+          "$ref": "#/components/schemas/JsonNode"
+        },
+        "throttleSeconds": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "PUT /api/v1/projects/{projectId}/alert-rules/{id}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_rule_controller_delete_1",
+    "name": "arguslog_alert_rule_delete_1",
+    "title": "Alert rule delete 1",
     "description": "DELETE /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: DELETE /api/v1/projects/{projectId}/alert-rules/{id}",
     "method": "DELETE",
     "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
@@ -129,19 +310,30 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/projects/{projectId}/alert-rules/{id}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_destination_controller_get_2",
+    "name": "arguslog_alert_destination_get_2",
+    "title": "Alert destination get 2",
     "description": "GET /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: GET /api/v1/orgs/{orgId}/alert-destinations/{id}",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
@@ -149,19 +341,52 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/orgs/{orgId}/alert-destinations/{id}",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_destination_controller_update_2",
+    "name": "arguslog_alert_destination_update_2",
+    "title": "Alert destination update 2",
     "description": "PUT /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: PUT /api/v1/orgs/{orgId}/alert-destinations/{id}",
     "method": "PUT",
     "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
@@ -169,19 +394,52 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "PUT /api/v1/orgs/{orgId}/alert-destinations/{id}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_destination_controller_delete_2",
+    "name": "arguslog_alert_destination_delete_2",
+    "title": "Alert destination delete 2",
     "description": "DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}",
     "method": "DELETE",
     "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
@@ -189,37 +447,80 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       },
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_stripe_webhook_controller_receive",
+    "name": "arguslog_stripe_webhook_receive",
+    "title": "Stripe webhook receive",
     "description": "POST /api/v1/webhooks/stripe\n\nMethod: POST /api/v1/webhooks/stripe",
     "method": "POST",
     "path": "/api/v1/webhooks/stripe",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "type": "string"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/webhooks/stripe",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_now_payments_webhook_controller_receive_1",
+    "name": "arguslog_now_payments_webhook_receive_1",
+    "title": "Now payments webhook receive 1",
     "description": "POST /api/v1/webhooks/nowpayments\n\nMethod: POST /api/v1/webhooks/nowpayments",
     "method": "POST",
     "path": "/api/v1/webhooks/nowpayments",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "type": "string"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/webhooks/nowpayments",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_release_controller_list",
+    "name": "arguslog_release_list",
+    "title": "Release list",
     "description": "GET /api/v1/projects/{projectId}/releases\n\nMethod: GET /api/v1/projects/{projectId}/releases",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/releases",
@@ -227,14 +528,29 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ReleaseResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/releases",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_release_controller_create",
+    "name": "arguslog_release_create",
+    "title": "Release create",
     "description": "POST /api/v1/projects/{projectId}/releases\n\nMethod: POST /api/v1/projects/{projectId}/releases",
     "method": "POST",
     "path": "/api/v1/projects/{projectId}/releases",
@@ -242,14 +558,43 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "version": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/projects/{projectId}/releases",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_source_map_artifact_controller_list_1",
+    "name": "arguslog_source_map_artifact_list_1",
+    "title": "Source map artifact list 1",
     "description": "GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps\n\nMethod: GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
@@ -257,19 +602,35 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "releaseId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "releaseId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/SourceMapArtifactResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_source_map_artifact_controller_create_1",
+    "name": "arguslog_source_map_artifact_create_1",
+    "title": "Source map artifact create 1",
     "description": "POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps\n\nMethod: POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
     "method": "POST",
     "path": "/api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
@@ -277,19 +638,45 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "releaseId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "releaseId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "artifact": {
+          "$ref": "#/components/schemas/SourceMapArtifactResponse"
+        },
+        "uploadUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_dsn_controller_list_2",
+    "name": "arguslog_dsn_list_2",
+    "title": "Dsn list 2",
     "description": "GET /api/v1/projects/{projectId}/keys\n\nMethod: GET /api/v1/projects/{projectId}/keys",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/keys",
@@ -297,14 +684,29 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/DsnSummaryResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/keys",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_dsn_controller_create_2",
+    "name": "arguslog_dsn_create_2",
+    "title": "Dsn create 2",
     "description": "POST /api/v1/projects/{projectId}/keys\n\nMethod: POST /api/v1/projects/{projectId}/keys",
     "method": "POST",
     "path": "/api/v1/projects/{projectId}/keys",
@@ -312,14 +714,49 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dsnPublic": {
+          "type": "string"
+        },
+        "dsn": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/projects/{projectId}/keys",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_rule_controller_list_3",
+    "name": "arguslog_alert_rule_list_3",
+    "title": "Alert rule list 3",
     "description": "GET /api/v1/projects/{projectId}/alert-rules\n\nMethod: GET /api/v1/projects/{projectId}/alert-rules",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/alert-rules",
@@ -327,14 +764,29 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AlertRuleResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/alert-rules",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_rule_controller_create_3",
+    "name": "arguslog_alert_rule_create_3",
+    "title": "Alert rule create 3",
     "description": "POST /api/v1/projects/{projectId}/alert-rules\n\nMethod: POST /api/v1/projects/{projectId}/alert-rules",
     "method": "POST",
     "path": "/api/v1/projects/{projectId}/alert-rules",
@@ -342,32 +794,118 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/JsonNode"
+        },
+        "actions": {
+          "$ref": "#/components/schemas/JsonNode"
+        },
+        "throttleSeconds": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/projects/{projectId}/alert-rules",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_org_controller_list_mine",
+    "name": "arguslog_org_list_mine",
+    "title": "Org list mine",
     "description": "GET /api/v1/orgs\n\nMethod: GET /api/v1/orgs",
     "method": "GET",
     "path": "/api/v1/orgs",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/OrgResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/orgs",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_org_controller_create_4",
+    "name": "arguslog_org_create_4",
+    "title": "Org create 4",
     "description": "POST /api/v1/orgs\n\nMethod: POST /api/v1/orgs",
     "method": "POST",
     "path": "/api/v1/orgs",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/orgs",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_project_controller_list_4",
+    "name": "arguslog_project_list_4",
+    "title": "Project list 4",
     "description": "GET /api/v1/orgs/{orgId}/projects\n\nMethod: GET /api/v1/orgs/{orgId}/projects",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/projects",
@@ -375,14 +913,29 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ProjectResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/orgs/{orgId}/projects",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_project_controller_create_5",
+    "name": "arguslog_project_create_5",
+    "title": "Project create 5",
     "description": "POST /api/v1/orgs/{orgId}/projects\n\nMethod: POST /api/v1/orgs/{orgId}/projects",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/projects",
@@ -390,14 +943,49 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/orgs/{orgId}/projects",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_member_controller_list_5",
+    "name": "arguslog_member_list_5",
+    "title": "Member list 5",
     "description": "GET /api/v1/orgs/{orgId}/members\n\nMethod: GET /api/v1/orgs/{orgId}/members",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/members",
@@ -405,14 +993,29 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/MemberResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/orgs/{orgId}/members",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_member_controller_invite",
+    "name": "arguslog_member_invite",
+    "title": "Member invite",
     "description": "POST /api/v1/orgs/{orgId}/members\n\nMethod: POST /api/v1/orgs/{orgId}/members",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/members",
@@ -420,14 +1023,45 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "email": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "addedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/orgs/{orgId}/members",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_checkout_controller_portal",
+    "name": "arguslog_checkout_portal",
+    "title": "Checkout portal",
     "description": "POST /api/v1/orgs/{orgId}/billing/portal\n\nMethod: POST /api/v1/orgs/{orgId}/billing/portal",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/billing/portal",
@@ -435,14 +1069,31 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/orgs/{orgId}/billing/portal",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_crypto_checkout_controller_start",
+    "name": "arguslog_crypto_checkout_start",
+    "title": "Crypto checkout start",
     "description": "POST /api/v1/orgs/{orgId}/billing/crypto-invoice\n\nMethod: POST /api/v1/orgs/{orgId}/billing/crypto-invoice",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/billing/crypto-invoice",
@@ -450,25 +1101,47 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [
       {
         "name": "tier",
         "required": false,
-        "type": "string"
+        "type": "string",
+        "description": "tier (string) — optional."
       },
       {
         "name": "duration",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "duration (integer) — optional."
       }
     ],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "checkoutUrl": {
+          "type": "string"
+        },
+        "invoiceReference": {
+          "type": "string"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/orgs/{orgId}/billing/crypto-invoice",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_checkout_controller_start_1",
+    "name": "arguslog_checkout_start_1",
+    "title": "Checkout start 1",
     "description": "POST /api/v1/orgs/{orgId}/billing/checkout-session\n\nMethod: POST /api/v1/orgs/{orgId}/billing/checkout-session",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/billing/checkout-session",
@@ -476,20 +1149,38 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [
       {
         "name": "interval",
         "required": false,
-        "type": "string"
+        "type": "string",
+        "description": "interval (string) — optional."
       }
     ],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/orgs/{orgId}/billing/checkout-session",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_destination_controller_list_6",
+    "name": "arguslog_alert_destination_list_6",
+    "title": "Alert destination list 6",
     "description": "GET /api/v1/orgs/{orgId}/alert-destinations\n\nMethod: GET /api/v1/orgs/{orgId}/alert-destinations",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/alert-destinations",
@@ -497,14 +1188,29 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AlertDestinationResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/orgs/{orgId}/alert-destinations",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_alert_destination_controller_create_6",
+    "name": "arguslog_alert_destination_create_6",
+    "title": "Alert destination create 6",
     "description": "POST /api/v1/orgs/{orgId}/alert-destinations\n\nMethod: POST /api/v1/orgs/{orgId}/alert-destinations",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/alert-destinations",
@@ -512,32 +1218,122 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/orgs/{orgId}/alert-destinations",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_me_tokens_controller_list_7",
+    "name": "arguslog_me_tokens_list_7",
+    "title": "Me tokens list 7",
     "description": "GET /api/v1/me/tokens\n\nMethod: GET /api/v1/me/tokens",
     "method": "GET",
     "path": "/api/v1/me/tokens",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PatResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/me/tokens",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_me_tokens_controller_create_7",
+    "name": "arguslog_me_tokens_create_7",
+    "title": "Me tokens create 7",
     "description": "POST /api/v1/me/tokens\n\nMethod: POST /api/v1/me/tokens",
     "method": "POST",
     "path": "/api/v1/me/tokens",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastUsedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/me/tokens",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_admin_controller_grant",
+    "name": "arguslog_admin_grant",
+    "title": "Admin grant",
     "description": "POST /api/v1/admin/orgs/{orgId}/grant\n\nMethod: POST /api/v1/admin/orgs/{orgId}/grant",
     "method": "POST",
     "path": "/api/v1/admin/orgs/{orgId}/grant",
@@ -545,14 +1341,24 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": null,
+    "annotations": {
+      "title": "POST /api/v1/admin/orgs/{orgId}/grant",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_admin_controller_revoke",
+    "name": "arguslog_admin_revoke",
+    "title": "Admin revoke",
     "description": "DELETE /api/v1/admin/orgs/{orgId}/grant\n\nMethod: DELETE /api/v1/admin/orgs/{orgId}/grant",
     "method": "DELETE",
     "path": "/api/v1/admin/orgs/{orgId}/grant",
@@ -560,14 +1366,24 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/admin/orgs/{orgId}/grant",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_member_controller_remove",
+    "name": "arguslog_member_remove",
+    "title": "Member remove",
     "description": "DELETE /api/v1/orgs/{orgId}/members/{userId}\n\nMethod: DELETE /api/v1/orgs/{orgId}/members/{userId}",
     "method": "DELETE",
     "path": "/api/v1/orgs/{orgId}/members/{userId}",
@@ -575,19 +1391,30 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       },
       {
         "name": "userId",
         "required": true,
-        "type": "string"
+        "type": "string",
+        "description": "userId (string) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/orgs/{orgId}/members/{userId}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_member_controller_change_role",
+    "name": "arguslog_member_change_role",
+    "title": "Member change role",
     "description": "PATCH /api/v1/orgs/{orgId}/members/{userId}\n\nMethod: PATCH /api/v1/orgs/{orgId}/members/{userId}",
     "method": "PATCH",
     "path": "/api/v1/orgs/{orgId}/members/{userId}",
@@ -595,19 +1422,51 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       },
       {
         "name": "userId",
         "required": true,
-        "type": "string"
+        "type": "string",
+        "description": "userId (string) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": true
+    "hasBody": true,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "email": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "addedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "PATCH /api/v1/orgs/{orgId}/members/{userId}",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_issue_controller_list_8",
+    "name": "arguslog_issue_list_8",
+    "title": "Issue list 8",
     "description": "GET /api/v1/projects/{projectId}/issues\n\nMethod: GET /api/v1/projects/{projectId}/issues",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/issues",
@@ -615,35 +1474,62 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [
       {
         "name": "status",
         "required": false,
-        "type": "string"
+        "type": "string",
+        "description": "status (string) — optional."
       },
       {
         "name": "level",
         "required": false,
-        "type": "string"
+        "type": "string",
+        "description": "level (string) — optional."
       },
       {
         "name": "cursor",
         "required": false,
-        "type": "string"
+        "type": "string",
+        "description": "cursor (string) — optional."
       },
       {
         "name": "limit",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "limit (integer) — optional."
       }
     ],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/IssueResponse"
+          }
+        },
+        "page": {
+          "$ref": "#/components/schemas/PageMeta"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/issues",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_issue_controller_get_one",
+    "name": "arguslog_issue_get_one",
+    "title": "Issue get one",
     "description": "GET /api/v1/projects/{projectId}/issues/{issueId}\n\nMethod: GET /api/v1/projects/{projectId}/issues/{issueId}",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/issues/{issueId}",
@@ -651,19 +1537,69 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "issueId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "issueId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fingerprint": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "culprit": {
+          "type": "string"
+        },
+        "firstSeenAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastSeenAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "occurrenceCount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/issues/{issueId}",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_issue_controller_list_events",
+    "name": "arguslog_issue_list_events",
+    "title": "Issue list events",
     "description": "GET /api/v1/projects/{projectId}/issues/{issueId}/events\n\nMethod: GET /api/v1/projects/{projectId}/issues/{issueId}/events",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/issues/{issueId}/events",
@@ -671,39 +1607,79 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "issueId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "issueId (integer) — required."
       }
     ],
     "queryParams": [
       {
         "name": "cursor",
         "required": false,
-        "type": "string"
+        "type": "string",
+        "description": "cursor (string) — optional."
       },
       {
         "name": "limit",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "limit (integer) — optional."
       }
     ],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/EventResponse"
+          }
+        },
+        "page": {
+          "$ref": "#/components/schemas/PageMeta"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/projects/{projectId}/issues/{issueId}/events",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_platform_controller_list_9",
+    "name": "arguslog_platform_list_9",
+    "title": "Platform list 9",
     "description": "GET /api/v1/platforms\n\nMethod: GET /api/v1/platforms",
     "method": "GET",
     "path": "/api/v1/platforms",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PlatformResponse"
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/platforms",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_usage_controller_current",
+    "name": "arguslog_usage_current",
+    "title": "Usage current",
     "description": "GET /api/v1/orgs/{orgId}/usage\n\nMethod: GET /api/v1/orgs/{orgId}/usage",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/usage",
@@ -711,14 +1687,72 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "plan": {
+          "type": "string"
+        },
+        "monthlyPriceCents": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "eventsUsed": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "eventCap": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "projectCap": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "retentionDays": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ratio": {
+          "type": "number",
+          "format": "double"
+        },
+        "exceeded": {
+          "type": "boolean"
+        },
+        "paymentGraceUntil": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "billingInterval": {
+          "type": "string"
+        },
+        "renewsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "bonus": {
+          "$ref": "#/components/schemas/BonusInfo"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/orgs/{orgId}/usage",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_project_controller_get_3",
+    "name": "arguslog_project_get_3",
+    "title": "Project get 3",
     "description": "GET /api/v1/orgs/{orgId}/projects/{projectId}\n\nMethod: GET /api/v1/orgs/{orgId}/projects/{projectId}",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/projects/{projectId}",
@@ -726,19 +1760,55 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       },
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/orgs/{orgId}/projects/{projectId}",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_project_controller_archive",
+    "name": "arguslog_project_archive",
+    "title": "Project archive",
     "description": "DELETE /api/v1/orgs/{orgId}/projects/{projectId}\n\nMethod: DELETE /api/v1/orgs/{orgId}/projects/{projectId}",
     "method": "DELETE",
     "path": "/api/v1/orgs/{orgId}/projects/{projectId}",
@@ -746,46 +1816,114 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       },
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/orgs/{orgId}/projects/{projectId}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_me_controller_me",
+    "name": "arguslog_me_me",
+    "title": "Me me",
     "description": "GET /api/v1/me\n\nMethod: GET /api/v1/me",
     "method": "GET",
     "path": "/api/v1/me",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "email": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "isPlatformAdmin": {
+          "type": "boolean"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/me",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_health_info_controller_info",
+    "name": "arguslog_health_info_info",
+    "title": "Health info info",
     "description": "GET /api/v1/info\n\nMethod: GET /api/v1/info",
     "method": "GET",
     "path": "/api/v1/info",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "GET /api/v1/info",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_billing_plans_controller_plans",
+    "name": "arguslog_billing_plans_plans",
+    "title": "Billing plans plans",
     "description": "GET /api/v1/billing/plans\n\nMethod: GET /api/v1/billing/plans",
     "method": "GET",
     "path": "/api/v1/billing/plans",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "tiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/TierInfo"
+          }
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/billing/plans",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_admin_controller_users",
+    "name": "arguslog_admin_users",
+    "title": "Admin users",
     "description": "GET /api/v1/admin/users\n\nMethod: GET /api/v1/admin/users",
     "method": "GET",
     "path": "/api/v1/admin/users",
@@ -794,32 +1932,114 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "q",
         "required": false,
-        "type": "string"
+        "type": "string",
+        "description": "q (string) — optional."
       },
       {
         "name": "offset",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "offset (integer) — optional."
       },
       {
         "name": "limit",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "limit (integer) — optional."
       }
     ],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/AdminUserResponse"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/admin/users",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_admin_controller_stats",
+    "name": "arguslog_admin_stats",
+    "title": "Admin stats",
     "description": "GET /api/v1/admin/stats\n\nMethod: GET /api/v1/admin/stats",
     "method": "GET",
     "path": "/api/v1/admin/stats",
     "pathParams": [],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "totalUsers": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalOrgs": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalProjects": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalIssues": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgsByPlan": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "activeBonusGrants": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "events7d": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "events30d": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/admin/stats",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_admin_controller_orgs",
+    "name": "arguslog_admin_orgs",
+    "title": "Admin orgs",
     "description": "GET /api/v1/admin/orgs\n\nMethod: GET /api/v1/admin/orgs",
     "method": "GET",
     "path": "/api/v1/admin/orgs",
@@ -828,23 +2048,57 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "q",
         "required": false,
-        "type": "string"
+        "type": "string",
+        "description": "q (string) — optional."
       },
       {
         "name": "offset",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "offset (integer) — optional."
       },
       {
         "name": "limit",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "limit (integer) — optional."
       }
     ],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/AdminOrgResponse"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/admin/orgs",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_admin_controller_org",
+    "name": "arguslog_admin_org",
+    "title": "Admin org",
     "description": "GET /api/v1/admin/orgs/{orgId}\n\nMethod: GET /api/v1/admin/orgs/{orgId}",
     "method": "GET",
     "path": "/api/v1/admin/orgs/{orgId}",
@@ -852,14 +2106,82 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "orgId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ownerId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "ownerEmail": {
+          "type": "string"
+        },
+        "projects": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "members": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "events30d": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "renewsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "bonusUntil": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "bonusReason": {
+          "type": "string"
+        },
+        "bonusGrantedByEmail": {
+          "type": "string"
+        },
+        "paymentGraceUntil": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/admin/orgs/{orgId}",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_admin_controller_audit",
+    "name": "arguslog_admin_audit",
+    "title": "Admin audit",
     "description": "GET /api/v1/admin/audit\n\nMethod: GET /api/v1/admin/audit",
     "method": "GET",
     "path": "/api/v1/admin/audit",
@@ -868,18 +2190,51 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "offset",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "offset (integer) — optional."
       },
       {
         "name": "limit",
         "required": false,
-        "type": "integer"
+        "type": "integer",
+        "description": "limit (integer) — optional."
       }
     ],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/AdminAuditResponse"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "annotations": {
+      "title": "GET /api/v1/admin/audit",
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_dsn_controller_revoke_1",
+    "name": "arguslog_dsn_revoke_1",
+    "title": "Dsn revoke 1",
     "description": "DELETE /api/v1/projects/{projectId}/keys/{keyId}\n\nMethod: DELETE /api/v1/projects/{projectId}/keys/{keyId}",
     "method": "DELETE",
     "path": "/api/v1/projects/{projectId}/keys/{keyId}",
@@ -887,19 +2242,30 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "projectId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "projectId (integer) — required."
       },
       {
         "name": "keyId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "keyId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/projects/{projectId}/keys/{keyId}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_org_controller_delete_3",
+    "name": "arguslog_org_delete_3",
+    "title": "Org delete 3",
     "description": "DELETE /api/v1/orgs/{orgId}\n\nMethod: DELETE /api/v1/orgs/{orgId}",
     "method": "DELETE",
     "path": "/api/v1/orgs/{orgId}",
@@ -907,14 +2273,24 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "orgId",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "orgId (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/orgs/{orgId}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   },
   {
-    "name": "arguslog_me_tokens_controller_delete_4",
+    "name": "arguslog_me_tokens_delete_4",
+    "title": "Me tokens delete 4",
     "description": "DELETE /api/v1/me/tokens/{id}\n\nMethod: DELETE /api/v1/me/tokens/{id}",
     "method": "DELETE",
     "path": "/api/v1/me/tokens/{id}",
@@ -922,10 +2298,19 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
       {
         "name": "id",
         "required": true,
-        "type": "integer"
+        "type": "integer",
+        "description": "id (integer) — required."
       }
     ],
     "queryParams": [],
-    "hasBody": false
+    "hasBody": false,
+    "outputSchema": null,
+    "annotations": {
+      "title": "DELETE /api/v1/me/tokens/{id}",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "destructiveHint": true,
+      "openWorldHint": true
+    }
   }
 ];

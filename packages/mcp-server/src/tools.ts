@@ -22,6 +22,9 @@ export interface McpToolDefinition {
   name: string;
   description: string;
   inputSchema: Record<string, unknown>;
+  outputSchema?: Record<string, unknown>;
+  annotations?: Record<string, unknown>;
+  title?: string;
 }
 
 /** Full registry — name → underlying OpenApiTool. Used by both list + call handlers. */
@@ -36,11 +39,26 @@ export const TOOL_REGISTRY: Map<string, OpenApiTool> = (() => {
 
 /** Render the registry as MCP tool definitions. */
 export function listMcpTools(): McpToolDefinition[] {
-  return Array.from(TOOL_REGISTRY.values()).map((t) => ({
-    name: t.name,
-    description: t.description,
-    inputSchema: toJsonSchema(t),
-  }));
+  return Array.from(TOOL_REGISTRY.values()).map((t) => {
+    const def: McpToolDefinition = {
+      name: t.name,
+      description: t.description,
+      inputSchema: toJsonSchema(t),
+    };
+    // Optional fields — only present on auto-generated tools (curated tools don't carry
+    // them today, but the merge respects whichever is present).
+    const anyT = t as unknown as Record<string, unknown>;
+    if (anyT.outputSchema && typeof anyT.outputSchema === 'object') {
+      def.outputSchema = anyT.outputSchema as Record<string, unknown>;
+    }
+    if (anyT.annotations && typeof anyT.annotations === 'object') {
+      def.annotations = anyT.annotations as Record<string, unknown>;
+    }
+    if (typeof anyT.title === 'string') {
+      def.title = anyT.title;
+    }
+    return def;
+  });
 }
 
 /** Execute the tool named {@code name} with {@code args}, dispatching through {@code client}. */
@@ -141,5 +159,6 @@ function jsonSchemaForParam(p: OpenApiToolParam): Record<string, unknown> {
 }
 
 function paramDescription(p: OpenApiToolParam): string {
+  if (p.description && p.description.trim().length > 0) return p.description;
   return p.required ? `${p.name} — required.` : `${p.name} — optional.`;
 }

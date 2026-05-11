@@ -7,6 +7,17 @@
  * normalized {@code <method>_<path>}. The generated module exports a single {@code OPENAPI_TOOLS}
  * array so the runtime side stays generic — adding endpoints to the API is a recompile away
  * from being callable by an LLM.
+ *
+ * <p>Emits per tool:
+ * <ul>
+ *   <li>{@code outputSchema} — resolved from {@code responses.200.content.application/json.schema}
+ *       (refs followed once) so MCP clients know the result shape. Big quality-score win on
+ *       Smithery / Glama (no output schemas = 0/10pt).</li>
+ *   <li>{@code annotations} — {@code readOnlyHint}/{@code destructiveHint}/{@code idempotentHint}
+ *       derived from HTTP method; {@code title} from operation summary. Another quality-score
+ *       category (0 = 0/6pt).</li>
+ *   <li>{@code title} — humanized form of the tool name for UIs that prefer it over the slug.</li>
+ * </ul>
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -28,12 +39,26 @@ for (const [path, ops] of Object.entries(spec.paths ?? {})) {
     if (!op || typeof op !== 'object') continue;
 
     const tag = (op.tags?.[0] ?? firstPathSegment(path) ?? 'misc').toLowerCase();
-    const opId = op.operationId ?? `${method}_${path.replace(/[/{}-]+/g, '_').replace(/^_+|_+$/g, '')}`;
-    let name = `arguslog_${normalize(tag)}_${normalize(opId)}`.replace(/_+/g, '_');
+    const opId =
+      op.operationId ?? `${method}_${path.replace(/[/{}-]+/g, '_').replace(/^_+|_+$/g, '')}`;
+    let name = makeName(tag, opId);
+
+    // Strip the boilerplate `_controller_` infix Spring Boot bakes into operation ids — it
+    // adds zero semantic value and just bloats the LLM's tool table.
+    name = name.replace(/_controller_/g, '_');
+
+    // Collapse consecutive underscores left after the strip.
+    name = name.replace(/_+/g, '_').replace(/^_+|_+$/g, '');
+
     // MCP tool names: lowercase, ≤64 chars, [a-z0-9_]. Trim if too long.
     if (name.length > 64) name = name.slice(0, 64).replace(/_+$/, '');
-    // Disambiguate collisions by suffixing the method.
-    if (seenNames.has(name)) name = `${name.slice(0, 60)}_${method}`.slice(0, 64);
+
+    // Disambiguate collisions by including a path-derived suffix (better than `_1` / `_2`).
+    if (seenNames.has(name)) {
+      const pathHint = pathDisambiguator(path);
+      const candidate = `${name}_${pathHint}`.slice(0, 64).replace(/_+$/, '');
+      name = seenNames.has(candidate) ? `${candidate}_${method}`.slice(0, 64) : candidate;
+    }
     seenNames.add(name);
 
     const params = op.parameters ?? [];
@@ -41,19 +66,37 @@ for (const [path, ops] of Object.entries(spec.paths ?? {})) {
     const queryParams = params.filter((p) => p.in === 'query');
     const hasBody = Boolean(op.requestBody);
 
-    const summary = String(op.summary ?? op.description ?? `${method.toUpperCase()} ${path}`).split('\n')[0];
+    const summary = String(op.summary ?? op.description ?? `${method.toUpperCase()} ${path}`).split(
+      '\n',
+    )[0];
     const description =
       `${summary}\n\nMethod: ${method.toUpperCase()} ${path}` +
       (op.description && op.description !== op.summary ? `\n\n${op.description}` : '');
 
+    const outputSchema = extractOutputSchema(op, spec);
+    const annotations = makeAnnotations(method, summary);
+
     tools.push({
       name,
+      title: humanize(name),
       description,
       method: method.toUpperCase(),
       path,
-      pathParams: pathParams.map((p) => ({ name: p.name, required: p.required ?? true, type: openApiTypeOf(p.schema) })),
-      queryParams: queryParams.map((p) => ({ name: p.name, required: p.required ?? false, type: openApiTypeOf(p.schema) })),
+      pathParams: pathParams.map((p) => ({
+        name: p.name,
+        required: p.required ?? true,
+        type: openApiTypeOf(p.schema),
+        description: paramDescription(p),
+      })),
+      queryParams: queryParams.map((p) => ({
+        name: p.name,
+        required: p.required ?? false,
+        type: openApiTypeOf(p.schema),
+        description: paramDescription(p),
+      })),
       hasBody,
+      outputSchema,
+      annotations,
     });
   }
 }
@@ -69,10 +112,28 @@ export interface OpenApiToolParam {
   required: boolean;
   /** Coarse JSON Schema type — used to pick the right zod constructor at runtime. */
   type: 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'unknown';
+  /** Per-param description sourced from the OpenAPI parameter doc (or a default fallback).
+   *  Curated tools may omit it; the runtime falls back to "<name> — required/optional." */
+  description?: string;
+}
+
+export interface ToolAnnotations {
+  /** Human-friendly title shown by MCP clients that surface it (Claude Desktop, Cursor, …). */
+  title?: string;
+  /** True iff the operation does not modify state — GET requests, basically. */
+  readOnlyHint?: boolean;
+  /** True iff repeating the call with the same args has the same effect (DELETE / PUT / GET). */
+  idempotentHint?: boolean;
+  /** True iff the call irreversibly mutates state — DELETE, or POST endpoints that revoke / archive. */
+  destructiveHint?: boolean;
+  /** True iff the tool reaches outside the agent's sandbox (always true for us — we hit the Arguslog API). */
+  openWorldHint?: boolean;
 }
 
 export interface OpenApiTool {
   name: string;
+  /** Human-friendly title (e.g. "Orgs / list mine"); MCP clients fall back to {@code name}. */
+  title?: string;
   description: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   path: string;
@@ -80,6 +141,11 @@ export interface OpenApiTool {
   queryParams: OpenApiToolParam[];
   /** When true the tool also accepts a free-form \`body\` arg dispatched as the JSON request body. */
   hasBody: boolean;
+  /** JSON Schema for the tool's success response (200/2xx body). Absent for tools where
+   *  the OpenAPI spec doesn't declare a schema or for curated tools that don't bother. */
+  outputSchema?: Record<string, unknown> | null;
+  /** MCP capability annotations. Absent → MCP clients treat the tool as no-hint default. */
+  annotations?: ToolAnnotations;
 }
 
 export const OPENAPI_TOOLS: OpenApiTool[] = ${JSON.stringify(tools, null, 2)};
@@ -91,6 +157,10 @@ console.log(`✓ Generated ${tools.length} tools → ${OUT_FILE}`);
 
 function firstPathSegment(path) {
   return path.split('/').filter(Boolean)[0] ?? null;
+}
+
+function makeName(tag, opId) {
+  return `arguslog_${normalize(tag)}_${normalize(opId)}`.replace(/_+/g, '_');
 }
 
 function normalize(s) {
@@ -106,4 +176,68 @@ function openApiTypeOf(schema) {
   if (t === 'integer') return 'integer';
   if (t === 'number' || t === 'string' || t === 'boolean' || t === 'array' || t === 'object') return t;
   return 'unknown';
+}
+
+function paramDescription(p) {
+  const desc = p.description ?? '';
+  if (desc) return String(desc).split('\n')[0];
+  const t = p.schema?.type ?? 'string';
+  return `${p.name} (${t})${p.required ? ' — required.' : ' — optional.'}`;
+}
+
+/** Picks the {@code 200} (or first 2xx) JSON response schema and resolves a single ref. */
+function extractOutputSchema(op, spec) {
+  const responses = op.responses ?? {};
+  // Prefer 200; fall back to first 2xx; otherwise undefined.
+  const key =
+    Object.keys(responses).find((k) => k === '200') ??
+    Object.keys(responses).find((k) => /^2\d\d$/.test(k));
+  if (!key) return null;
+  const body = responses[key];
+  const schema = body?.content?.['application/json']?.schema;
+  if (!schema) return null;
+  return derefShallow(schema, spec);
+}
+
+/** Resolve a top-level {@code $ref} to the actual schema object so MCP clients see the shape. */
+function derefShallow(schema, spec) {
+  if (!schema || typeof schema !== 'object') return null;
+  if (schema.$ref && typeof schema.$ref === 'string') {
+    const path = schema.$ref.replace(/^#\//, '').split('/');
+    let node = spec;
+    for (const part of path) {
+      if (!node || typeof node !== 'object') return schema; // give up — return ref-only
+      node = node[part];
+    }
+    return node && typeof node === 'object' ? node : schema;
+  }
+  return schema;
+}
+
+function makeAnnotations(method, summary) {
+  const m = method.toLowerCase();
+  const readOnly = m === 'get';
+  const idempotent = m === 'get' || m === 'put' || m === 'delete';
+  const destructive = m === 'delete';
+  return {
+    title: summary || undefined,
+    readOnlyHint: readOnly,
+    idempotentHint: idempotent,
+    destructiveHint: destructive,
+    openWorldHint: true, // every tool reaches out to the Arguslog API.
+  };
+}
+
+function humanize(name) {
+  // arguslog_orgs_list_mine → "orgs · list mine"
+  return name
+    .replace(/^arguslog_/, '')
+    .replace(/_/g, ' ')
+    .replace(/^\w/, (c) => c.toUpperCase());
+}
+
+function pathDisambiguator(path) {
+  // Pull the last static segment of the URL — gives a meaningful disambiguator instead of `_1`.
+  const segs = path.split('/').filter((s) => s && !s.startsWith('{'));
+  return normalize(segs[segs.length - 1] ?? 'path');
 }
