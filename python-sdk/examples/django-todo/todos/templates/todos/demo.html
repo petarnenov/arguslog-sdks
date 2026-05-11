@@ -1,0 +1,81 @@
+{% extends "todos/base.html" %}
+{% block title %}Arguslog SDK Demos{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>Arguslog Python SDK — all use cases</h2>
+  <p class="meta">
+    Each button below exercises a different part of the <code>arguslog</code> Python SDK.
+    After clicking, check your arguslog dashboard for the matching event / issue.
+  </p>
+</div>
+
+<div class="card">
+  <h2>1. Messages &amp; exceptions</h2>
+  <div class="grid">
+    <a class="btn btn-info" href="{% url 'demo_capture_message' %}?level=info">capture_message(info)</a>
+    <a class="btn btn-warning" href="{% url 'demo_capture_message' %}?level=warning">capture_message(warning)</a>
+    <a class="btn btn-danger" href="{% url 'demo_capture_message' %}?level=error">capture_message(error)</a>
+    <a class="btn" href="{% url 'demo_levels' %}">All 5 levels in one go</a>
+    <a class="btn btn-danger" href="{% url 'demo_capture_exception' %}">capture_exception (try/except)</a>
+    <a class="btn btn-danger" href="{% url 'demo_unhandled' %}">Unhandled — middleware catches</a>
+    <a class="btn btn-danger" href="{% url 'demo_div_zero' %}">ZeroDivisionError</a>
+  </div>
+</div>
+
+<div class="card">
+  <h2>2. Identity (set_user)</h2>
+  <div class="grid">
+    <a class="btn btn-success" href="{% url 'demo_set_user' %}">set_user(VIP)</a>
+    <a class="btn btn-ghost" href="{% url 'demo_clear_user' %}">set_user(None)</a>
+  </div>
+</div>
+
+<div class="card">
+  <h2>3. Tags &amp; context</h2>
+  <div class="grid">
+    <a class="btn" href="{% url 'demo_tags' %}">set_tag (feature_flag, ab_test)</a>
+    <a class="btn" href="{% url 'demo_context' %}">set_context (billing + device)</a>
+  </div>
+</div>
+
+<div class="card">
+  <h2>4. Breadcrumbs</h2>
+  <div class="grid">
+    <a class="btn btn-warning" href="{% url 'demo_breadcrumbs' %}">4 breadcrumbs + exception</a>
+    <a class="btn" href="{% url 'demo_slow' %}">Slow op with perf breadcrumbs</a>
+  </div>
+</div>
+
+<div class="card">
+  <h2>5. Integrations</h2>
+  <div class="grid">
+    <a class="btn btn-info" href="{% url 'demo_logging' %}">Python logging → arguslog</a>
+  </div>
+  <p class="meta">
+    The <code>excepthook</code> integration is also installed: any uncaught exception in a
+    background thread or script using <code>sys.excepthook</code> would automatically reach
+    arguslog. For request handlers we use the middleware.
+  </p>
+</div>
+
+<div class="card">
+  <h2>6. Privacy / scrubbing</h2>
+  <div class="grid">
+    <a class="btn btn-warning" href="{% url 'demo_scrubbing' %}">PII context (scrubbed)</a>
+  </div>
+  <p class="meta">
+    Cards, CVVs, API keys and anything matching <code>todo_secret_*</code> are stripped before
+    transport thanks to <code>scrubbing_enabled=True</code> + <code>extra_scrub_patterns</code>.
+  </p>
+</div>
+
+<div class="card">
+  <h2>7. Lifecycle &amp; introspection</h2>
+  <div class="grid">
+    <a class="btn" href="{% url 'demo_flush' %}">flush(timeout=3.0)</a>
+    <a class="btn" href="{% url 'demo_dsn' %}">parse_dsn(...)</a>
+    <a class="btn" href="{% url 'demo_client' %}">get_client() info</a>
+  </div>
+</div>
+{% endblock %}

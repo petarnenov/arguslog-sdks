@@ -1,0 +1,2 @@
+Django>=5.0,<7.0
+arguslog>=0.1.0

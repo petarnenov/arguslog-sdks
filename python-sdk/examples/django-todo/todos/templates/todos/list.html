@@ -1,0 +1,44 @@
+{% extends "todos/base.html" %}
+
+{% block content %}
+<div class="card">
+  <h2>New todo</h2>
+  <form method="post" action="{% url 'todo_create' %}">
+    {% csrf_token %}
+    {{ form.title }}
+    {{ form.description }}
+    {{ form.priority }}
+    <button class="btn" type="submit">Add todo</button>
+  </form>
+  <div class="meta">Signed in as <code>{{ user.email }}</code> <span class="pill">id={{ user.id }}</span></div>
+</div>
+
+<div class="card">
+  <h2>Your todos</h2>
+  {% if todos %}
+    <ul class="todos">
+      {% for todo in todos %}
+        <li class="todo {% if todo.completed %}done{% endif %}">
+          <form method="post" action="{% url 'todo_toggle' todo.pk %}" style="display:inline">
+            {% csrf_token %}
+            <button class="btn btn-ghost btn-sm" type="submit">
+              {% if todo.completed %}↺{% else %}✓{% endif %}
+            </button>
+          </form>
+          <div style="flex:1">
+            <div class="todo-title">{{ todo.title }}</div>
+            {% if todo.description %}<div class="todo-desc">{{ todo.description }}</div>{% endif %}
+          </div>
+          <span class="badge badge-{{ todo.priority }}">{{ todo.priority }}</span>
+          <form method="post" action="{% url 'todo_delete' todo.pk %}" style="display:inline">
+            {% csrf_token %}
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="meta">No todos yet. Add one above.</p>
+  {% endif %}
+</div>
+{% endblock %}
