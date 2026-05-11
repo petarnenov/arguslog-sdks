@@ -3,11 +3,12 @@ name: Release sdk-python
 # Tag-driven PyPI release. Push a tag matching `python-sdk-v*` (e.g. `python-sdk-v1.0.0`)
 # and the matching version in python-sdk/pyproject.toml gets published to PyPI.
 #
-# Auth: OIDC via PyPI's "trusted publisher" feature — no long-lived API token in repo
-# secrets. The PyPI project must have a trusted-publisher entry pointing at this exact
-# workflow file (release-sdk-python.yml) on this repo + branch (main). For the very first
-# publish (project doesn't exist yet) it has to be configured as a "pending publisher" at
-# https://pypi.org/manage/account/publishing/ before the tag is pushed.
+# Auth: long-lived API token (PYPI_API_TOKEN repo secret, project-scoped to `arguslog`).
+# Originally this workflow used PyPI Trusted Publisher / OIDC but the trusted-publisher
+# entry was lost when the workflow moved into scripts/public-mirror/.github/, and PyPI
+# doesn't expose a CRUD API to re-add it without an interactive UI login. The token path
+# fixes the publish from CI; swap back to OIDC by re-adding the trusted-publisher entry at
+# https://pypi.org/manage/project/arguslog/settings/publishing/ and reverting this file.
 on:
   push:
     tags:
@@ -33,7 +34,6 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
-      id-token: write # required for PyPI trusted publisher (OIDC)
     defaults:
       run:
         working-directory: python-sdk
@@ -105,10 +105,11 @@ jobs:
       - name: List build artifacts
         run: ls -la dist/
 
-      - name: Publish to PyPI (trusted publisher / OIDC)
+      - name: Publish to PyPI
         if: github.event_name == 'push' || github.event.inputs.dry-run != 'true'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
           packages-dir: python-sdk/dist
           # We've already verified the version matches the tag; reject anything else
           # that might have slipped into dist/ from a stale checkout.
