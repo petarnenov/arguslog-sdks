@@ -14,7 +14,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "icon.svg"
   ],
   "sideEffects": false,
   "dependencies": {

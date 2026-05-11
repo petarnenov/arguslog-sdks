@@ -21,7 +21,8 @@
     "dist",
     "README.md",
     "smithery.yaml",
-    "glama.json"
+    "glama.json",
+    "icon.svg"
   ],
   "scripts": {
     "generate": "node scripts/generate-tools.mjs",

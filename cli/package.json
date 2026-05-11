@@ -16,7 +16,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "icon.svg"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

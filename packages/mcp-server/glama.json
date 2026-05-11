@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "homepage": "https://arguslog.org",
+  "icon": "https://arguslog.org/icons/mcp.svg",
   "repository": {
     "type": "git",
     "url": "https://github.com/petarnenov/arguslog",
