@@ -145,16 +145,17 @@ Method: GET /api/v1/orgs/{orgId}/usage`,
 
   create_project: {
     name: 'create_project',
-    description: `Create a new project under an org. The project gets an auto-generated DSN; call
-\`list_dsns\` afterwards to fetch it (the response of this tool returns the project
-metadata only).
+    description: `Create a new project under an org. The response carries both the project metadata
+AND the auto-generated first DSN inline (full \`arguslog://…\` string, visible exactly once —
+SDK config goes here). No follow-up call needed; \`list_dsns\` returns metadata only.
 
 Method: POST /api/v1/orgs/{orgId}/projects
 
 Required: \`orgId\`, \`body.name\` (2-100 chars), \`body.platform\` (one of: javascript, react,
 vue, angular, nextjs, react-native, node, java-spring, python).
 
-Example: \`{ "orgId": 42, "body": { "name": "Marketing Web", "platform": "react" } }\``,
+Example: \`{ "orgId": 42, "body": { "name": "Marketing Web", "platform": "react" } }\`
+Response shape: \`{ project: {...}, dsn: { dsn: "arguslog://...", dsnPublic, ... } }\``,
     method: 'POST',
     path: '/api/v1/orgs/{orgId}/projects',
     pathParams: [{ name: 'orgId', required: true, type: 'integer' }],
@@ -267,9 +268,10 @@ Method: GET /api/v1/billing/plans`,
 
   grant_bonus_plan: {
     name: 'grant_bonus_plan',
-    description: `[Platform admin only] Comp a paid plan to a specific organization. The plan
-column is updated to the new tier and \`bonus_until\` is set to now + months × 30 days. An
-audit-log entry is written.
+    description: `[Platform admin only] Comp a paid plan to a specific organization. Delegates to
+the org's primary owner under the hood — billing identity is per-user (V27+), so this just
+finds the owner and writes their \`users.plan\` + \`bonus_until\`. Prefer \`grant_user_bonus\`
+when you already have the userId; this org-scoped variant stays for legacy callers.
 
 Required: \`orgId\`, \`body.tier\` (\`starter\` | \`pro\` | \`business\`), \`body.months\`
 (1, 3, 6, or 12), \`body.reason\` (free text shown to the customer).
@@ -282,5 +284,97 @@ Example: \`{ "orgId": 42, "body": { "tier": "pro", "months": 3, "reason": "Beta 
     pathParams: [{ name: 'orgId', required: true, type: 'integer' }],
     queryParams: [],
     hasBody: true,
+  },
+
+  grant_user_bonus: {
+    name: 'grant_user_bonus',
+    description: `[Platform admin only] Comp a paid plan directly to a user (V27+ direct surface).
+Per-user billing means the bonus tier automatically covers every org that user owns — no
+need to think about which org to apply it to. Writes \`users.plan\` and \`bonus_until\`, and
+appends an audit-log entry with target_type=user.
+
+Required: \`userId\` (UUID from list_admin_users), \`body.tier\` (\`starter\` | \`pro\` |
+\`business\`), \`body.months\` (1, 3, 6, or 12), \`body.reason\` (free text).
+
+Method: POST /api/v1/admin/users/{userId}/grant
+
+Example: \`{ "userId": "11111111-1111-1111-1111-111111111111", "body": { "tier": "pro",
+"months": 3, "reason": "Beta tester" } }\``,
+    method: 'POST',
+    path: '/api/v1/admin/users/{userId}/grant',
+    pathParams: [{ name: 'userId', required: true, type: 'string' }],
+    queryParams: [],
+    hasBody: true,
+  },
+
+  get_me: {
+    name: 'get_me',
+    description: `Get the authenticated user's identity + billing state. Returns \`userId\`,
+\`email\`, \`displayName\`, \`isPlatformAdmin\`, \`plan\` (the user's effective tier), and
+billing timestamps \`planRenewsAt\`, \`paymentGraceUntil\`, \`bonusUntil\`, \`bonusReason\`.
+
+Use to answer "what plan am I on" or "when does my subscription renew" without picking an org —
+post-V27, billing identity lives on the user, not on individual orgs.
+
+Method: GET /api/v1/me`,
+    method: 'GET',
+    path: '/api/v1/me',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+  },
+
+  start_me_checkout: {
+    name: 'start_me_checkout',
+    description: `Start a Stripe Checkout session for the authenticated user (V27+ user-scoped
+billing). Backend resolves the user's primary owned org under the hood; the returned URL is the
+hosted Stripe Checkout page — redirect / open in browser.
+
+Method: POST /api/v1/me/billing/checkout-session
+
+Optional query: \`interval\` (\`monthly\` | \`annual\`). Defaults to monthly.
+
+Example return: \`{ "url": "https://checkout.stripe.com/c/..." }\``,
+    method: 'POST',
+    path: '/api/v1/me/billing/checkout-session',
+    pathParams: [],
+    queryParams: [{ name: 'interval', required: false, type: 'string' }],
+    hasBody: false,
+  },
+
+  open_me_portal: {
+    name: 'open_me_portal',
+    description: `Open the Stripe Customer Portal for the authenticated user — manage card,
+download invoices, cancel subscription. Returns the portal URL; valid for ~30s on Stripe's side.
+
+Method: POST /api/v1/me/billing/portal
+
+Example return: \`{ "url": "https://billing.stripe.com/p/..." }\``,
+    method: 'POST',
+    path: '/api/v1/me/billing/portal',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+  },
+
+  start_me_crypto_checkout: {
+    name: 'start_me_crypto_checkout',
+    description: `Start a NOWPayments crypto invoice for the authenticated user — alternative to
+the card flow. Returns a hosted NOWPayments URL the user opens to pick a coin and pay.
+
+Method: POST /api/v1/me/billing/crypto-invoice
+
+Required query: \`tier\` (\`starter\` | \`pro\` | \`business\`), \`duration\` (\`1\` | \`3\` |
+\`6\` | \`12\` months).
+
+Example return: \`{ "checkoutUrl": "https://nowpayments.io/...", "invoiceReference": "inv_..." }\``,
+    method: 'POST',
+    path: '/api/v1/me/billing/crypto-invoice',
+    pathParams: [],
+    queryParams: [
+      { name: 'tier', required: true, type: 'string' },
+      { name: 'duration', required: true, type: 'integer' },
+    ],
+    hasBody: false,
   },
 };
