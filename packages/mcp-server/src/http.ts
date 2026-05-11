@@ -13,7 +13,11 @@
  *
  * <p>Auth: client sends {@code Authorization: Bearer arglog_pat_<rest>} on every request. We
  * mint a fresh {@link ArguslogClient} per request so leakage between requests is structurally
- * impossible. Missing / empty bearer → 401.
+ * impossible. Missing / empty bearer is NOT rejected at the HTTP layer — that would trigger
+ * OAuth-discovery in gateways like Smithery / Glama (they read {@code WWW-Authenticate: Bearer}
+ * as an OAuth challenge instead of forwarding the user's PAT). Instead we surface an MCP-level
+ * error from {@code tools/call}; metadata methods like {@code initialize} and
+ * {@code tools/list} work unauthenticated so discovery probes succeed.
  *
  * <p>Health: {@code GET /healthz} returns 200 OK so Railway's healthchecks don't churn the
  * service. Everything else under {@code /} returns 404.
@@ -30,7 +34,7 @@ import { ArguslogApiError, ArguslogClient } from './client.js';
 import { executeTool, listMcpTools } from './tools.js';
 
 const PACKAGE_NAME = '@arguslog/mcp-server';
-const PACKAGE_VERSION = '0.2.1';
+const PACKAGE_VERSION = '0.2.2';
 
 const PORT = Number(process.env.PORT ?? 8080);
 const ARGUSLOG_API_URL = process.env.ARGUSLOG_API_URL ?? 'https://api.arguslog.org';
@@ -44,15 +48,35 @@ function extractPat(req: Request): string | null {
   return tok && tok.length > 0 ? tok : null;
 }
 
-/** Builds a one-shot MCP {@link Server} bound to the request's PAT. */
-function makeServer(client: ArguslogClient): Server {
+/** Builds a one-shot MCP {@link Server} bound to the request's PAT (or null when the
+ * caller is a discovery probe with no auth — only initialize / tools/list / etc work in
+ * that case; tools/call returns a friendly error pointing at the dashboard).
+ */
+function makeServer(client: ArguslogClient | null): Server {
   const server = new Server(
     { name: PACKAGE_NAME, version: PACKAGE_VERSION },
     { capabilities: { tools: {} } },
   );
 
+  // Static tool catalog — no API call, always works regardless of auth. This is what
+  // Smithery / Glama / other gateways probe with on first connection.
   server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: listMcpTools() }));
+
   server.setRequestHandler(CallToolRequestSchema, async (req) => {
+    if (!client) {
+      return {
+        isError: true,
+        content: [
+          {
+            type: 'text',
+            text:
+              'Authentication required. Configure ARGUSLOG_PAT (Authorization: Bearer ' +
+              'arglog_pat_<rest>) on your MCP client — generate one from the Arguslog ' +
+              'dashboard → Personal access tokens.',
+          },
+        ],
+      };
+    }
     const { name, arguments: args } = req.params;
     try {
       const result = await executeTool(client, name, (args ?? {}) as Record<string, unknown>);
@@ -87,24 +111,13 @@ function makeServer(client: ArguslogClient): Server {
 }
 
 async function handleMcpRequest(req: Request, res: Response): Promise<void> {
+  // We DON'T reject requests with missing Bearer at the HTTP layer — that triggers
+  // OAuth-discovery in MCP gateways like Smithery (they see the WWW-Authenticate
+  // header and try to negotiate OAuth instead of forwarding the user's PAT).
+  // Instead: build a null client when no PAT is present; tools/list still works
+  // (static catalog), tools/call fails with a clear in-band MCP error.
   const pat = extractPat(req);
-  if (!pat) {
-    res
-      .status(401)
-      .setHeader('WWW-Authenticate', 'Bearer realm="arguslog"')
-      .json({
-        jsonrpc: '2.0',
-        error: {
-          code: -32001,
-          message:
-            'Missing Authorization: Bearer arglog_pat_<...>. Generate a PAT from the Arguslog dashboard.',
-        },
-        id: null,
-      });
-    return;
-  }
-
-  const client = new ArguslogClient({ baseUrl: ARGUSLOG_API_URL, pat });
+  const client = pat ? new ArguslogClient({ baseUrl: ARGUSLOG_API_URL, pat }) : null;
 
   // Stateless transport — sessionIdGenerator undefined → no session ids, every request
   // stands alone. We rebuild the Server per request so the PAT scope is the request's
