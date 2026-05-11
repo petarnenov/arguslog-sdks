@@ -17,8 +17,8 @@
 import type { OpenApiTool } from './generated/openapi-tools.js';
 
 export const CURATED_TOOLS: Record<string, OpenApiTool> = {
-  arguslog_orgs_list_mine: {
-    name: 'arguslog_orgs_list_mine',
+  list_my_orgs: {
+    name: 'list_my_orgs',
     description: `List the organizations the authenticated user is a member of.
 
 Always start here. Most other tools need an \`orgId\` from this list. Returns one row per org with
@@ -36,8 +36,8 @@ No arguments. Example: call this tool first to discover the user's orgs, pick th
     hasBody: false,
   },
 
-  arguslog_projects_list: {
-    name: 'arguslog_projects_list',
+  list_projects: {
+    name: 'list_projects',
     description: `List projects belonging to an organization.
 
 Returns rows with \`id\`, \`slug\`, \`name\`, \`platform\`, \`createdAt\`. Archived projects
@@ -54,8 +54,8 @@ Required: \`orgId\` (number). Example: \`{ "orgId": 42 }\`.`,
     hasBody: false,
   },
 
-  arguslog_issues_list: {
-    name: 'arguslog_issues_list',
+  list_issues: {
+    name: 'list_issues',
     description: `List unresolved issues for a project, most-recent first.
 
 This is the agent's main lookup tool when the user says "what broke today" or "show me the
@@ -84,8 +84,8 @@ Example: \`{ "projectId": 7, "statuses": "unresolved", "levels": "error,fatal", 
     hasBody: false,
   },
 
-  arguslog_issues_get: {
-    name: 'arguslog_issues_get',
+  get_issue: {
+    name: 'get_issue',
     description: `Fetch full details of a single issue, including its first / last seen timestamps,
 total occurrences, fingerprint, and current status.
 
@@ -103,12 +103,12 @@ Required: \`projectId\` (number), \`issueId\` (number). Example:
     hasBody: false,
   },
 
-  arguslog_issues_events: {
-    name: 'arguslog_issues_events',
+  list_issue_events: {
+    name: 'list_issue_events',
     description: `List recent events for an issue, ordered by time descending. Each event has the
 full payload (stack trace, breadcrumbs, contexts, request, web3 fields if present).
 
-Use this after \`arguslog_issues_get\` to see actual exception details — the issue row only
+Use this after \`get_issue\` to see actual exception details — the issue row only
 has aggregate stats, not the per-occurrence payloads.
 
 Method: GET /api/v1/projects/{projectId}/issues/{issueId}/events
@@ -128,8 +128,8 @@ Optional: \`afterId\`, \`limit\` (default 50, max 200).`,
     hasBody: false,
   },
 
-  arguslog_orgs_get_usage: {
-    name: 'arguslog_orgs_get_usage',
+  get_org_usage: {
+    name: 'get_org_usage',
     description: `Current-month event usage + plan caps for an organization. Use to answer
 "are we close to our event cap?" or "what plan are we on?". Returns \`eventsUsed\`,
 \`eventCap\`, \`projectCap\`, \`retentionDays\`, \`plan\`, \`ratio\` (0..1+), \`exceeded\`,
@@ -143,10 +143,10 @@ Method: GET /api/v1/orgs/{orgId}/usage`,
     hasBody: false,
   },
 
-  arguslog_projects_create: {
-    name: 'arguslog_projects_create',
+  create_project: {
+    name: 'create_project',
     description: `Create a new project under an org. The project gets an auto-generated DSN; call
-\`arguslog_dsns_list\` afterwards to fetch it (the response of this tool returns the project
+\`list_dsns\` afterwards to fetch it (the response of this tool returns the project
 metadata only).
 
 Method: POST /api/v1/orgs/{orgId}/projects
@@ -162,8 +162,8 @@ Example: \`{ "orgId": 42, "body": { "name": "Marketing Web", "platform": "react"
     hasBody: true,
   },
 
-  arguslog_releases_create: {
-    name: 'arguslog_releases_create',
+  create_release: {
+    name: 'create_release',
     description: `Register a release for a project. Source maps uploaded later via the artifact
 endpoints attach to this release so symbolication can resolve minified frames back to original
 files.
@@ -182,8 +182,8 @@ Example: \`{ "projectId": 7, "body": { "version": "1.4.2", "environment": "produ
     hasBody: true,
   },
 
-  arguslog_alert_rules_list: {
-    name: 'arguslog_alert_rules_list',
+  list_alert_rules: {
+    name: 'list_alert_rules',
     description: `List alert rules for a project. Each rule has a name, enabled flag, level filter
 (\`fatal | error | warning | info | debug\`), tag filters, throttle window, and the destinations
 it fires to.
@@ -196,8 +196,8 @@ Method: GET /api/v1/projects/{projectId}/alert-rules`,
     hasBody: false,
   },
 
-  arguslog_alert_destinations_list: {
-    name: 'arguslog_alert_destinations_list',
+  list_alert_destinations: {
+    name: 'list_alert_destinations',
     description: `List the alert destinations configured on an org (Telegram, Slack, email,
 generic webhook). Destination IDs are referenced from alert rules.
 
@@ -209,8 +209,8 @@ Method: GET /api/v1/orgs/{orgId}/alert-destinations`,
     hasBody: false,
   },
 
-  arguslog_members_list: {
-    name: 'arguslog_members_list',
+  list_members: {
+    name: 'list_members',
     description: `List members of an org with their roles (owner / admin / member) and join dates.
 
 Method: GET /api/v1/orgs/{orgId}/members`,
@@ -221,8 +221,8 @@ Method: GET /api/v1/orgs/{orgId}/members`,
     hasBody: false,
   },
 
-  arguslog_members_invite: {
-    name: 'arguslog_members_invite',
+  invite_member: {
+    name: 'invite_member',
     description: `Invite a new member to an org. The server emails the invitee a magic link and
 also inserts a pending membership row. Required scope on the PAT: \`orgs:write\`.
 
@@ -237,8 +237,8 @@ Example: \`{ "orgId": 42, "body": { "email": "alice@example.com", "role": "membe
     hasBody: true,
   },
 
-  arguslog_dsns_list: {
-    name: 'arguslog_dsns_list',
+  list_dsns: {
+    name: 'list_dsns',
     description: `List active DSN keys for a project. The DSN is the SDK ingest credential —
 SDKs authenticate to ingest with this. Returns the public part of the DSN; the secret half
 is shown only at creation time.
@@ -251,8 +251,8 @@ Method: GET /api/v1/projects/{projectId}/keys`,
     hasBody: false,
   },
 
-  arguslog_billing_plans: {
-    name: 'arguslog_billing_plans',
+  list_billing_plans: {
+    name: 'list_billing_plans',
     description: `Public catalog of all paid plans with caps + duration ladder (-17/-25/-33%
 discount for 3/6/12 months). No org context needed. Use to answer "what's the price of Pro
 for 6 months" or "how many events does Business include".
@@ -265,8 +265,8 @@ Method: GET /api/v1/billing/plans`,
     hasBody: false,
   },
 
-  arguslog_admin_grant_bonus: {
-    name: 'arguslog_admin_grant_bonus',
+  grant_bonus_plan: {
+    name: 'grant_bonus_plan',
     description: `[Platform admin only] Comp a paid plan to a specific organization. The plan
 column is updated to the new tier and \`bonus_until\` is set to now + months × 30 days. An
 audit-log entry is written.

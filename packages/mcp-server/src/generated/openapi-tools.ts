@@ -44,8 +44,8 @@ export interface OpenApiTool {
 
 export const OPENAPI_TOOLS: OpenApiTool[] = [
   {
-    "name": "arguslog_release_get",
-    "title": "Release get",
+    "name": "get_release",
+    "title": "Get release",
     "description": "GET /api/v1/projects/{projectId}/releases/{id}\n\nMethod: GET /api/v1/projects/{projectId}/releases/{id}",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/releases/{id}",
@@ -94,8 +94,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_release_update",
-    "title": "Release update",
+    "name": "update_release",
+    "title": "Update release",
     "description": "PUT /api/v1/projects/{projectId}/releases/{id}\n\nMethod: PUT /api/v1/projects/{projectId}/releases/{id}",
     "method": "PUT",
     "path": "/api/v1/projects/{projectId}/releases/{id}",
@@ -144,8 +144,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_release_delete",
-    "title": "Release delete",
+    "name": "delete_release",
+    "title": "Delete release",
     "description": "DELETE /api/v1/projects/{projectId}/releases/{id}\n\nMethod: DELETE /api/v1/projects/{projectId}/releases/{id}",
     "method": "DELETE",
     "path": "/api/v1/projects/{projectId}/releases/{id}",
@@ -179,8 +179,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_rule_get_1",
-    "title": "Alert rule get 1",
+    "name": "get_alert_rule_1",
+    "title": "Get alert rule 1",
     "description": "GET /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: GET /api/v1/projects/{projectId}/alert-rules/{id}",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
@@ -242,8 +242,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_rule_update_1",
-    "title": "Alert rule update 1",
+    "name": "update_alert_rule_1",
+    "title": "Update alert rule 1",
     "description": "PUT /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: PUT /api/v1/projects/{projectId}/alert-rules/{id}",
     "method": "PUT",
     "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
@@ -305,8 +305,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_rule_delete_1",
-    "title": "Alert rule delete 1",
+    "name": "delete_alert_rule_1",
+    "title": "Delete alert rule 1",
     "description": "DELETE /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: DELETE /api/v1/projects/{projectId}/alert-rules/{id}",
     "method": "DELETE",
     "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
@@ -340,8 +340,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_destination_get_2",
-    "title": "Alert destination get 2",
+    "name": "get_alert_destination_2",
+    "title": "Get alert destination 2",
     "description": "GET /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: GET /api/v1/orgs/{orgId}/alert-destinations/{id}",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
@@ -393,8 +393,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_destination_update_2",
-    "title": "Alert destination update 2",
+    "name": "update_alert_destination_2",
+    "title": "Update alert destination 2",
     "description": "PUT /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: PUT /api/v1/orgs/{orgId}/alert-destinations/{id}",
     "method": "PUT",
     "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
@@ -446,8 +446,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_destination_delete_2",
-    "title": "Alert destination delete 2",
+    "name": "delete_alert_destination_2",
+    "title": "Delete alert destination 2",
     "description": "DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}",
     "method": "DELETE",
     "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
@@ -481,7 +481,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_stripe_webhook_receive",
+    "name": "stripe_webhook_receive",
     "title": "Stripe webhook receive",
     "description": "POST /api/v1/webhooks/stripe\n\nMethod: POST /api/v1/webhooks/stripe",
     "method": "POST",
@@ -506,7 +506,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_now_payments_webhook_receive_1",
+    "name": "now_payments_webhook_receive_1",
     "title": "Now payments webhook receive 1",
     "description": "POST /api/v1/webhooks/nowpayments\n\nMethod: POST /api/v1/webhooks/nowpayments",
     "method": "POST",
@@ -531,8 +531,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_release_list",
-    "title": "Release list",
+    "name": "list_release",
+    "title": "List release",
     "description": "GET /api/v1/projects/{projectId}/releases\n\nMethod: GET /api/v1/projects/{projectId}/releases",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/releases",
@@ -569,8 +569,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_release_create",
-    "title": "Release create",
+    "name": "create_release",
+    "title": "Create release",
     "description": "POST /api/v1/projects/{projectId}/releases\n\nMethod: POST /api/v1/projects/{projectId}/releases",
     "method": "POST",
     "path": "/api/v1/projects/{projectId}/releases",
@@ -613,8 +613,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_source_map_artifact_list_1",
-    "title": "Source map artifact list 1",
+    "name": "list_source_map_artifact_1",
+    "title": "List source map artifact 1",
     "description": "GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps\n\nMethod: GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
@@ -657,8 +657,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_source_map_artifact_create_1",
-    "title": "Source map artifact create 1",
+    "name": "create_source_map_artifact_1",
+    "title": "Create source map artifact 1",
     "description": "POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps\n\nMethod: POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
     "method": "POST",
     "path": "/api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
@@ -703,8 +703,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_dsn_list_2",
-    "title": "Dsn list 2",
+    "name": "list_dsn_2",
+    "title": "List dsn 2",
     "description": "GET /api/v1/projects/{projectId}/keys\n\nMethod: GET /api/v1/projects/{projectId}/keys",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/keys",
@@ -741,8 +741,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_dsn_create_2",
-    "title": "Dsn create 2",
+    "name": "create_dsn_2",
+    "title": "Create dsn 2",
     "description": "POST /api/v1/projects/{projectId}/keys\n\nMethod: POST /api/v1/projects/{projectId}/keys",
     "method": "POST",
     "path": "/api/v1/projects/{projectId}/keys",
@@ -791,8 +791,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_rule_list_3",
-    "title": "Alert rule list 3",
+    "name": "list_alert_rule_3",
+    "title": "List alert rule 3",
     "description": "GET /api/v1/projects/{projectId}/alert-rules\n\nMethod: GET /api/v1/projects/{projectId}/alert-rules",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/alert-rules",
@@ -829,8 +829,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_rule_create_3",
-    "title": "Alert rule create 3",
+    "name": "create_alert_rule_3",
+    "title": "Create alert rule 3",
     "description": "POST /api/v1/projects/{projectId}/alert-rules\n\nMethod: POST /api/v1/projects/{projectId}/alert-rules",
     "method": "POST",
     "path": "/api/v1/projects/{projectId}/alert-rules",
@@ -886,7 +886,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_org_list_mine",
+    "name": "org_list_mine",
     "title": "Org list mine",
     "description": "GET /api/v1/orgs\n\nMethod: GET /api/v1/orgs",
     "method": "GET",
@@ -917,8 +917,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_org_create_4",
-    "title": "Org create 4",
+    "name": "create_org_4",
+    "title": "Create org 4",
     "description": "POST /api/v1/orgs\n\nMethod: POST /api/v1/orgs",
     "method": "POST",
     "path": "/api/v1/orgs",
@@ -956,8 +956,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_project_list_4",
-    "title": "Project list 4",
+    "name": "list_project_4",
+    "title": "List project 4",
     "description": "GET /api/v1/orgs/{orgId}/projects\n\nMethod: GET /api/v1/orgs/{orgId}/projects",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/projects",
@@ -994,8 +994,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_project_create_5",
-    "title": "Project create 5",
+    "name": "create_project_5",
+    "title": "Create project 5",
     "description": "POST /api/v1/orgs/{orgId}/projects\n\nMethod: POST /api/v1/orgs/{orgId}/projects",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/projects",
@@ -1044,8 +1044,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_member_list_5",
-    "title": "Member list 5",
+    "name": "list_member_5",
+    "title": "List member 5",
     "description": "GET /api/v1/orgs/{orgId}/members\n\nMethod: GET /api/v1/orgs/{orgId}/members",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/members",
@@ -1082,8 +1082,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_member_invite",
-    "title": "Member invite",
+    "name": "invite_member",
+    "title": "Invite member",
     "description": "POST /api/v1/orgs/{orgId}/members\n\nMethod: POST /api/v1/orgs/{orgId}/members",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/members",
@@ -1128,7 +1128,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_checkout_portal",
+    "name": "checkout_portal",
     "title": "Checkout portal",
     "description": "POST /api/v1/orgs/{orgId}/billing/portal\n\nMethod: POST /api/v1/orgs/{orgId}/billing/portal",
     "method": "POST",
@@ -1160,7 +1160,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_crypto_checkout_start",
+    "name": "crypto_checkout_start",
     "title": "Crypto checkout start",
     "description": "POST /api/v1/orgs/{orgId}/billing/crypto-invoice\n\nMethod: POST /api/v1/orgs/{orgId}/billing/crypto-invoice",
     "method": "POST",
@@ -1208,7 +1208,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_checkout_start_1",
+    "name": "checkout_start_1",
     "title": "Checkout start 1",
     "description": "POST /api/v1/orgs/{orgId}/billing/checkout-session\n\nMethod: POST /api/v1/orgs/{orgId}/billing/checkout-session",
     "method": "POST",
@@ -1247,8 +1247,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_destination_list_6",
-    "title": "Alert destination list 6",
+    "name": "list_alert_destination_6",
+    "title": "List alert destination 6",
     "description": "GET /api/v1/orgs/{orgId}/alert-destinations\n\nMethod: GET /api/v1/orgs/{orgId}/alert-destinations",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/alert-destinations",
@@ -1285,8 +1285,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_alert_destination_create_6",
-    "title": "Alert destination create 6",
+    "name": "create_alert_destination_6",
+    "title": "Create alert destination 6",
     "description": "POST /api/v1/orgs/{orgId}/alert-destinations\n\nMethod: POST /api/v1/orgs/{orgId}/alert-destinations",
     "method": "POST",
     "path": "/api/v1/orgs/{orgId}/alert-destinations",
@@ -1332,8 +1332,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_me_tokens_list_7",
-    "title": "Me tokens list 7",
+    "name": "list_me_tokens_7",
+    "title": "List me tokens 7",
     "description": "GET /api/v1/me/tokens\n\nMethod: GET /api/v1/me/tokens",
     "method": "GET",
     "path": "/api/v1/me/tokens",
@@ -1363,8 +1363,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_me_tokens_create_7",
-    "title": "Me tokens create 7",
+    "name": "create_me_tokens_7",
+    "title": "Create me tokens 7",
     "description": "POST /api/v1/me/tokens\n\nMethod: POST /api/v1/me/tokens",
     "method": "POST",
     "path": "/api/v1/me/tokens",
@@ -1416,8 +1416,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_admin_grant",
-    "title": "Admin grant",
+    "name": "grant_admin",
+    "title": "Grant admin",
     "description": "POST /api/v1/admin/orgs/{orgId}/grant\n\nMethod: POST /api/v1/admin/orgs/{orgId}/grant",
     "method": "POST",
     "path": "/api/v1/admin/orgs/{orgId}/grant",
@@ -1445,8 +1445,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_admin_revoke",
-    "title": "Admin revoke",
+    "name": "revoke_admin",
+    "title": "Revoke admin",
     "description": "DELETE /api/v1/admin/orgs/{orgId}/grant\n\nMethod: DELETE /api/v1/admin/orgs/{orgId}/grant",
     "method": "DELETE",
     "path": "/api/v1/admin/orgs/{orgId}/grant",
@@ -1474,8 +1474,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_member_remove",
-    "title": "Member remove",
+    "name": "remove_member",
+    "title": "Remove member",
     "description": "DELETE /api/v1/orgs/{orgId}/members/{userId}\n\nMethod: DELETE /api/v1/orgs/{orgId}/members/{userId}",
     "method": "DELETE",
     "path": "/api/v1/orgs/{orgId}/members/{userId}",
@@ -1509,7 +1509,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_member_change_role",
+    "name": "member_change_role",
     "title": "Member change role",
     "description": "PATCH /api/v1/orgs/{orgId}/members/{userId}\n\nMethod: PATCH /api/v1/orgs/{orgId}/members/{userId}",
     "method": "PATCH",
@@ -1561,8 +1561,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_issue_list_8",
-    "title": "Issue list 8",
+    "name": "list_issue_8",
+    "title": "List issue 8",
     "description": "GET /api/v1/projects/{projectId}/issues\n\nMethod: GET /api/v1/projects/{projectId}/issues",
     "method": "GET",
     "path": "/api/v1/projects/{projectId}/issues",
@@ -1624,7 +1624,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_issue_get_one",
+    "name": "issue_get_one",
     "title": "Issue get one",
     "description": "GET /api/v1/projects/{projectId}/issues/{issueId}\n\nMethod: GET /api/v1/projects/{projectId}/issues/{issueId}",
     "method": "GET",
@@ -1694,7 +1694,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_issue_list_events",
+    "name": "issue_list_events",
     "title": "Issue list events",
     "description": "GET /api/v1/projects/{projectId}/issues/{issueId}/events\n\nMethod: GET /api/v1/projects/{projectId}/issues/{issueId}/events",
     "method": "GET",
@@ -1751,8 +1751,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_platform_list_9",
-    "title": "Platform list 9",
+    "name": "list_platform_9",
+    "title": "List platform 9",
     "description": "GET /api/v1/platforms\n\nMethod: GET /api/v1/platforms",
     "method": "GET",
     "path": "/api/v1/platforms",
@@ -1782,7 +1782,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_usage_current",
+    "name": "usage_current",
     "title": "Usage current",
     "description": "GET /api/v1/orgs/{orgId}/usage\n\nMethod: GET /api/v1/orgs/{orgId}/usage",
     "method": "GET",
@@ -1855,8 +1855,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_project_get_3",
-    "title": "Project get 3",
+    "name": "get_project_3",
+    "title": "Get project 3",
     "description": "GET /api/v1/orgs/{orgId}/projects/{projectId}\n\nMethod: GET /api/v1/orgs/{orgId}/projects/{projectId}",
     "method": "GET",
     "path": "/api/v1/orgs/{orgId}/projects/{projectId}",
@@ -1911,8 +1911,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_project_archive",
-    "title": "Project archive",
+    "name": "archive_project",
+    "title": "Archive project",
     "description": "DELETE /api/v1/orgs/{orgId}/projects/{projectId}\n\nMethod: DELETE /api/v1/orgs/{orgId}/projects/{projectId}",
     "method": "DELETE",
     "path": "/api/v1/orgs/{orgId}/projects/{projectId}",
@@ -1946,7 +1946,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_me_me",
+    "name": "me_me",
     "title": "Me me",
     "description": "GET /api/v1/me\n\nMethod: GET /api/v1/me",
     "method": "GET",
@@ -1981,8 +1981,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_health_info_info",
-    "title": "Health info info",
+    "name": "info_health_info",
+    "title": "Info health info",
     "description": "GET /api/v1/info\n\nMethod: GET /api/v1/info",
     "method": "GET",
     "path": "/api/v1/info",
@@ -2003,7 +2003,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_billing_plans_plans",
+    "name": "billing_plans_plans",
     "title": "Billing plans plans",
     "description": "GET /api/v1/billing/plans\n\nMethod: GET /api/v1/billing/plans",
     "method": "GET",
@@ -2034,7 +2034,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_admin_users",
+    "name": "admin_users",
     "title": "Admin users",
     "description": "GET /api/v1/admin/users\n\nMethod: GET /api/v1/admin/users",
     "method": "GET",
@@ -2093,7 +2093,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_admin_stats",
+    "name": "admin_stats",
     "title": "Admin stats",
     "description": "GET /api/v1/admin/stats\n\nMethod: GET /api/v1/admin/stats",
     "method": "GET",
@@ -2150,7 +2150,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_admin_orgs",
+    "name": "admin_orgs",
     "title": "Admin orgs",
     "description": "GET /api/v1/admin/orgs\n\nMethod: GET /api/v1/admin/orgs",
     "method": "GET",
@@ -2209,7 +2209,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_admin_org",
+    "name": "admin_org",
     "title": "Admin org",
     "description": "GET /api/v1/admin/orgs/{orgId}\n\nMethod: GET /api/v1/admin/orgs/{orgId}",
     "method": "GET",
@@ -2292,7 +2292,7 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_admin_audit",
+    "name": "admin_audit",
     "title": "Admin audit",
     "description": "GET /api/v1/admin/audit\n\nMethod: GET /api/v1/admin/audit",
     "method": "GET",
@@ -2345,8 +2345,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_dsn_revoke_1",
-    "title": "Dsn revoke 1",
+    "name": "revoke_dsn_1",
+    "title": "Revoke dsn 1",
     "description": "DELETE /api/v1/projects/{projectId}/keys/{keyId}\n\nMethod: DELETE /api/v1/projects/{projectId}/keys/{keyId}",
     "method": "DELETE",
     "path": "/api/v1/projects/{projectId}/keys/{keyId}",
@@ -2380,8 +2380,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_org_delete_3",
-    "title": "Org delete 3",
+    "name": "delete_org_3",
+    "title": "Delete org 3",
     "description": "DELETE /api/v1/orgs/{orgId}\n\nMethod: DELETE /api/v1/orgs/{orgId}",
     "method": "DELETE",
     "path": "/api/v1/orgs/{orgId}",
@@ -2409,8 +2409,8 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
-    "name": "arguslog_me_tokens_delete_4",
-    "title": "Me tokens delete 4",
+    "name": "delete_me_tokens_4",
+    "title": "Delete me tokens 4",
     "description": "DELETE /api/v1/me/tokens/{id}\n\nMethod: DELETE /api/v1/me/tokens/{id}",
     "method": "DELETE",
     "path": "/api/v1/me/tokens/{id}",

@@ -42,6 +42,12 @@ const EMPTY_OUTPUT_SCHEMA = Object.freeze({
   description: 'No response body — successful response is a 204 No Content or similar.',
 });
 
+const ACTION_VERBS = new Set([
+  'get', 'list', 'create', 'update', 'delete', 'remove', 'revoke', 'grant',
+  'archive', 'restore', 'invite', 'accept', 'reject', 'cancel', 'send',
+  'upload', 'download', 'search', 'find', 'count', 'info', 'check', 'verify',
+]);
+
 for (const [path, ops] of Object.entries(spec.paths ?? {})) {
   for (const [method, op] of Object.entries(ops)) {
     if (!['get', 'post', 'put', 'patch', 'delete'].includes(method)) continue;
@@ -168,8 +174,44 @@ function firstPathSegment(path) {
   return path.split('/').filter(Boolean)[0] ?? null;
 }
 
+/** Smithery / MCP-spec convention prefers SHORT verb-first names like {@code get_weather},
+ *  not noun-first slug paths like {@code arguslog_release_get}. We:
+ *
+ *  <ol>
+ *    <li>Drop the {@code arguslog_} prefix — the registry namespace
+ *        ({@code petarnenovpetrov/arguslog}) already disambiguates.</li>
+ *    <li>Re-arrange {@code <noun>_<verb>} into {@code <verb>_<noun>} (e.g.
+ *        {@code release_get} → {@code get_release}).</li>
+ *    <li>Strip {@code _controller_} infix.</li>
+ *  </ol>
+ */
 function makeName(tag, opId) {
-  return `arguslog_${normalize(tag)}_${normalize(opId)}`.replace(/_+/g, '_');
+  // Strip controller suffix from tag ("ReleaseController" → "release")
+  const group = normalize(tag).replace(/_?controller$/, '');
+  // Strip "controller" infix from opId, lowercase + snakecase
+  const op = normalize(opId).replace(/_?controller_?/, '_').replace(/_+/g, '_');
+  // Combine then flip if the WHOLE combined name ends with an action verb (release_get → get_release).
+  const combined = `${group}_${op}`.replace(/_+/g, '_').replace(/^_+|_+$/g, '');
+  return flipNounVerb(combined);
+}
+
+/** "release_get" → "get_release"; "alert_rule_get_1" → "get_alert_rule_1"; "list_mine_orgs"
+ *  stays the same (verb already first). Trailing numeric disambiguator segments (Spring's
+ *  _1, _2 suffix on overloaded controller methods) are preserved at the end after the flip. */
+function flipNounVerb(op) {
+  const parts = op.split('_').filter(Boolean);
+  if (parts.length < 2) return op;
+  // Pop trailing pure-digit segments so the action verb shows up as `last`.
+  const trail = [];
+  while (parts.length > 1 && /^\d+$/.test(parts[parts.length - 1])) {
+    trail.unshift(parts.pop());
+  }
+  if (parts.length < 2) return [...parts, ...trail].join('_');
+  const last = parts[parts.length - 1];
+  if (!ACTION_VERBS.has(last)) return [...parts, ...trail].join('_');
+  // Already verb-first? Don't double-flip.
+  if (ACTION_VERBS.has(parts[0])) return [...parts, ...trail].join('_');
+  return [last, ...parts.slice(0, -1), ...trail].join('_');
 }
 
 function normalize(s) {
@@ -251,9 +293,8 @@ function makeAnnotations(method, summary) {
 }
 
 function humanize(name) {
-  // arguslog_orgs_list_mine → "orgs · list mine"
+  // list_my_orgs → "List my orgs"
   return name
-    .replace(/^arguslog_/, '')
     .replace(/_/g, ' ')
     .replace(/^\w/, (c) => c.toUpperCase());
 }

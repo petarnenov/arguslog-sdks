@@ -19,9 +19,9 @@ describe('tool dispatch', () => {
   it('listMcpTools returns at least the curated tools', () => {
     const tools = listMcpTools();
     const names = tools.map((t) => t.name);
-    expect(names).toContain('arguslog_orgs_list_mine');
-    expect(names).toContain('arguslog_issues_list');
-    expect(names).toContain('arguslog_admin_grant_bonus');
+    expect(names).toContain('list_my_orgs');
+    expect(names).toContain('list_issues');
+    expect(names).toContain('grant_bonus_plan');
     // OpenAPI auto-gen contributes the rest — should be a meaningful number.
     expect(tools.length).toBeGreaterThan(20);
   });
@@ -36,7 +36,7 @@ describe('tool dispatch', () => {
     globalThis.fetch = fetchMock as unknown as typeof globalThis.fetch;
 
     const client = ArguslogClient.fromEnv();
-    await executeTool(client, 'arguslog_projects_create', {
+    await executeTool(client, 'create_project', {
       orgId: 42,
       body: { name: 'Acme', platform: 'react' },
     });
@@ -57,7 +57,7 @@ describe('tool dispatch', () => {
     globalThis.fetch = fetchMock as unknown as typeof globalThis.fetch;
 
     const client = ArguslogClient.fromEnv();
-    await executeTool(client, 'arguslog_issues_list', {
+    await executeTool(client, 'list_issues', {
       projectId: 7,
       statuses: 'unresolved',
       limit: 25,
@@ -71,11 +71,11 @@ describe('tool dispatch', () => {
 
   it('throws when a required path param is missing', async () => {
     const client = ArguslogClient.fromEnv();
-    await expect(executeTool(client, 'arguslog_issues_list', {})).rejects.toThrow(/projectId/);
+    await expect(executeTool(client, 'list_issues', {})).rejects.toThrow(/projectId/);
   });
 
   it('rejects unknown tool names with a clear error', async () => {
     const client = ArguslogClient.fromEnv();
-    await expect(executeTool(client, 'arguslog_does_not_exist', {})).rejects.toThrow(/Unknown tool/);
+    await expect(executeTool(client, 'does_not_exist', {})).rejects.toThrow(/Unknown tool/);
   });
 });
