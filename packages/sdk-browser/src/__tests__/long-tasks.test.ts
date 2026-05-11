@@ -112,7 +112,9 @@ describe('installLongTaskBreadcrumbs', () => {
   it('no-ops when supportedEntryTypes lacks longtask (Firefox)', () => {
     installFakePO();
     (
-      globalThis as { PerformanceObserver: { supportedEntryTypes: string[] } }
+      globalThis as unknown as {
+        PerformanceObserver: { supportedEntryTypes: string[] };
+      }
     ).PerformanceObserver.supportedEntryTypes = ['paint', 'navigation'];
     const client = fakeClient();
     const off = installLongTaskBreadcrumbs(client);
@@ -131,8 +133,9 @@ describe('installLongTaskBreadcrumbs', () => {
     (
       ThrowingObserver as unknown as { supportedEntryTypes: readonly string[] }
     ).supportedEntryTypes = ['longtask'];
-    (globalThis as { PerformanceObserver: typeof PerformanceObserver }).PerformanceObserver =
-      ThrowingObserver as unknown as typeof PerformanceObserver;
+    (
+      globalThis as unknown as { PerformanceObserver: typeof PerformanceObserver }
+    ).PerformanceObserver = ThrowingObserver as unknown as typeof PerformanceObserver;
 
     const client = fakeClient();
     const off = installLongTaskBreadcrumbs(client);
@@ -159,7 +162,7 @@ describe('installLongTaskBreadcrumbs', () => {
           },
         ),
       ],
-    } as PerformanceObserverEntryList;
+    } as unknown as PerformanceObserverEntryList;
     observer!.callback(list, observer as unknown as PerformanceObserver);
 
     expect(client.addBreadcrumb).toHaveBeenCalledWith(
