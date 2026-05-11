@@ -535,10 +535,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/ReleaseResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ReleaseResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/projects/{projectId}/releases",
@@ -615,10 +623,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/SourceMapArtifactResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SourceMapArtifactResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
@@ -691,10 +707,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/DsnSummaryResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/DsnSummaryResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/projects/{projectId}/keys",
@@ -771,10 +795,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/AlertRuleResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/AlertRuleResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/projects/{projectId}/alert-rules",
@@ -851,10 +883,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/OrgResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/OrgResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/orgs",
@@ -920,10 +960,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/ProjectResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ProjectResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/orgs/{orgId}/projects",
@@ -1000,10 +1048,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/MemberResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MemberResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/orgs/{orgId}/members",
@@ -1195,10 +1251,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/AlertDestinationResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/AlertDestinationResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/orgs/{orgId}/alert-destinations",
@@ -1265,10 +1329,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/PatResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PatResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/me/tokens",
@@ -1664,10 +1736,18 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "queryParams": [],
     "hasBody": false,
     "outputSchema": {
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/PlatformResponse"
-      }
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PlatformResponse"
+          }
+        }
+      },
+      "required": [
+        "result"
+      ]
     },
     "annotations": {
       "title": "GET /api/v1/platforms",

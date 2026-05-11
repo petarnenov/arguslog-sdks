@@ -26,7 +26,7 @@ import { ArguslogApiError, ArguslogClient } from './client.js';
 import { executeTool, listMcpTools } from './tools.js';
 
 const PACKAGE_NAME = '@arguslog/mcp-server';
-const PACKAGE_VERSION = '0.3.1';
+const PACKAGE_VERSION = '0.3.2';
 
 async function main(): Promise<void> {
   // Build the client lazily — registry probes (Glama's introspection sandbox, Smithery's

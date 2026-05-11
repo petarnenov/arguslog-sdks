@@ -185,10 +185,14 @@ function paramDescription(p) {
   return `${p.name} (${t})${p.required ? ' — required.' : ' — optional.'}`;
 }
 
-/** Picks the {@code 200} (or first 2xx) JSON response schema and resolves a single ref. */
+/** Picks the {@code 200} (or first 2xx) JSON response schema, resolves a single ref, and
+ *  normalizes the top-level type to "object" — MCP's outputSchema spec mandates this, but
+ *  many of our REST endpoints return naked arrays for list responses (HTTP 200 → JSON
+ *  array). For those we wrap as {@code {type: object, properties: {result: <orig>}}} so
+ *  Smithery / Glama validators don't reject the tool list.
+ */
 function extractOutputSchema(op, spec) {
   const responses = op.responses ?? {};
-  // Prefer 200; fall back to first 2xx; otherwise undefined.
   const key =
     Object.keys(responses).find((k) => k === '200') ??
     Object.keys(responses).find((k) => /^2\d\d$/.test(k));
@@ -196,7 +200,16 @@ function extractOutputSchema(op, spec) {
   const body = responses[key];
   const schema = body?.content?.['application/json']?.schema;
   if (!schema) return null;
-  return derefShallow(schema, spec);
+  const resolved = derefShallow(schema, spec);
+  if (!resolved || typeof resolved !== 'object') return null;
+  // MCP requires top-level `type: "object"`. When the API returns an array / primitive,
+  // wrap it under {result: <orig>} so the schema validates.
+  if (resolved.type === 'object' || resolved.properties) return resolved;
+  return {
+    type: 'object',
+    properties: { result: resolved },
+    required: ['result'],
+  };
 }
 
 /** Resolve a top-level {@code $ref} to the actual schema object so MCP clients see the shape. */

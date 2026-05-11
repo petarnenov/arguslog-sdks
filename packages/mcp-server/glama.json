@@ -3,7 +3,7 @@
   "name": "arguslog",
   "displayName": "Arguslog",
   "description": "Read and manage Arguslog error tracking from any LLM agent — issues, events, projects, organizations, alert rules, releases, members, billing, and (for platform admins) the admin panel surface. Authenticate with a Personal Access Token from the dashboard.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": {
     "name": "Petar Nenov",
     "url": "https://arguslog.org"
