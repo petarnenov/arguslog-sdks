@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-react-native",
   "version": "1.0.3",
-  "description": "Arguslog React Native SDK — ErrorBoundary, hooks, RN-aware integrations",
+  "description": "Arguslog React Native SDK \u2014 ErrorBoundary, hooks, RN-aware integrations",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -50,5 +50,14 @@
     "react-dom": "^19.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "packages/sdk-react-native"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
   }
 }

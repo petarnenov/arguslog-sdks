@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-react",
   "version": "1.1.3",
-  "description": "Arguslog React 19 SDK — ErrorBoundary, hooks, RR/RQ adapters",
+  "description": "Arguslog React 19 SDK \u2014 ErrorBoundary, hooks, RR/RQ adapters",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -45,5 +45,14 @@
     "react-dom": "^19.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "packages/sdk-react"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
   }
 }

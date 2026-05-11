@@ -23,5 +23,14 @@
   },
   "peerDependencies": {
     "eslint": "^9.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "packages/eslint-config"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
   }
 }

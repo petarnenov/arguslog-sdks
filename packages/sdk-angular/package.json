@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-angular",
   "version": "1.0.4",
-  "description": "Arguslog Angular SDK — ErrorHandler, provideArguslog(), ArguslogModule, service",
+  "description": "Arguslog Angular SDK \u2014 ErrorHandler, provideArguslog(), ArguslogModule, service",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -44,5 +44,14 @@
     "typescript": "^5.7.0",
     "vitest": "^3.2.4",
     "zone.js": "^0.15.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "packages/sdk-angular"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
   }
 }

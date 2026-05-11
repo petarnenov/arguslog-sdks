@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-node",
   "version": "1.0.2",
-  "description": "Arguslog Node.js SDK — error tracking for server-side Node apps",
+  "description": "Arguslog Node.js SDK \u2014 error tracking for server-side Node apps",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -65,5 +65,14 @@
     "supertest": "^7.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "packages/sdk-node"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
   }
 }

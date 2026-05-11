@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/cli",
   "version": "1.0.1",
-  "description": "Arguslog CLI — releases, sourcemap upload, project bootstrap",
+  "description": "Arguslog CLI \u2014 releases, sourcemap upload, project bootstrap",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -35,5 +35,14 @@
     "eslint": "^9.18.0",
     "typescript": "^5.7.0",
     "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "cli"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
   }
 }

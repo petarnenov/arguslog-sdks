@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-web3",
   "version": "0.3.0",
-  "description": "Arguslog Web3 SDK — rich error decoding for viem, ethers v6, @solana/web3.js + Anchor, wagmi, WalletConnect (chain, wallet, contract, decoded revert / Anchor / program error)",
+  "description": "Arguslog Web3 SDK \u2014 rich error decoding for viem, ethers v6, @solana/web3.js + Anchor, wagmi, WalletConnect (chain, wallet, contract, decoded revert / Anchor / program error)",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -65,5 +65,14 @@
     "solana",
     "monitoring",
     "observability"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "packages/sdk-web3"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
+  }
 }

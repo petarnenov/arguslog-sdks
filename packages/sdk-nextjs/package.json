@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-nextjs",
   "version": "1.0.4",
-  "description": "Arguslog Next.js SDK — App Router + Pages Router, route handler & server action wrappers, instrumentation.ts hook",
+  "description": "Arguslog Next.js SDK \u2014 App Router + Pages Router, route handler & server action wrappers, instrumentation.ts hook",
   "license": "MIT",
   "type": "module",
   "main": "./dist/client.js",
@@ -49,5 +49,14 @@
     "react": "^19.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "packages/sdk-nextjs"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
   }
 }

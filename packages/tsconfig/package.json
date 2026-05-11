@@ -8,5 +8,14 @@
     "react.json",
     "node.json",
     "library.json"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks",
+    "directory": "packages/tsconfig"
+  },
+  "homepage": "https://arguslog.org",
+  "bugs": {
+    "url": "https://github.com/petarnenov/arguslog-sdks/issues"
+  }
 }
