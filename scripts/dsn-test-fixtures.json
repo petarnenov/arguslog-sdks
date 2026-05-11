@@ -1,0 +1,142 @@
+[
+  {
+    "name": "production hostname uses https",
+    "dsn": "arguslog://abc123@ingest.arguslog.io/api/42",
+    "valid": true,
+    "publicKey": "abc123",
+    "host": "ingest.arguslog.io",
+    "projectId": "42",
+    "scheme": "https",
+    "ingestUrl": "https://ingest.arguslog.io/api/42/events"
+  },
+  {
+    "name": "localhost uses http",
+    "dsn": "arguslog://k@localhost:8080/api/1",
+    "valid": true,
+    "scheme": "http",
+    "ingestUrl": "http://localhost:8080/api/1/events"
+  },
+  {
+    "name": "127.0.0.1 loopback uses http",
+    "dsn": "arguslog://k@127.0.0.1:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+  {
+    "name": "127.x.y.z extended loopback uses http",
+    "dsn": "arguslog://k@127.5.10.1:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+  {
+    "name": "0.0.0.0 wildcard uses http",
+    "dsn": "arguslog://k@0.0.0.0:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+
+  {
+    "name": "RFC1918 192.168.0.0/16 uses http (LAN dev box)",
+    "dsn": "arguslog://k@192.168.0.186:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+  {
+    "name": "RFC1918 192.168 boundary low",
+    "dsn": "arguslog://k@192.168.0.1:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+  {
+    "name": "RFC1918 192.168 boundary high",
+    "dsn": "arguslog://k@192.168.255.255:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+  {
+    "name": "RFC1918 10.0.0.0/8 uses http",
+    "dsn": "arguslog://k@10.0.0.5:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+  {
+    "name": "RFC1918 10.x boundary high",
+    "dsn": "arguslog://k@10.255.255.255:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+  {
+    "name": "RFC1918 172.16.0.0/12 boundary low",
+    "dsn": "arguslog://k@172.16.0.1:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+  {
+    "name": "RFC1918 172.16.0.0/12 boundary high",
+    "dsn": "arguslog://k@172.31.255.255:8080/api/1",
+    "valid": true,
+    "scheme": "http"
+  },
+
+  {
+    "name": "172.15 just below RFC1918 stays https",
+    "dsn": "arguslog://k@172.15.0.1:8080/api/1",
+    "valid": true,
+    "scheme": "https"
+  },
+  {
+    "name": "172.32 just above RFC1918 stays https",
+    "dsn": "arguslog://k@172.32.0.1:8080/api/1",
+    "valid": true,
+    "scheme": "https"
+  },
+  {
+    "name": "193.168 not 192.168 stays https",
+    "dsn": "arguslog://k@193.168.0.1:8080/api/1",
+    "valid": true,
+    "scheme": "https"
+  },
+  {
+    "name": "11.x not 10.x stays https",
+    "dsn": "arguslog://k@11.0.0.1:8080/api/1",
+    "valid": true,
+    "scheme": "https"
+  },
+  {
+    "name": "8.8.8.8 public DNS stays https",
+    "dsn": "arguslog://k@8.8.8.8:8080/api/1",
+    "valid": true,
+    "scheme": "https"
+  },
+
+  {
+    "name": "missing public key is invalid",
+    "dsn": "arguslog://@host/api/1",
+    "valid": false
+  },
+  {
+    "name": "wrong scheme https:// is invalid",
+    "dsn": "https://k@host/api/1",
+    "valid": false
+  },
+  {
+    "name": "missing api segment is invalid",
+    "dsn": "arguslog://k@host/1",
+    "valid": false
+  },
+  {
+    "name": "empty project id is invalid",
+    "dsn": "arguslog://k@host/api/",
+    "valid": false
+  },
+  {
+    "name": "non-DSN string is invalid",
+    "dsn": "not-a-dsn",
+    "valid": false
+  },
+  {
+    "name": "empty string is invalid",
+    "dsn": "",
+    "valid": false
+  }
+]
