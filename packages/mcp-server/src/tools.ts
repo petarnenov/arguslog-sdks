@@ -27,13 +27,47 @@ export interface McpToolDefinition {
   title?: string;
 }
 
-/** Full registry — name → underlying OpenApiTool. Used by both list + call handlers. */
+/** Full registry — name → underlying OpenApiTool. Used by both list + call handlers.
+ *
+ * Merge strategy: when a curated tool and an auto-generated tool target the same HTTP
+ * endpoint (same {@code method + path}), we MERGE them — the curated copy contributes
+ * {@code name} + {@code description} (LLM-friendly), the auto-generated copy contributes
+ * {@code outputSchema} + {@code annotations} + per-param descriptions (from OpenAPI).
+ * Without this, we'd ship two callable tools for the same endpoint and inflate the
+ * registry (69 entries instead of the canonical 54).
+ */
 export const TOOL_REGISTRY: Map<string, OpenApiTool> = (() => {
+  // Index auto-gen tools by method+path so we can find the "matching" one for each curated.
+  const autoByEndpoint = new Map<string, OpenApiTool>();
+  for (const t of OPENAPI_TOOLS) {
+    autoByEndpoint.set(`${t.method} ${t.path}`, t);
+  }
+
+  // Start with auto-gen tools keyed by name.
   const m = new Map<string, OpenApiTool>();
   for (const t of OPENAPI_TOOLS) m.set(t.name, t);
-  // Curated entries override auto-generated ones — same name wins to the curated copy so the
-  // LLM gets the richer description while the dispatcher path stays identical.
-  for (const [name, t] of Object.entries(CURATED_TOOLS)) m.set(name, t);
+
+  // Merge curated entries — they replace the auto-gen entry that targets the same endpoint.
+  for (const curated of Object.values(CURATED_TOOLS)) {
+    const endpointKey = `${curated.method} ${curated.path}`;
+    const auto = autoByEndpoint.get(endpointKey);
+    if (auto) {
+      // Drop the auto-gen entry; replace with a merged one that prefers curated text.
+      m.delete(auto.name);
+      const merged: OpenApiTool = {
+        ...auto,
+        ...curated,
+        // Pick the richer of the two for these fields when both exist.
+        title: curated.title ?? auto.title,
+        outputSchema: curated.outputSchema ?? auto.outputSchema,
+        annotations: curated.annotations ?? auto.annotations,
+      };
+      m.set(curated.name, merged);
+    } else {
+      // Curated tool with no auto-gen counterpart (rare — only if OpenAPI lacks the endpoint).
+      m.set(curated.name, curated);
+    }
+  }
   return m;
 })();
 
