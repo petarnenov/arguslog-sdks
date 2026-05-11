@@ -1,6 +1,13 @@
 # Railway service config for arguslog-mcp — public hosted MCP server. Sits behind
 # mcp.arguslog.org and serves Streamable HTTP at POST /mcp; per-request PAT auth means one
 # instance handles every customer (no shared secret, no env-var PAT on this service).
+#
+# Optional hardening env vars (set in Railway UI, NOT in this file):
+#   CF_ORIGIN_TOKEN           — shared secret. When set, /mcp requires header
+#                               `X-CF-Origin-Token: <value>`. A Cloudflare Transform Rule
+#                               on mcp.arguslog.org injects the same value, closing the
+#                               *.up.railway.app direct-hit bypass. Leave unset to disable.
+#   MCP_RATE_LIMIT_PER_MINUTE — int, default 120. Per-PAT (or per-IP when unauth) limit.
 
 [build]
 builder = "DOCKERFILE"
