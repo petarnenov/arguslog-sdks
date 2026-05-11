@@ -165,7 +165,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/projects/{projectId}/releases/{id}",
       "readOnlyHint": false,
@@ -322,7 +326,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/projects/{projectId}/alert-rules/{id}",
       "readOnlyHint": false,
@@ -459,7 +467,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}",
       "readOnlyHint": false,
@@ -1419,7 +1431,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": true,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "POST /api/v1/admin/orgs/{orgId}/grant",
       "readOnlyHint": false,
@@ -1444,7 +1460,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/admin/orgs/{orgId}/grant",
       "readOnlyHint": false,
@@ -1475,7 +1495,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/orgs/{orgId}/members/{userId}",
       "readOnlyHint": false,
@@ -1908,7 +1932,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/orgs/{orgId}/projects/{projectId}",
       "readOnlyHint": false,
@@ -1961,7 +1989,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     "pathParams": [],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "GET /api/v1/info",
       "readOnlyHint": true,
@@ -2334,7 +2366,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/projects/{projectId}/keys/{keyId}",
       "readOnlyHint": false,
@@ -2359,7 +2395,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/orgs/{orgId}",
       "readOnlyHint": false,
@@ -2384,7 +2424,11 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     ],
     "queryParams": [],
     "hasBody": false,
-    "outputSchema": null,
+    "outputSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "No response body — successful response is a 204 No Content or similar."
+    },
     "annotations": {
       "title": "DELETE /api/v1/me/tokens/{id}",
       "readOnlyHint": false,

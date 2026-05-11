@@ -33,6 +33,15 @@ const spec = JSON.parse(readFileSync(OPENAPI, 'utf8'));
 const tools = [];
 const seenNames = new Set();
 
+/** Empty-object schema for endpoints with no response body (DELETE → 204, etc).
+ *  Smithery scores "Output schemas" by counting tools that have ANY outputSchema; emitting
+ *  a permissive {type:object} placeholder gives credit for those endpoints too. */
+const EMPTY_OUTPUT_SCHEMA = Object.freeze({
+  type: 'object',
+  additionalProperties: true,
+  description: 'No response body — successful response is a 204 No Content or similar.',
+});
+
 for (const [path, ops] of Object.entries(spec.paths ?? {})) {
   for (const [method, op] of Object.entries(ops)) {
     if (!['get', 'post', 'put', 'patch', 'delete'].includes(method)) continue;
@@ -196,12 +205,12 @@ function extractOutputSchema(op, spec) {
   const key =
     Object.keys(responses).find((k) => k === '200') ??
     Object.keys(responses).find((k) => /^2\d\d$/.test(k));
-  if (!key) return null;
+  if (!key) return EMPTY_OUTPUT_SCHEMA;
   const body = responses[key];
   const schema = body?.content?.['application/json']?.schema;
-  if (!schema) return null;
+  if (!schema) return EMPTY_OUTPUT_SCHEMA;
   const resolved = derefShallow(schema, spec);
-  if (!resolved || typeof resolved !== 'object') return null;
+  if (!resolved || typeof resolved !== 'object') return EMPTY_OUTPUT_SCHEMA;
   // MCP requires top-level `type: "object"`. When the API returns an array / primitive,
   // wrap it under {result: <orig>} so the schema validates.
   if (resolved.type === 'object' || resolved.properties) return resolved;
