@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-react-native",
   "version": "1.0.3",
-  "description": "Arguslog React Native SDK \u2014 ErrorBoundary, hooks, RN-aware integrations",
+  "description": "Arguslog React Native SDK — ErrorBoundary, hooks, RN-aware integrations",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",

@@ -24,10 +24,7 @@ export interface WrapEthersContractOptions {
   /** Chain info — ethers Network includes chainId; pass it through. */
   chain?: ChainInfo;
   /** Override / extend per-call. */
-  enrichContext?: (
-    method: string,
-    args: readonly unknown[],
-  ) => Partial<Web3ErrorContext>;
+  enrichContext?: (method: string, args: readonly unknown[]) => Partial<Web3ErrorContext>;
   /** When true (default), record success breadcrumbs alongside error captures. */
   recordSuccess?: boolean;
   /**

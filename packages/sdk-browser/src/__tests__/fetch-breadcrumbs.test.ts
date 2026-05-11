@@ -12,8 +12,12 @@ describe('installFetchBreadcrumbs', () => {
   let uninstall: (() => void) | undefined;
 
   beforeEach(() => {
-    window.fetch = vi.fn(async () =>
-      new Response('{"ok":true}', { status: 200, headers: { 'content-type': 'application/json' } }),
+    window.fetch = vi.fn(
+      async () =>
+        new Response('{"ok":true}', {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        }),
     ) as typeof window.fetch;
   });
   afterEach(() => {
@@ -38,7 +42,9 @@ describe('installFetchBreadcrumbs', () => {
 
   it('records warning breadcrumb for 4xx responses', async () => {
     const client = fakeClient();
-    window.fetch = vi.fn(async () => new Response('forbidden', { status: 403 })) as typeof window.fetch;
+    window.fetch = vi.fn(
+      async () => new Response('forbidden', { status: 403 }),
+    ) as typeof window.fetch;
     uninstall = installFetchBreadcrumbs(client);
     await fetch('/api/secret');
     expect(client.addBreadcrumb).toHaveBeenCalledWith(
@@ -51,9 +57,7 @@ describe('installFetchBreadcrumbs', () => {
     window.fetch = vi.fn(async () => new Response('boom', { status: 502 })) as typeof window.fetch;
     uninstall = installFetchBreadcrumbs(client);
     await fetch('/api/x');
-    expect(client.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({ level: 'error' }),
-    );
+    expect(client.addBreadcrumb).toHaveBeenCalledWith(expect.objectContaining({ level: 'error' }));
   });
 
   it('records breadcrumb and re-throws on network error', async () => {
@@ -74,11 +78,12 @@ describe('installFetchBreadcrumbs', () => {
 
   it('captures a response body preview for 4xx JSON responses', async () => {
     const client = fakeClient();
-    window.fetch = vi.fn(async () =>
-      new Response('{"error":"NowPaymentsAuthFailed"}', {
-        status: 401,
-        headers: { 'content-type': 'application/json' },
-      }),
+    window.fetch = vi.fn(
+      async () =>
+        new Response('{"error":"NowPaymentsAuthFailed"}', {
+          status: 401,
+          headers: { 'content-type': 'application/json' },
+        }),
     ) as typeof window.fetch;
     uninstall = installFetchBreadcrumbs(client);
     await fetch('/api/x');
@@ -95,8 +100,8 @@ describe('installFetchBreadcrumbs', () => {
   it('truncates response previews larger than 4KB', async () => {
     const client = fakeClient();
     const big = 'x'.repeat(5000);
-    window.fetch = vi.fn(async () =>
-      new Response(big, { status: 500, headers: { 'content-type': 'text/plain' } }),
+    window.fetch = vi.fn(
+      async () => new Response(big, { status: 500, headers: { 'content-type': 'text/plain' } }),
     ) as typeof window.fetch;
     uninstall = installFetchBreadcrumbs(client);
     await fetch('/api/x');
@@ -109,11 +114,12 @@ describe('installFetchBreadcrumbs', () => {
 
   it('skips response preview for binary content types', async () => {
     const client = fakeClient();
-    window.fetch = vi.fn(async () =>
-      new Response('binary stuff', {
-        status: 500,
-        headers: { 'content-type': 'application/octet-stream' },
-      }),
+    window.fetch = vi.fn(
+      async () =>
+        new Response('binary stuff', {
+          status: 500,
+          headers: { 'content-type': 'application/octet-stream' },
+        }),
     ) as typeof window.fetch;
     uninstall = installFetchBreadcrumbs(client);
     await fetch('/api/x');

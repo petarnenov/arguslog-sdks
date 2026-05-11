@@ -61,7 +61,8 @@ export function installWorkerErrorBreadcrumbs(client: ArguslogClient): () => voi
       return w;
     }
     PatchedWorker.prototype = OriginalWorker.prototype;
-    (window as Window & { Worker: typeof Worker }).Worker = PatchedWorker as unknown as typeof Worker;
+    (window as Window & { Worker: typeof Worker }).Worker =
+      PatchedWorker as unknown as typeof Worker;
     uninstallers.push(() => {
       (window as Window & { Worker: typeof Worker }).Worker = OriginalWorker;
     });

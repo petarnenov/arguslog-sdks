@@ -21,7 +21,10 @@ describe('wrapEthersContract', () => {
     const contract = {
       target: '0xCAFE',
       transfer: vi.fn(async (..._args: unknown[]) => {
-        const e: { code?: string; message: string } = { code: 'ACTION_REJECTED', message: 'user rejected' };
+        const e: { code?: string; message: string } = {
+          code: 'ACTION_REJECTED',
+          message: 'user rejected',
+        };
         throw e;
       }),
     };
@@ -41,7 +44,10 @@ describe('wrapEthersContract', () => {
   it('emits a success breadcrumb with the tx hash for a state-mutating call', async () => {
     const contract = {
       target: '0xCAFE',
-      mint: vi.fn(async (..._args: unknown[]) => ({ hash: '0xtxhash1234567890', wait: async () => undefined })),
+      mint: vi.fn(async (..._args: unknown[]) => ({
+        hash: '0xtxhash1234567890',
+        wait: async () => undefined,
+      })),
     };
     const wrapped = wrapEthersContract(contract);
     const result = await wrapped.mint(1n);

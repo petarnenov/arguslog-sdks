@@ -44,7 +44,10 @@ export function installXhrBreadcrumbs(client: ArguslogClient): () => void {
     return (originalOpen as (...args: unknown[]) => void).apply(this, [method, url, ...rest]);
   };
 
-  proto.send = function patchedSend(this: XhrWithMeta, body?: Document | XMLHttpRequestBodyInit | null): void {
+  proto.send = function patchedSend(
+    this: XhrWithMeta,
+    body?: Document | XMLHttpRequestBodyInit | null,
+  ): void {
     const meta = this[XHR_META];
     if (meta) {
       meta.start = Date.now();

@@ -35,10 +35,7 @@ const TRACKED_METHODS = new Set([
 
 export interface WrapPublicClientOptions {
   chain?: ChainInfo;
-  enrichContext?: (
-    method: string,
-    args: readonly unknown[],
-  ) => Partial<Web3ErrorContext>;
+  enrichContext?: (method: string, args: readonly unknown[]) => Partial<Web3ErrorContext>;
 }
 
 export function wrapPublicClient<T extends object>(

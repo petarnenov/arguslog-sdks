@@ -17,10 +17,7 @@
  */
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from '@modelcontextprotocol/sdk/types.js';
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 
 import { ArguslogApiError, ArguslogClient } from './client.js';
 import { PACKAGE_NAME, PACKAGE_VERSION } from './generated/version.js';
@@ -37,7 +34,9 @@ async function main(): Promise<void> {
     return client;
   }
   if (process.env.ARGUSLOG_PAT && process.env.ARGUSLOG_PAT.trim().length > 0) {
-    process.stderr.write(`[${PACKAGE_NAME}] starting; base URL = ${process.env.ARGUSLOG_API_URL ?? 'https://api.arguslog.org'}\n`);
+    process.stderr.write(
+      `[${PACKAGE_NAME}] starting; base URL = ${process.env.ARGUSLOG_API_URL ?? 'https://api.arguslog.org'}\n`,
+    );
   } else {
     process.stderr.write(
       `[${PACKAGE_NAME}] starting WITHOUT a PAT — tool calls will fail until ARGUSLOG_PAT is set.\n`,

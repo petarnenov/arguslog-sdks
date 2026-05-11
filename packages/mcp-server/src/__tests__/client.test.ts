@@ -20,11 +20,12 @@ describe('ArguslogClient', () => {
   it('builds an authenticated request with query params', async () => {
     process.env.ARGUSLOG_PAT = 'arglog_pat_test';
     process.env.ARGUSLOG_API_URL = 'https://api.example.com';
-    const fetchMock = vi.fn(async (_url: URL | string, _opts?: RequestInit) =>
-      new Response(JSON.stringify({ ok: true }), {
-        status: 200,
-        headers: { 'content-type': 'application/json' },
-      }),
+    const fetchMock = vi.fn(
+      async (_url: URL | string, _opts?: RequestInit) =>
+        new Response(JSON.stringify({ ok: true }), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        }),
     );
     globalThis.fetch = fetchMock as unknown as typeof globalThis.fetch;
 
@@ -63,15 +64,18 @@ describe('ArguslogClient', () => {
 
   it('throws ArguslogApiError on a 4xx response with the parsed problem body', async () => {
     process.env.ARGUSLOG_PAT = 'arglog_pat_test';
-    globalThis.fetch = vi.fn(async () =>
-      new Response(JSON.stringify({ title: 'Forbidden', detail: 'Not an admin.' }), {
-        status: 403,
-        headers: { 'content-type': 'application/problem+json' },
-      }),
+    globalThis.fetch = vi.fn(
+      async () =>
+        new Response(JSON.stringify({ title: 'Forbidden', detail: 'Not an admin.' }), {
+          status: 403,
+          headers: { 'content-type': 'application/problem+json' },
+        }),
     ) as unknown as typeof globalThis.fetch;
 
     const client = ArguslogClient.fromEnv();
-    await expect(client.request({ method: 'GET', path: '/api/v1/admin/stats' })).rejects.toMatchObject({
+    await expect(
+      client.request({ method: 'GET', path: '/api/v1/admin/stats' }),
+    ).rejects.toMatchObject({
       status: 403,
       problem: { detail: 'Not an admin.' },
     });

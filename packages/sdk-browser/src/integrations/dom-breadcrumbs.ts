@@ -85,9 +85,10 @@ function describeElement(el: HTMLElement): string {
 
   const text = el.textContent?.trim().slice(0, 60);
   const id = el.id ? `#${el.id}` : '';
-  const cls = typeof el.className === 'string' && el.className
-    ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}`
-    : '';
+  const cls =
+    typeof el.className === 'string' && el.className
+      ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}`
+      : '';
   const tag = el.tagName.toLowerCase();
   const selector = `${tag}${id}${cls}`;
   return text ? `${selector} "${text}"` : selector;

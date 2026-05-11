@@ -41,9 +41,7 @@ describe('installConsoleBreadcrumbs', () => {
     const client = fakeClient();
     uninstall = installConsoleBreadcrumbs(client);
     console.error('bad');
-    expect(client.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({ level: 'error' }),
-    );
+    expect(client.addBreadcrumb).toHaveBeenCalledWith(expect.objectContaining({ level: 'error' }));
   });
 
   it('preserves the original console call so the dev tools still print', () => {

@@ -22,7 +22,11 @@ describe('wrapWalletClient', () => {
       writeContract: vi.fn(async (_opts: unknown) => '0xtxhash'),
     };
     const wrapped = wrapWalletClient(client);
-    const out = await wrapped.writeContract({ address: '0xA', functionName: 'transfer', args: [1n] });
+    const out = await wrapped.writeContract({
+      address: '0xA',
+      functionName: 'transfer',
+      args: [1n],
+    });
     expect(out).toBe('0xtxhash');
     expect(captureException).not.toHaveBeenCalled();
     expect(client.writeContract).toHaveBeenCalledOnce();
@@ -53,9 +57,7 @@ describe('wrapWalletClient', () => {
     };
     const wrapped = wrapWalletClient(client);
     await wrapped.signMessage({ message: 'hello' });
-    expect(addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({ category: 'web3.sign' }),
-    );
+    expect(addBreadcrumb).toHaveBeenCalledWith(expect.objectContaining({ category: 'web3.sign' }));
   });
 
   it('skips success breadcrumb when recordSuccess is false', async () => {
@@ -82,7 +84,11 @@ describe('wrapWalletClient', () => {
       chain: { id: 1, name: 'Ethereum mainnet' },
     });
     await expect(
-      wrapped.writeContract({ address: '0xA0b8', functionName: 'transfer', args: ['0xRecipient', 100n] }),
+      wrapped.writeContract({
+        address: '0xA0b8',
+        functionName: 'transfer',
+        args: ['0xRecipient', 100n],
+      }),
     ).rejects.toBe(error);
 
     expect(addBreadcrumb).toHaveBeenCalledWith(

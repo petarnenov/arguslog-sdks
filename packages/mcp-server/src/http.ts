@@ -34,11 +34,13 @@ import crypto from 'node:crypto';
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from '@modelcontextprotocol/sdk/types.js';
-import express, { type Application, type Request, type RequestHandler, type Response } from 'express';
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import express, {
+  type Application,
+  type Request,
+  type RequestHandler,
+  type Response,
+} from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 
@@ -275,16 +277,14 @@ export function createApp(): Application {
   // refuse — clients fall back to single-shot POST which is what we support. Guarded so the
   // 405 surfaces even when the CF token is missing (no info leak; method/transport is public).
   app.get('/mcp', ...mcpStack, (_req, res) => {
-    res
-      .status(405)
-      .json({
-        jsonrpc: '2.0',
-        error: {
-          code: -32000,
-          message: 'GET /mcp is not supported. This server runs in stateless mode — POST only.',
-        },
-        id: null,
-      });
+    res.status(405).json({
+      jsonrpc: '2.0',
+      error: {
+        code: -32000,
+        message: 'GET /mcp is not supported. This server runs in stateless mode — POST only.',
+      },
+      id: null,
+    });
   });
 
   return app;

@@ -62,11 +62,7 @@ export function installSolanaWalletBreadcrumbs(
   const onError = (...args: unknown[]) => {
     const err = args[0];
     const message =
-      err instanceof Error
-        ? err.message
-        : typeof err === 'string'
-          ? err
-          : 'wallet adapter error';
+      err instanceof Error ? err.message : typeof err === 'string' ? err : 'wallet adapter error';
     safeBreadcrumb({
       category: 'web3.wallet',
       level: 'error',

@@ -8,20 +8,20 @@ The platform itself (ingest pipeline, API server, dashboard, billing engine) is 
 source. **This repo holds only the parts every customer reads, installs, or talks to**:
 SDKs, the MCP server, and the CLI.
 
-| Runtime | Package | Source |
-| --- | --- | --- |
-| Browser (JS/TS) | [`@arguslog/sdk-browser`](https://www.npmjs.com/package/@arguslog/sdk-browser) | [`packages/sdk-browser/`](packages/sdk-browser) |
-| React | [`@arguslog/sdk-react`](https://www.npmjs.com/package/@arguslog/sdk-react) | [`packages/sdk-react/`](packages/sdk-react) |
-| Vue 3 | [`@arguslog/sdk-vue`](https://www.npmjs.com/package/@arguslog/sdk-vue) | [`packages/sdk-vue/`](packages/sdk-vue) |
-| Angular | [`@arguslog/sdk-angular`](https://www.npmjs.com/package/@arguslog/sdk-angular) | [`packages/sdk-angular/`](packages/sdk-angular) |
-| Next.js | [`@arguslog/sdk-nextjs`](https://www.npmjs.com/package/@arguslog/sdk-nextjs) | [`packages/sdk-nextjs/`](packages/sdk-nextjs) |
-| React Native | [`@arguslog/sdk-react-native`](https://www.npmjs.com/package/@arguslog/sdk-react-native) | [`packages/sdk-react-native/`](packages/sdk-react-native) |
-| Node.js | [`@arguslog/sdk-node`](https://www.npmjs.com/package/@arguslog/sdk-node) | [`packages/sdk-node/`](packages/sdk-node) |
-| Web3 add-on | [`@arguslog/sdk-web3`](https://www.npmjs.com/package/@arguslog/sdk-web3) | [`packages/sdk-web3/`](packages/sdk-web3) |
-| Java / Spring | `org.arguslog:arguslog-java-sdk` (Maven) | [`java-sdk/`](java-sdk) |
-| Python 3.9+ | [`arguslog`](https://pypi.org/project/arguslog/) (PyPI) | [`python-sdk/`](python-sdk) |
-| MCP server | [`@arguslog/mcp-server`](https://www.npmjs.com/package/@arguslog/mcp-server) | [`packages/mcp-server/`](packages/mcp-server) |
-| CLI | [`@arguslog/cli`](https://www.npmjs.com/package/@arguslog/cli) | [`cli/`](cli) |
+| Runtime         | Package                                                                                  | Source                                                    |
+| --------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Browser (JS/TS) | [`@arguslog/sdk-browser`](https://www.npmjs.com/package/@arguslog/sdk-browser)           | [`packages/sdk-browser/`](packages/sdk-browser)           |
+| React           | [`@arguslog/sdk-react`](https://www.npmjs.com/package/@arguslog/sdk-react)               | [`packages/sdk-react/`](packages/sdk-react)               |
+| Vue 3           | [`@arguslog/sdk-vue`](https://www.npmjs.com/package/@arguslog/sdk-vue)                   | [`packages/sdk-vue/`](packages/sdk-vue)                   |
+| Angular         | [`@arguslog/sdk-angular`](https://www.npmjs.com/package/@arguslog/sdk-angular)           | [`packages/sdk-angular/`](packages/sdk-angular)           |
+| Next.js         | [`@arguslog/sdk-nextjs`](https://www.npmjs.com/package/@arguslog/sdk-nextjs)             | [`packages/sdk-nextjs/`](packages/sdk-nextjs)             |
+| React Native    | [`@arguslog/sdk-react-native`](https://www.npmjs.com/package/@arguslog/sdk-react-native) | [`packages/sdk-react-native/`](packages/sdk-react-native) |
+| Node.js         | [`@arguslog/sdk-node`](https://www.npmjs.com/package/@arguslog/sdk-node)                 | [`packages/sdk-node/`](packages/sdk-node)                 |
+| Web3 add-on     | [`@arguslog/sdk-web3`](https://www.npmjs.com/package/@arguslog/sdk-web3)                 | [`packages/sdk-web3/`](packages/sdk-web3)                 |
+| Java / Spring   | `org.arguslog:arguslog-java-sdk` (Maven)                                                 | [`java-sdk/`](java-sdk)                                   |
+| Python 3.9+     | [`arguslog`](https://pypi.org/project/arguslog/) (PyPI)                                  | [`python-sdk/`](python-sdk)                               |
+| MCP server      | [`@arguslog/mcp-server`](https://www.npmjs.com/package/@arguslog/mcp-server)             | [`packages/mcp-server/`](packages/mcp-server)             |
+| CLI             | [`@arguslog/cli`](https://www.npmjs.com/package/@arguslog/cli)                           | [`cli/`](cli)                                             |
 
 ## Quick start
 

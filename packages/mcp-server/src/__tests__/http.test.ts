@@ -119,7 +119,7 @@ describe('createApp — security middleware', () => {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'accept': 'application/json, text/event-stream',
+          accept: 'application/json, text/event-stream',
           'x-origin-token': 'secret-token-value',
         },
         body: JSON.stringify({ jsonrpc: '2.0', method: 'tools/list', id: 1 }),
@@ -139,7 +139,7 @@ describe('createApp — security middleware', () => {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'accept': 'application/json, text/event-stream',
+          accept: 'application/json, text/event-stream',
         },
         body: JSON.stringify({ jsonrpc: '2.0', method: 'tools/list', id: 1 }),
       });
@@ -157,8 +157,8 @@ describe('createApp — security middleware', () => {
       const body = JSON.stringify({ jsonrpc: '2.0', method: 'tools/list', id: 1 });
       const headers = {
         'content-type': 'application/json',
-        'accept': 'application/json, text/event-stream',
-        'authorization': 'Bearer arglog_pat_ratelimit_test_token',
+        accept: 'application/json, text/event-stream',
+        authorization: 'Bearer arglog_pat_ratelimit_test_token',
       };
       // First 3 should pass.
       for (let i = 0; i < 3; i++) {
@@ -185,22 +185,34 @@ describe('createApp — security middleware', () => {
       const body = JSON.stringify({ jsonrpc: '2.0', method: 'tools/list', id: 1 });
       const mk = (pat: string) => ({
         'content-type': 'application/json',
-        'accept': 'application/json, text/event-stream',
-        'authorization': `Bearer ${pat}`,
+        accept: 'application/json, text/event-stream',
+        authorization: `Bearer ${pat}`,
       });
 
       // Burn PAT-A's budget.
       for (let i = 0; i < 2; i++) {
-        const r = await fetch(`${url}/mcp`, { method: 'POST', headers: mk('arglog_pat_AAA'), body });
+        const r = await fetch(`${url}/mcp`, {
+          method: 'POST',
+          headers: mk('arglog_pat_AAA'),
+          body,
+        });
         expect(r.status).toBe(200);
         await r.text();
       }
-      const blocked = await fetch(`${url}/mcp`, { method: 'POST', headers: mk('arglog_pat_AAA'), body });
+      const blocked = await fetch(`${url}/mcp`, {
+        method: 'POST',
+        headers: mk('arglog_pat_AAA'),
+        body,
+      });
       expect(blocked.status).toBe(429);
       await blocked.text();
 
       // PAT-B still has full budget — proves the key isn't shared by client IP.
-      const fresh = await fetch(`${url}/mcp`, { method: 'POST', headers: mk('arglog_pat_BBB'), body });
+      const fresh = await fetch(`${url}/mcp`, {
+        method: 'POST',
+        headers: mk('arglog_pat_BBB'),
+        body,
+      });
       expect(fresh.status).toBe(200);
     } finally {
       await close(server);

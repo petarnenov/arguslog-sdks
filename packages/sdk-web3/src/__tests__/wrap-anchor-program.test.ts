@@ -47,15 +47,15 @@ describe('wrapAnchorProgram', () => {
   });
 
   it('captures errors via captureWeb3Error and re-throws', async () => {
-    const error = new Error('AnchorError occurred. Error Code: SlippageExceeded. Error Number: 6001. Error Message: Slippage tolerance exceeded.');
+    const error = new Error(
+      'AnchorError occurred. Error Code: SlippageExceeded. Error Number: 6001. Error Message: Slippage tolerance exceeded.',
+    );
     const program = makeProgram(async () => {
       throw error;
     });
     const wrapped = wrapAnchorProgram(program);
     await expect(wrapped.methods.swap(1n).rpc()).rejects.toBe(error);
-    expect(addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({ category: 'web3.error' }),
-    );
+    expect(addBreadcrumb).toHaveBeenCalledWith(expect.objectContaining({ category: 'web3.error' }));
   });
 
   it('treats .simulate() as a simulate breadcrumb', async () => {

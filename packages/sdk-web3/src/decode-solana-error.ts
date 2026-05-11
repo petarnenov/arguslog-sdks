@@ -44,10 +44,16 @@ export function decodeSolanaError(error: unknown): DecodedWeb3Error | undefined 
 
   // ConfirmTransactionError shape — typically wraps a SendTransactionError or has its own
   // error code in the JSON-RPC response.
-  if (name === 'TransactionExpiredBlockheightExceededError' || matchMessage(error, /BlockheightExceeded|block height exceeded/i)) {
+  if (
+    name === 'TransactionExpiredBlockheightExceededError' ||
+    matchMessage(error, /BlockheightExceeded|block height exceeded/i)
+  ) {
     return solanaErr('solana.blockhashExpired', 'Blockhash expired before confirmation', error);
   }
-  if (name === 'TransactionExpiredTimeoutError' || matchMessage(error, /transaction was not confirmed/i)) {
+  if (
+    name === 'TransactionExpiredTimeoutError' ||
+    matchMessage(error, /transaction was not confirmed/i)
+  ) {
     return solanaErr('rpc.timeout', 'Transaction confirmation timed out', error);
   }
 
@@ -112,7 +118,7 @@ function decodeAnchorError(error: Record<string, unknown>): DecodedWeb3Error {
     kind: 'solana.anchorError',
     shortMessage: code
       ? `${code}${errorMessage ? ': ' + errorMessage : ''}`
-      : errorMessage ?? 'Anchor error',
+      : (errorMessage ?? 'Anchor error'),
     data,
     source: 'anchor',
   };
@@ -120,15 +126,16 @@ function decodeAnchorError(error: Record<string, unknown>): DecodedWeb3Error {
 
 // ── Wallet adapter ─────────────────────────────────────────────────────────────────────────
 
-function decodeWalletAdapterError(
-  name: string,
-  error: Record<string, unknown>,
-): DecodedWeb3Error {
+function decodeWalletAdapterError(name: string, error: Record<string, unknown>): DecodedWeb3Error {
   if (name === 'WalletNotConnectedError' || name === 'WalletNotReadyError') {
     return solWalletErr('wallet.notConnected', 'Wallet not connected', error);
   }
   if (name === 'WalletConnectionError') {
-    return solWalletErr('wallet.notConnected', readString(error, 'message') ?? 'Wallet connection failed', error);
+    return solWalletErr(
+      'wallet.notConnected',
+      readString(error, 'message') ?? 'Wallet connection failed',
+      error,
+    );
   }
   // Sign / send rejected — adapter wraps the rejection in `cause` or in the message.
   if (
@@ -231,7 +238,10 @@ function decodeTransactionError(err: unknown): DecodedWeb3Error | undefined {
           return {
             kind: 'solana.programError',
             shortMessage: `Custom program error 0x${(variant as { Custom: number }).Custom.toString(16)}`,
-            data: { instructionIndex: index, customErrorCode: (variant as { Custom: number }).Custom },
+            data: {
+              instructionIndex: index,
+              customErrorCode: (variant as { Custom: number }).Custom,
+            },
             source: 'solana',
           };
         }
@@ -247,7 +257,8 @@ function decodeTransactionError(err: unknown): DecodedWeb3Error | undefined {
     }
   }
   if (isObject(err)) {
-    if ('InstructionError' in err) return decodeTransactionError(['InstructionError', err['InstructionError']]);
+    if ('InstructionError' in err)
+      return decodeTransactionError(['InstructionError', err['InstructionError']]);
     if ('InsufficientFundsForRent' in err) {
       return {
         kind: 'solana.insufficientLamports',
@@ -279,7 +290,7 @@ function parseAnchorErrorFromLogs(logs: unknown[]): DecodedWeb3Error | undefined
     if (origin) data.origin = origin;
     return {
       kind: 'solana.anchorError',
-      shortMessage: code ? `${code}: ${message}` : message ?? 'Anchor error',
+      shortMessage: code ? `${code}: ${message}` : (message ?? 'Anchor error'),
       data,
       source: 'anchor',
     };

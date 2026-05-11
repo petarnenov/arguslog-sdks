@@ -111,9 +111,9 @@ describe('detectWallet', () => {
     expect(detectWallet({ isMetaMask: true } as Eip1193Provider)).toBe('metamask');
   });
   it('returns coinbase before metamask if both flags present (Coinbase Wallet sets isMetaMask too)', () => {
-    expect(
-      detectWallet({ isMetaMask: true, isCoinbaseWallet: true } as Eip1193Provider),
-    ).toBe('coinbase');
+    expect(detectWallet({ isMetaMask: true, isCoinbaseWallet: true } as Eip1193Provider)).toBe(
+      'coinbase',
+    );
   });
   it('returns rabby / trust by their flags', () => {
     expect(detectWallet({ isRabby: true } as Eip1193Provider)).toBe('rabby');

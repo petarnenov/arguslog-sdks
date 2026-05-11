@@ -43,7 +43,10 @@ export class ArguslogClient {
           'dashboard (/me/tokens) and pass it via the ARGUSLOG_PAT environment variable.',
       );
     }
-    const baseUrl = (process.env.ARGUSLOG_API_URL ?? 'https://api.arguslog.org').replace(/\/+$/, '');
+    const baseUrl = (process.env.ARGUSLOG_API_URL ?? 'https://api.arguslog.org').replace(
+      /\/+$/,
+      '',
+    );
     return new ArguslogClient({ baseUrl, pat });
   }
 

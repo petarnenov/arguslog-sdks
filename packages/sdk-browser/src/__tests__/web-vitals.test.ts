@@ -67,8 +67,6 @@ describe('installWebVitalsBreadcrumbs', () => {
     installWebVitalsBreadcrumbs(client);
     const cb = subscribers[0]!;
     cb({ name: 'TTFB', value: 200, rating: 'good' });
-    expect(client.addBreadcrumb).toHaveBeenCalledWith(
-      expect.objectContaining({ level: 'info' }),
-    );
+    expect(client.addBreadcrumb).toHaveBeenCalledWith(expect.objectContaining({ level: 'info' }));
   });
 });

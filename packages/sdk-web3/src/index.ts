@@ -21,10 +21,7 @@ export {
   wrapSolanaConnection,
   type WrapSolanaConnectionOptions,
 } from './wrap-solana-connection.js';
-export {
-  wrapEthersContract,
-  type WrapEthersContractOptions,
-} from './wrap-ethers-contract.js';
+export { wrapEthersContract, type WrapEthersContractOptions } from './wrap-ethers-contract.js';
 export { wrapAnchorProgram, type WrapAnchorProgramOptions } from './wrap-anchor-program.js';
 export { wrapPublicClient, type WrapPublicClientOptions } from './wrap-public-client.js';
 export { recordTxBreadcrumb } from './record-tx-breadcrumb.js';
@@ -44,13 +41,23 @@ export type {
 } from './types.js';
 
 import { installProviderBreadcrumbs, detectWallet, type Eip1193Provider } from './eip-1193.js';
-import { installSolanaWalletBreadcrumbs, type SolanaWalletAdapter } from './solana-wallet-adapter.js';
+import {
+  installSolanaWalletBreadcrumbs,
+  type SolanaWalletAdapter,
+} from './solana-wallet-adapter.js';
 import { installWalletConnectBreadcrumbs } from './walletconnect.js';
-import { installWagmiReporter, type QueryClientLike, type WagmiReporterOptions } from './wagmi-reporter.js';
+import {
+  installWagmiReporter,
+  type QueryClientLike,
+  type WagmiReporterOptions,
+} from './wagmi-reporter.js';
 import { wrapAnchorProgram, type WrapAnchorProgramOptions } from './wrap-anchor-program.js';
 import { wrapEthersContract, type WrapEthersContractOptions } from './wrap-ethers-contract.js';
 import { wrapPublicClient, type WrapPublicClientOptions } from './wrap-public-client.js';
-import { wrapSolanaConnection, type WrapSolanaConnectionOptions } from './wrap-solana-connection.js';
+import {
+  wrapSolanaConnection,
+  type WrapSolanaConnectionOptions,
+} from './wrap-solana-connection.js';
 import { wrapWalletClient, type WrapWalletClientOptions } from './wrap-wallet-client.js';
 
 /**
@@ -158,7 +165,10 @@ export function initWeb3<
 
   const anchorPrograms = opts.anchorPrograms
     ? opts.anchorPrograms.map((p) =>
-        wrapAnchorProgram(p as A & { programId?: { toBase58(): string } }, opts.anchorProgramOptions ?? {}),
+        wrapAnchorProgram(
+          p as A & { programId?: { toBase58(): string } },
+          opts.anchorProgramOptions ?? {},
+        ),
       )
     : undefined;
 

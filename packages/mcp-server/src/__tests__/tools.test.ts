@@ -27,11 +27,12 @@ describe('tool dispatch', () => {
   });
 
   it('substitutes path params and removes them from the body', async () => {
-    const fetchMock = vi.fn(async (_url: URL | string, _opts?: RequestInit) =>
-      new Response(JSON.stringify({ id: 99 }), {
-        status: 200,
-        headers: { 'content-type': 'application/json' },
-      }),
+    const fetchMock = vi.fn(
+      async (_url: URL | string, _opts?: RequestInit) =>
+        new Response(JSON.stringify({ id: 99 }), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        }),
     );
     globalThis.fetch = fetchMock as unknown as typeof globalThis.fetch;
 

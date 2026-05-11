@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-vue",
   "version": "1.0.4",
-  "description": "Arguslog Vue 3 SDK \u2014 plugin, composable, error boundary, errorHandler integration",
+  "description": "Arguslog Vue 3 SDK — plugin, composable, error boundary, errorHandler integration",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",

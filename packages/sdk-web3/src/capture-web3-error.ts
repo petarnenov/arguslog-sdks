@@ -19,7 +19,10 @@ import type { DecodedWeb3Error, Web3ErrorContext, Web3ErrorKind } from './types.
  * {@code web3.contract}. Filter the dashboard by {@code web3.kind:contract.reverted} to surface
  * every transaction revert across all customers, etc.
  */
-export function captureWeb3Error(error: unknown, context: Web3ErrorContext = {}): string | undefined {
+export function captureWeb3Error(
+  error: unknown,
+  context: Web3ErrorContext = {},
+): string | undefined {
   // Decoder chain — viem first (most expressive typed errors in the EVM ecosystem), then
   // ethers v6 (.code-based fallback for the legacy stack), then Solana (Anchor / wallet
   // adapter / SendTransactionError / log parsing), then a generic Error.message shape.
@@ -70,11 +73,7 @@ function levelFor(kind: Web3ErrorKind): Level {
   // alert noise down. Network-class warnings (rate limit, chain mismatch, blockhash expired —
   // tx-resubmittable) ship as warning so they're visible but don't trigger pages.
   if (kind === 'user.rejected' || kind === 'wallet.notConnected') return 'info';
-  if (
-    kind === 'rpc.rateLimit' ||
-    kind === 'chain.mismatch' ||
-    kind === 'solana.blockhashExpired'
-  ) {
+  if (kind === 'rpc.rateLimit' || kind === 'chain.mismatch' || kind === 'solana.blockhashExpired') {
     return 'warning';
   }
   return 'error';

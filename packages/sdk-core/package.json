@@ -1,7 +1,7 @@
 {
   "name": "@arguslog/sdk-core",
   "version": "1.0.2",
-  "description": "Arguslog SDK core \u2014 platform-agnostic event pipeline shared by sdk-browser and sdk-node",
+  "description": "Arguslog SDK core — platform-agnostic event pipeline shared by sdk-browser and sdk-node",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",

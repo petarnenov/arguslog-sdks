@@ -95,7 +95,10 @@ describe('wrapSolanaConnection', () => {
     const conn = {
       sendTransaction: vi.fn(async (_tx: unknown) => 'sigOK1234567890ABCDEFGHIJKLMNO'),
     };
-    const wrapped = wrapSolanaConnection(conn, { chain: { id: 'mainnet-beta' }, wallet: 'phantom' });
+    const wrapped = wrapSolanaConnection(conn, {
+      chain: { id: 'mainnet-beta' },
+      wallet: 'phantom',
+    });
     await wrapped.sendTransaction({});
     expect(addBreadcrumb).toHaveBeenCalledWith(
       expect.objectContaining({

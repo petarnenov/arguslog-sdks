@@ -27,7 +27,9 @@ export interface Eip1193Provider {
   isTrust?: boolean;
 }
 
-export function installProviderBreadcrumbs(provider: Eip1193Provider | undefined | null): () => void {
+export function installProviderBreadcrumbs(
+  provider: Eip1193Provider | undefined | null,
+): () => void {
   if (!provider || typeof provider.on !== 'function') return () => {};
 
   const wallet = detectWallet(provider);
@@ -36,7 +38,10 @@ export function installProviderBreadcrumbs(provider: Eip1193Provider | undefined
     const accounts = (args[0] as string[]) ?? [];
     safeBreadcrumb({
       category: 'web3.wallet',
-      message: accounts.length === 0 ? 'wallet disconnected' : `accountsChanged → ${truncateAddr(accounts[0])}`,
+      message:
+        accounts.length === 0
+          ? 'wallet disconnected'
+          : `accountsChanged → ${truncateAddr(accounts[0])}`,
       level: accounts.length === 0 ? 'warning' : 'info',
       data: { wallet, accounts: accounts.map(truncateAddr), count: accounts.length },
     });

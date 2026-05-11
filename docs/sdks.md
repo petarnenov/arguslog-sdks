@@ -273,14 +273,17 @@ import { Contract } from 'ethers';
 import { Connection, clusterApiUrl } from '@solana/web3.js';
 import { Program } from '@coral-xyz/anchor';
 
-init({ dsn: import.meta.env.VITE_ARGUSLOG_DSN, integrations: ['globalHandlers', 'autoBreadcrumbs'] });
+init({
+  dsn: import.meta.env.VITE_ARGUSLOG_DSN,
+  integrations: ['globalHandlers', 'autoBreadcrumbs'],
+});
 
 const {
-  walletClient,     // viem WalletClient — write methods auto-captured
-  publicClient,     // viem PublicClient — read failures auto-captured
-  ethersContracts,  // [Contract, ...] — every method auto-captured
+  walletClient, // viem WalletClient — write methods auto-captured
+  publicClient, // viem PublicClient — read failures auto-captured
+  ethersContracts, // [Contract, ...] — every method auto-captured
   solanaConnection, // @solana/web3.js Connection — sendTx/sim/confirm auto-captured
-  anchorPrograms,   // [Program, ...] — every methods.X.rpc/.simulate auto-captured
+  anchorPrograms, // [Program, ...] — every methods.X.rpc/.simulate auto-captured
   uninstall,
 } = initWeb3({
   provider: window.ethereum,
@@ -290,7 +293,7 @@ const {
   solanaConnection: new Connection(clusterApiUrl('mainnet-beta')),
   solanaWallet: phantomAdapter,
   anchorPrograms: [swapProgram],
-  queryClient,                                          // wagmi mutation reporter
+  queryClient, // wagmi mutation reporter
   wrapOptions: { chain: { id: 1, name: 'Ethereum' } },
 });
 ```
@@ -304,17 +307,17 @@ leading up to whatever finally fails.
 
 ### What's covered
 
-| Layer                        | Source                                                                                                       |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| EIP-1193 provider events     | `accountsChanged`, `chainChanged`, `connect`, `disconnect` → breadcrumbs                                     |
-| WalletConnect v2 lifecycle   | `display_uri`, `session_event/update/delete/expire`, `session_request*`, `session_authenticate` → breadcrumbs |
-| viem `WalletClient`          | `writeContract`, `sendTransaction`, `signMessage`, `signTypedData`, `signTransaction`, `deployContract`, … |
-| viem `PublicClient`          | `readContract`, `simulateContract`, `estimateGas`, `estimateContractGas`, `call`, `waitForTransactionReceipt` |
-| ethers v6 `Contract`         | every method (ERC20 reads `balanceOf`/`decimals`/… skipped by default)                                       |
-| `@solana/web3.js Connection` | `sendTransaction`, `sendRawTransaction`, `simulateTransaction`, `confirmTransaction`                         |
-| `@coral-xyz/anchor` programs | `methods.X.rpc()` / `.simulate()` / `.transaction()` chained calls                                           |
-| `@solana/wallet-adapter-base`| `connect`, `disconnect`, `error`, `readyStateChange`                                                         |
-| wagmi v2 mutations           | `writeContract`, `sendTransaction`, `signMessage`, `signTypedData`, `switchChain`, `connect`, `disconnect`   |
+| Layer                         | Source                                                                                                        |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| EIP-1193 provider events      | `accountsChanged`, `chainChanged`, `connect`, `disconnect` → breadcrumbs                                      |
+| WalletConnect v2 lifecycle    | `display_uri`, `session_event/update/delete/expire`, `session_request*`, `session_authenticate` → breadcrumbs |
+| viem `WalletClient`           | `writeContract`, `sendTransaction`, `signMessage`, `signTypedData`, `signTransaction`, `deployContract`, …    |
+| viem `PublicClient`           | `readContract`, `simulateContract`, `estimateGas`, `estimateContractGas`, `call`, `waitForTransactionReceipt` |
+| ethers v6 `Contract`          | every method (ERC20 reads `balanceOf`/`decimals`/… skipped by default)                                        |
+| `@solana/web3.js Connection`  | `sendTransaction`, `sendRawTransaction`, `simulateTransaction`, `confirmTransaction`                          |
+| `@coral-xyz/anchor` programs  | `methods.X.rpc()` / `.simulate()` / `.transaction()` chained calls                                            |
+| `@solana/wallet-adapter-base` | `connect`, `disconnect`, `error`, `readyStateChange`                                                          |
+| wagmi v2 mutations            | `writeContract`, `sendTransaction`, `signMessage`, `signTypedData`, `switchChain`, `connect`, `disconnect`    |
 
 Errors are decoded in this order: **viem** typed errors → **ethers v6**
 `.code` field → **Solana** (Anchor / wallet adapter / log parser) →

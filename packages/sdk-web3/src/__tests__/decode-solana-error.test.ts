@@ -129,7 +129,10 @@ describe('decodeSolanaError', () => {
   // ── Heuristic message matchers ────────────────────────────────────────────────────────
 
   it('flags blockhash expired', () => {
-    const error = { name: 'TransactionExpiredBlockheightExceededError', message: 'block height exceeded' };
+    const error = {
+      name: 'TransactionExpiredBlockheightExceededError',
+      message: 'block height exceeded',
+    };
     expect(decodeSolanaError(error)?.kind).toBe('solana.blockhashExpired');
   });
 

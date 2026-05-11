@@ -175,10 +175,7 @@ function readNumber(obj: Record<string, unknown>, key: string): number | undefin
   return typeof v === 'number' ? v : undefined;
 }
 
-function readArray(
-  obj: Record<string, unknown>,
-  key: string,
-): readonly unknown[] | undefined {
+function readArray(obj: Record<string, unknown>, key: string): readonly unknown[] | undefined {
   const v = obj[key];
   return Array.isArray(v) ? v : undefined;
 }

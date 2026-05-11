@@ -90,11 +90,11 @@ Solana-only app, or a hybrid:
 
 ```ts
 const {
-  walletClient,    // viem WalletClient — write methods auto-captured
-  publicClient,    // viem PublicClient — read failures auto-captured
+  walletClient, // viem WalletClient — write methods auto-captured
+  publicClient, // viem PublicClient — read failures auto-captured
   ethersContracts, // [Contract, ...] — every method auto-captured
-  solanaConnection,// @solana/web3.js Connection — sendTx/sim/confirm auto-captured
-  anchorPrograms,  // [Program, ...] — every methods.X.rpc/.simulate auto-captured
+  solanaConnection, // @solana/web3.js Connection — sendTx/sim/confirm auto-captured
+  anchorPrograms, // [Program, ...] — every methods.X.rpc/.simulate auto-captured
   uninstall,
 } = initWeb3({
   provider: window.ethereum,
@@ -104,7 +104,7 @@ const {
   solanaConnection: rawSolanaConnection,
   solanaWallet: phantomAdapter,
   anchorPrograms: [swapProgram],
-  queryClient,                           // wagmi mutation reporter
+  queryClient, // wagmi mutation reporter
   wrapOptions: { chain: { id: 1, name: 'Ethereum' } },
 });
 ```
@@ -156,19 +156,19 @@ structured data).
 
 ## What `initWeb3` actually wires
 
-| Wired thing                                                                                                | Effect                                                                                                                                              |
-| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| EIP-1193 `accountsChanged`                                                                                 | Breadcrumb with the (truncated) new address. Empty array → "wallet disconnected" at warning level.                                                  |
-| EIP-1193 `chainChanged`                                                                                    | Breadcrumb with hex + decoded decimal chain id. Sentry-style "you switched mid-flow" detection.                                                     |
-| EIP-1193 `connect`/`disconnect`                                                                            | Breadcrumbs for session boundaries.                                                                                                                 |
-| WalletConnect v2 session events                                                                            | `display_uri`, `session_update`, `session_event`, `session_delete` (warning), `session_expire` (warning), `session_request*`, `session_authenticate`. |
-| viem `WalletClient` writes                                                                                 | `writeContract` / `sendTransaction` / `deployContract` / `signMessage` / `signTypedData` / `signTransaction` / `prepareTransactionRequest` — try/catch each, on throw → `captureWeb3Error`; on success → `web3.tx` / `web3.sign` breadcrumb. |
-| viem `PublicClient` reads                                                                                  | `readContract` / `simulateContract` / `estimateGas` / `estimateContractGas` / `call` / `waitForTransactionReceipt` / `getTransactionReceipt` / `getTransaction` — failures captured (successes silent — read calls fire too often to breadcrumb). |
-| ethers v6 `Contract` methods                                                                               | Every callable on the contract is wrapped; ERC20 reads (`balanceOf`, `totalSupply`, `allowance`, `decimals`, `symbol`, `name`) skipped by default.  |
-| `@coral-xyz/anchor` `Program.methods`                                                                      | Builder-chain interception: `methods.X.rpc()` / `.simulate()` / `.transaction()` are instrumented with the program ID as the contract field.        |
-| `@solana/web3.js Connection`                                                                               | `sendTransaction` / `sendRawTransaction` / `simulateTransaction` / `confirmTransaction` — errors captured + success breadcrumbs.                    |
-| `@solana/wallet-adapter-base`                                                                              | `connect`, `disconnect`, `error`, `readyStateChange` adapter events.                                                                                |
-| wagmi v2 mutation cache                                                                                    | Subscribes to `useWriteContract` / `useSendTransaction` / `useSignMessage` / `useSwitchChain` / `useConnect` / `useDisconnect` mutations; routes errors and successes through Arguslog without per-component try/catch. |
+| Wired thing                           | Effect                                                                                                                                                                                                                                            |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| EIP-1193 `accountsChanged`            | Breadcrumb with the (truncated) new address. Empty array → "wallet disconnected" at warning level.                                                                                                                                                |
+| EIP-1193 `chainChanged`               | Breadcrumb with hex + decoded decimal chain id. Sentry-style "you switched mid-flow" detection.                                                                                                                                                   |
+| EIP-1193 `connect`/`disconnect`       | Breadcrumbs for session boundaries.                                                                                                                                                                                                               |
+| WalletConnect v2 session events       | `display_uri`, `session_update`, `session_event`, `session_delete` (warning), `session_expire` (warning), `session_request*`, `session_authenticate`.                                                                                             |
+| viem `WalletClient` writes            | `writeContract` / `sendTransaction` / `deployContract` / `signMessage` / `signTypedData` / `signTransaction` / `prepareTransactionRequest` — try/catch each, on throw → `captureWeb3Error`; on success → `web3.tx` / `web3.sign` breadcrumb.      |
+| viem `PublicClient` reads             | `readContract` / `simulateContract` / `estimateGas` / `estimateContractGas` / `call` / `waitForTransactionReceipt` / `getTransactionReceipt` / `getTransaction` — failures captured (successes silent — read calls fire too often to breadcrumb). |
+| ethers v6 `Contract` methods          | Every callable on the contract is wrapped; ERC20 reads (`balanceOf`, `totalSupply`, `allowance`, `decimals`, `symbol`, `name`) skipped by default.                                                                                                |
+| `@coral-xyz/anchor` `Program.methods` | Builder-chain interception: `methods.X.rpc()` / `.simulate()` / `.transaction()` are instrumented with the program ID as the contract field.                                                                                                      |
+| `@solana/web3.js Connection`          | `sendTransaction` / `sendRawTransaction` / `simulateTransaction` / `confirmTransaction` — errors captured + success breadcrumbs.                                                                                                                  |
+| `@solana/wallet-adapter-base`         | `connect`, `disconnect`, `error`, `readyStateChange` adapter events.                                                                                                                                                                              |
+| wagmi v2 mutation cache               | Subscribes to `useWriteContract` / `useSendTransaction` / `useSignMessage` / `useSwitchChain` / `useConnect` / `useDisconnect` mutations; routes errors and successes through Arguslog without per-component try/catch.                           |
 
 Read methods on the wallet client (`getBalance`, `getBlock`, etc.) pass through unchanged
 — RPC calls are already breadcrumbed by the `fetch` integration in
@@ -178,27 +178,27 @@ Read methods on the wallet client (`getBalance`, `getBlock`, etc.) pass through 
 
 `captureWeb3Error` emits a stable `web3.kind` tag the dashboard can group on:
 
-| Kind                          | Source mapping                                                                              |
-| ----------------------------- | ------------------------------------------------------------------------------------------- |
-| `user.rejected`               | viem `UserRejectedRequestError`, ethers `ACTION_REJECTED`, viem `TransactionRejectedRpcError` |
-| `wallet.notConnected`         | (reserved — emitted by Phase 3 wagmi adapter)                                              |
-| `chain.mismatch`              | viem `ChainMismatchError`                                                                  |
-| `contract.reverted`           | viem `ContractFunctionRevertedError` (with `errorName` + `args`), ethers `CALL_EXCEPTION`  |
-| `tx.executionFailed`          | viem `TransactionExecutionError`                                                           |
-| `tx.replacementUnderpriced`   | ethers `REPLACEMENT_UNDERPRICED`                                                           |
-| `tx.nonceExpired`             | viem `NonceTooLowError` / `NonceTooHighError`, ethers `NONCE_EXPIRED`                      |
-| `tx.insufficientFunds`        | viem `InsufficientFundsError`, ethers `INSUFFICIENT_FUNDS`                                 |
-| `gas.estimateFailed`          | viem `EstimateGasExecutionError`, ethers `UNPREDICTABLE_GAS_LIMIT`                         |
-| `rpc.rateLimit`               | viem `RpcRequestError` / `HttpRequestError` with status 429                                |
-| `rpc.timeout`                 | viem `RpcRequestError` / `HttpRequestError`, ethers `NETWORK_ERROR` / `TIMEOUT` / `SERVER_ERROR` |
-| `rpc.invalidParams`           | viem `InvalidParamsRpcError`                                                               |
-| `solana.programError`         | Solana custom program errors decoded from logs (`Program X failed: custom program error: 0xN`), `InstructionError` JSON-RPC variants, generic non-Anchor program failures. |
-| `solana.anchorError`          | `@coral-xyz/anchor` `AnchorError` — both the typed object (`_isAnchorError: true`) AND the parsed log line (`Program log: AnchorError caused by account: X. Error Code: …`). Carries `errorCode`, `errorNumber`, `origin`, `errorMessage`, `comparedValues`. |
-| `solana.simulationFailed`     | `Connection.simulateTransaction` preflight rejected the tx.                                |
-| `solana.blockhashExpired`     | `TransactionExpiredBlockheightExceededError` — tx not landed in time, retryable.           |
-| `solana.computeBudgetExceeded`| Compute units exceeded the per-tx budget.                                                  |
-| `solana.insufficientLamports` | `InsufficientFundsForRent` or "insufficient lamports" message — account doesn't have enough SOL for rent or transfer. |
-| `unknown`                     | Anything we couldn't map — original error name / code preserved on the payload.            |
+| Kind                           | Source mapping                                                                                                                                                                                                                                               |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `user.rejected`                | viem `UserRejectedRequestError`, ethers `ACTION_REJECTED`, viem `TransactionRejectedRpcError`                                                                                                                                                                |
+| `wallet.notConnected`          | (reserved — emitted by Phase 3 wagmi adapter)                                                                                                                                                                                                                |
+| `chain.mismatch`               | viem `ChainMismatchError`                                                                                                                                                                                                                                    |
+| `contract.reverted`            | viem `ContractFunctionRevertedError` (with `errorName` + `args`), ethers `CALL_EXCEPTION`                                                                                                                                                                    |
+| `tx.executionFailed`           | viem `TransactionExecutionError`                                                                                                                                                                                                                             |
+| `tx.replacementUnderpriced`    | ethers `REPLACEMENT_UNDERPRICED`                                                                                                                                                                                                                             |
+| `tx.nonceExpired`              | viem `NonceTooLowError` / `NonceTooHighError`, ethers `NONCE_EXPIRED`                                                                                                                                                                                        |
+| `tx.insufficientFunds`         | viem `InsufficientFundsError`, ethers `INSUFFICIENT_FUNDS`                                                                                                                                                                                                   |
+| `gas.estimateFailed`           | viem `EstimateGasExecutionError`, ethers `UNPREDICTABLE_GAS_LIMIT`                                                                                                                                                                                           |
+| `rpc.rateLimit`                | viem `RpcRequestError` / `HttpRequestError` with status 429                                                                                                                                                                                                  |
+| `rpc.timeout`                  | viem `RpcRequestError` / `HttpRequestError`, ethers `NETWORK_ERROR` / `TIMEOUT` / `SERVER_ERROR`                                                                                                                                                             |
+| `rpc.invalidParams`            | viem `InvalidParamsRpcError`                                                                                                                                                                                                                                 |
+| `solana.programError`          | Solana custom program errors decoded from logs (`Program X failed: custom program error: 0xN`), `InstructionError` JSON-RPC variants, generic non-Anchor program failures.                                                                                   |
+| `solana.anchorError`           | `@coral-xyz/anchor` `AnchorError` — both the typed object (`_isAnchorError: true`) AND the parsed log line (`Program log: AnchorError caused by account: X. Error Code: …`). Carries `errorCode`, `errorNumber`, `origin`, `errorMessage`, `comparedValues`. |
+| `solana.simulationFailed`      | `Connection.simulateTransaction` preflight rejected the tx.                                                                                                                                                                                                  |
+| `solana.blockhashExpired`      | `TransactionExpiredBlockheightExceededError` — tx not landed in time, retryable.                                                                                                                                                                             |
+| `solana.computeBudgetExceeded` | Compute units exceeded the per-tx budget.                                                                                                                                                                                                                    |
+| `solana.insufficientLamports`  | `InsufficientFundsForRent` or "insufficient lamports" message — account doesn't have enough SOL for rent or transfer.                                                                                                                                        |
+| `unknown`                      | Anything we couldn't map — original error name / code preserved on the payload.                                                                                                                                                                              |
 
 ## Phase 3 — wagmi, Solana auto-wrap, WalletConnect
 
@@ -289,10 +289,9 @@ import { createPublicClient, http } from 'viem';
 import { mainnet } from 'viem/chains';
 import { wrapPublicClient } from '@arguslog/sdk-web3';
 
-const publicClient = wrapPublicClient(
-  createPublicClient({ chain: mainnet, transport: http() }),
-  { chain: { id: 1, name: 'Ethereum' } },
-);
+const publicClient = wrapPublicClient(createPublicClient({ chain: mainnet, transport: http() }), {
+  chain: { id: 1, name: 'Ethereum' },
+});
 ```
 
 ### `installSolanaWalletBreadcrumbs`
@@ -322,8 +321,8 @@ Layer this on top of `installProviderBreadcrumbs` for the WC-specific signals
 ```ts
 import { installProviderBreadcrumbs, installWalletConnectBreadcrumbs } from '@arguslog/sdk-web3';
 
-installProviderBreadcrumbs(wcProvider);          // standard EIP-1193 events
-installWalletConnectBreadcrumbs(wcProvider);     // + WC session lifecycle
+installProviderBreadcrumbs(wcProvider); // standard EIP-1193 events
+installWalletConnectBreadcrumbs(wcProvider); // + WC session lifecycle
 ```
 
 `initWeb3` auto-detects WC providers and installs both, so the typical app only ever calls

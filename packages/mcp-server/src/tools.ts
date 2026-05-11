@@ -15,7 +15,11 @@
  */
 import type { ArguslogClient } from './client.js';
 import { CURATED_TOOLS } from './curated-tools.js';
-import { OPENAPI_TOOLS, type OpenApiTool, type OpenApiToolParam } from './generated/openapi-tools.js';
+import {
+  OPENAPI_TOOLS,
+  type OpenApiTool,
+  type OpenApiToolParam,
+} from './generated/openapi-tools.js';
 
 /** MCP-shaped tool definition, ready to ship in a {@code tools/list} response. */
 export interface McpToolDefinition {

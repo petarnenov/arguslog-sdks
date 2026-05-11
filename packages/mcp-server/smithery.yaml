@@ -13,11 +13,11 @@ startCommand:
   type: stdio
   configSchema:
     type: object
-    title: "Arguslog MCP server (local)"
+    title: 'Arguslog MCP server (local)'
     properties:
       pat:
         type: string
-        title: "Personal Access Token"
+        title: 'Personal Access Token'
         description: |
           Generate one from your Arguslog dashboard → "Personal access tokens" page.
           Format: arglog_pat_… The PAT's scopes determine which tools the agent can
@@ -26,10 +26,10 @@ startCommand:
         format: password
       apiUrl:
         type: string
-        title: "API base URL"
+        title: 'API base URL'
         description: |
           Override only for self-hosted Arguslog or a staging environment.
-        default: "https://api.arguslog.org"
+        default: 'https://api.arguslog.org'
     required:
       - pat
   commandFunction: |-

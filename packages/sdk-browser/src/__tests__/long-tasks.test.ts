@@ -46,8 +46,9 @@ describe('installLongTaskBreadcrumbs', () => {
     ) {
       // captured per-instance above
     };
-    (FakePerformanceObserver as unknown as { supportedEntryTypes: readonly string[] })
-      .supportedEntryTypes = ['longtask'];
+    (
+      FakePerformanceObserver as unknown as { supportedEntryTypes: readonly string[] }
+    ).supportedEntryTypes = ['longtask'];
     (globalThis as { PerformanceObserver?: typeof PerformanceObserver }).PerformanceObserver =
       FakePerformanceObserver as unknown as typeof PerformanceObserver;
   }
@@ -55,7 +56,12 @@ describe('installLongTaskBreadcrumbs', () => {
   function fireLongTask(durationMs: number, startMs = 0) {
     const list = {
       getEntries: () => [
-        { duration: durationMs, startTime: startMs, name: 'self', entryType: 'longtask' } as PerformanceEntry,
+        {
+          duration: durationMs,
+          startTime: startMs,
+          name: 'self',
+          entryType: 'longtask',
+        } as PerformanceEntry,
       ],
     } as PerformanceObserverEntryList;
     observer!.callback(list, observer as unknown as PerformanceObserver);
@@ -96,8 +102,7 @@ describe('installLongTaskBreadcrumbs', () => {
   });
 
   it('no-ops in environments without PerformanceObserver', () => {
-    delete (globalThis as { PerformanceObserver?: typeof PerformanceObserver })
-      .PerformanceObserver;
+    delete (globalThis as { PerformanceObserver?: typeof PerformanceObserver }).PerformanceObserver;
     const client = fakeClient();
     const off = installLongTaskBreadcrumbs(client);
     off();

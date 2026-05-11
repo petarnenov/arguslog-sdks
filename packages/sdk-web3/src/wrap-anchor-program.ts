@@ -25,10 +25,7 @@ export interface WrapAnchorProgramOptions {
   chain?: ChainInfo;
   /** When true (default), record success breadcrumbs. */
   recordSuccess?: boolean;
-  enrichContext?: (
-    instruction: string,
-    args: readonly unknown[],
-  ) => Partial<Web3ErrorContext>;
+  enrichContext?: (instruction: string, args: readonly unknown[]) => Partial<Web3ErrorContext>;
 }
 
 interface AnchorProgram {

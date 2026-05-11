@@ -18,7 +18,11 @@ export function installWebVitalsBreadcrumbs(client: ArguslogClient): () => void 
   const record = (metric: Metric) => {
     try {
       const level: Level =
-        metric.rating === 'poor' ? 'warning' : metric.rating === 'needs-improvement' ? 'info' : 'info';
+        metric.rating === 'poor'
+          ? 'warning'
+          : metric.rating === 'needs-improvement'
+            ? 'info'
+            : 'info';
       client.addBreadcrumb({
         category: 'web-vital',
         message: `${metric.name} ${formatValue(metric)} (${metric.rating})`,

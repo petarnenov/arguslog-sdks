@@ -80,9 +80,10 @@ export function decodeEthersError(error: unknown): DecodedWeb3Error | undefined 
   // decode for us). Surface it the same way the viem path surfaces ContractFunctionRevertedError.
   if (code === 'CALL_EXCEPTION') {
     const revert = readString(error, 'revert');
-    const revertName = error['revert'] && isObject(error['revert'])
-      ? readString(error['revert'] as Record<string, unknown>, 'name')
-      : undefined;
+    const revertName =
+      error['revert'] && isObject(error['revert'])
+        ? readString(error['revert'] as Record<string, unknown>, 'name')
+        : undefined;
     if (revertName) data.errorName = revertName;
     if (revert) data.revertSignature = revert;
   }

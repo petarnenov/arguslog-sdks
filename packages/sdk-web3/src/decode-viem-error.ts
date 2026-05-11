@@ -47,15 +47,10 @@ export function decodeViemError(error: unknown): DecodedWeb3Error | undefined {
       );
     }
     if (name === 'ChainMismatchError') {
-      return decoded(
-        'chain.mismatch',
-        readString(err, 'shortMessage') ?? 'Chain mismatch',
-        err,
-        {
-          chainId: readNumber(err, 'currentChainId'),
-          expectedChainId: readNumber(err, 'chainId'),
-        },
-      );
+      return decoded('chain.mismatch', readString(err, 'shortMessage') ?? 'Chain mismatch', err, {
+        chainId: readNumber(err, 'currentChainId'),
+        expectedChainId: readNumber(err, 'chainId'),
+      });
     }
     if (name === 'EstimateGasExecutionError') {
       return decoded('gas.estimateFailed', 'Gas estimation failed', err);
@@ -99,7 +94,9 @@ export function decodeViemError(error: unknown): DecodedWeb3Error | undefined {
   const top = stack[0]!;
   const topName = readString(top, 'name');
   if (topName?.endsWith('Error') && readString(top, 'shortMessage') !== undefined) {
-    return decoded('unknown', readString(top, 'shortMessage') ?? topName, top, { errorName: topName });
+    return decoded('unknown', readString(top, 'shortMessage') ?? topName, top, {
+      errorName: topName,
+    });
   }
   return undefined;
 }

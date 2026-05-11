@@ -10,10 +10,10 @@ OpenAPI spec at build time, with hand-curated descriptions for the most common o
 
 ## Two ways to run
 
-| Mode             | Best for                                       | Setup                                                                |
-| ---------------- | ---------------------------------------------- | -------------------------------------------------------------------- |
-| **Hosted (HTTP)** | Anyone with a PAT — zero install              | Point your MCP client at `https://mcp.arguslog.org/mcp` with a Bearer header. |
-| **Local (stdio)** | Air-gapped envs / self-hosted Arguslog        | `npx -y @arguslog/mcp-server` with `ARGUSLOG_PAT` in env.            |
+| Mode              | Best for                               | Setup                                                                         |
+| ----------------- | -------------------------------------- | ----------------------------------------------------------------------------- |
+| **Hosted (HTTP)** | Anyone with a PAT — zero install       | Point your MCP client at `https://mcp.arguslog.org/mcp` with a Bearer header. |
+| **Local (stdio)** | Air-gapped envs / self-hosted Arguslog | `npx -y @arguslog/mcp-server` with `ARGUSLOG_PAT` in env.                     |
 
 The hosted endpoint runs the same code as the npm binary, just with per-request PAT auth
 instead of a process-wide env var. Choose stdio if you want zero network hops between your
@@ -137,17 +137,17 @@ The agent calls arguslog_admin_grant_bonus with tier=pro months=3.
 Every endpoint in `/api/v1/...` is callable. The high-leverage ones have curated
 descriptions and example payloads in their tool docstring:
 
-| Group        | Examples                                                                |
-| ------------ | ----------------------------------------------------------------------- |
-| Orgs         | list mine, create, delete, usage, members                               |
-| Projects     | list, create, archive, DSN keys CRUD                                    |
-| Issues       | list with filters, get, list events, change status                      |
-| Releases     | list, create, attach source-map artifacts, delete                       |
-| Alerts       | rules CRUD, destinations CRUD (Telegram / Slack / email / webhook)      |
-| Billing      | plan catalog, usage snapshot, **user-level checkout / portal / crypto** |
-| Admin        | platform stats, user / org tables, **per-user + per-org bonus grants**  |
-| Me           | who am I + **billing state (plan, renew, bonus, grace)**, PATs          |
-| Web3 events  | the rich event payload shape from `@arguslog/sdk-web3` flows through    |
+| Group       | Examples                                                                |
+| ----------- | ----------------------------------------------------------------------- |
+| Orgs        | list mine, create, delete, usage, members                               |
+| Projects    | list, create, archive, DSN keys CRUD                                    |
+| Issues      | list with filters, get, list events, change status                      |
+| Releases    | list, create, attach source-map artifacts, delete                       |
+| Alerts      | rules CRUD, destinations CRUD (Telegram / Slack / email / webhook)      |
+| Billing     | plan catalog, usage snapshot, **user-level checkout / portal / crypto** |
+| Admin       | platform stats, user / org tables, **per-user + per-org bonus grants**  |
+| Me          | who am I + **billing state (plan, renew, bonus, grace)**, PATs          |
+| Web3 events | the rich event payload shape from `@arguslog/sdk-web3` flows through    |
 
 PAT scopes are enforced server-side, so a read-only PAT can call read tools but writes
 return `403`. The MCP server surfaces those problem responses verbatim so the agent can
@@ -155,12 +155,12 @@ explain to the user what scope is missing.
 
 ## Configuration
 
-| Env var                       | Required          | Default                       | Description                                                                                                                                                       |
-| ----------------------------- | ----------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ARGUSLOG_PAT`                | stdio mode only   | —                             | Bearer token from the dashboard. Not needed for the hosted HTTP server — there it comes from each request's `Authorization` header.                               |
-| `ARGUSLOG_API_URL`            | no                | `https://api.arguslog.org`    | Override for self-hosted / staging environments.                                                                                                                  |
-| `CF_ORIGIN_TOKEN`             | hosted HTTP only  | —                             | When set, `POST /mcp` requires the matching value in the `X-Origin-Token` header. Configure a Cloudflare Transform Rule on `mcp.arguslog.org` to inject it. (CF reserves the `X-CF-*` prefix.) |
-| `MCP_RATE_LIMIT_PER_MINUTE`   | no                | `120`                         | Per-PAT (or per-IP when unauthenticated) rate cap for `POST /mcp`. `/healthz` is exempt.                                                                          |
+| Env var                     | Required         | Default                    | Description                                                                                                                                                                                    |
+| --------------------------- | ---------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ARGUSLOG_PAT`              | stdio mode only  | —                          | Bearer token from the dashboard. Not needed for the hosted HTTP server — there it comes from each request's `Authorization` header.                                                            |
+| `ARGUSLOG_API_URL`          | no               | `https://api.arguslog.org` | Override for self-hosted / staging environments.                                                                                                                                               |
+| `CF_ORIGIN_TOKEN`           | hosted HTTP only | —                          | When set, `POST /mcp` requires the matching value in the `X-Origin-Token` header. Configure a Cloudflare Transform Rule on `mcp.arguslog.org` to inject it. (CF reserves the `X-CF-*` prefix.) |
+| `MCP_RATE_LIMIT_PER_MINUTE` | no               | `120`                      | Per-PAT (or per-IP when unauthenticated) rate cap for `POST /mcp`. `/healthz` is exempt.                                                                                                       |
 
 ## Local development
 
