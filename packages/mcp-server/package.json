@@ -1,0 +1,64 @@
+{
+  "name": "@arguslog/mcp-server",
+  "version": "0.2.1",
+  "description": "Arguslog MCP server — exposes the full Arguslog API (issues, projects, orgs, alerts, releases, billing, admin, …) as Model Context Protocol tools. Authenticate with a Personal Access Token from the dashboard.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "arguslog-mcp": "./dist/index.js",
+    "arguslog-mcp-http": "./dist/http.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "smithery.yaml",
+    "glama.json"
+  ],
+  "scripts": {
+    "generate": "node scripts/generate-tools.mjs",
+    "build": "pnpm run generate && tsc -p tsconfig.build.json && chmod +x dist/index.js dist/http.js",
+    "dev": "pnpm run generate && tsc -p tsconfig.build.json --watch",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist .turbo src/generated"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "express": "^4.21.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@arguslog/eslint-config": "workspace:*",
+    "@arguslog/tsconfig": "workspace:*",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "arguslog",
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "error-tracking",
+    "observability",
+    "ai",
+    "agent"
+  ]
+}

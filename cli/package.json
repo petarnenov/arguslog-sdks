@@ -1,0 +1,39 @@
+{
+  "name": "@arguslog/cli",
+  "version": "1.0.1",
+  "description": "Arguslog CLI — releases, sourcemap upload, project bootstrap",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "arguslog": "./dist/bin.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "@arguslog/eslint-config": "workspace:*",
+    "@arguslog/tsconfig": "workspace:*",
+    "@types/node": "^22.10.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.18.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.4"
+  }
+}

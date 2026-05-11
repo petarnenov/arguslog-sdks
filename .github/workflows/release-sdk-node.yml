@@ -1,0 +1,92 @@
+name: Release sdk-node
+
+# Tag-driven npm release. Push a tag matching `sdk-node-v*` and the matching version in
+# packages/sdk-node/package.json gets published. sdk-node depends on sdk-core via
+# `workspace:*` — pnpm publish rewrites that to the actual published version, so sdk-core
+# must already be on npm at a version satisfying the constraint before tagging sdk-node.
+on:
+  push:
+    tags:
+      - 'sdk-node-v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to release (sdk-node-vX.Y.Z).'
+        required: true
+      dry-run:
+        description: 'Run pnpm publish with --dry-run (no upload).'
+        required: false
+        default: 'true'
+
+concurrency:
+  group: release-sdk-node-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, verify, publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Resolve tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "value=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.10.0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Verify tag matches package.json version
+        run: |
+          node scripts/verify-tag-version.mjs \
+            "${{ steps.tag.outputs.value }}" \
+            sdk-node \
+            packages/sdk-node/package.json
+
+      # sdk-node depends on sdk-core via workspace: protocol — typecheck needs the sdk-core
+      # dist on disk to find type declarations, so build the dep first.
+      - name: Build sdk-core dependency
+        run: pnpm --filter @arguslog/sdk-core build
+
+      - name: Lint, typecheck, test
+        run: |
+          pnpm --filter @arguslog/sdk-node lint
+          pnpm --filter @arguslog/sdk-node typecheck
+          pnpm --filter @arguslog/sdk-node test
+
+      - name: Build
+        run: pnpm --filter @arguslog/sdk-node build
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          DRY_RUN_FLAG=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && \
+             [ "${{ github.event.inputs.dry-run }}" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+          fi
+          pnpm --filter @arguslog/sdk-node publish \
+            --access public \
+            --no-git-checks \
+            --provenance \
+            $DRY_RUN_FLAG

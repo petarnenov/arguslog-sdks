@@ -1,0 +1,15 @@
+node_modules/
+dist/
+build/
+coverage/
+.turbo/
+.pytest_cache/
+__pycache__/
+*.tsbuildinfo
+.venv/
+*.log
+.DS_Store
+.env
+.env.local
+.env.*.local
+.claude/

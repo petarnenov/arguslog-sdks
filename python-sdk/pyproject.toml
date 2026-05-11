@@ -1,0 +1,68 @@
+[project]
+name = "arguslog"
+version = "1.0.2"
+description = "Arguslog Python SDK — error tracking for server-side Python apps"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Arguslog" }]
+requires-python = ">=3.9"
+keywords = ["error-tracking", "monitoring", "logging", "arguslog"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Bug Tracking",
+    "Topic :: System :: Monitoring",
+]
+# Zero runtime dependencies on purpose — keeps the SDK tiny and avoids
+# classpath conflicts in host apps. Stdlib http/urllib is enough.
+dependencies = []
+
+[project.urls]
+Homepage = "https://arguslog.org"
+Source = "https://github.com/petarnenov/arguslog"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.6.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/arguslog"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+# B008: function calls in defaults are fine for our typed defaults (Options dataclass).
+# UP007/UP045: would force PEP 604 union syntax which is 3.10+ — we keep 3.9 compat.
+ignore = ["B008", "UP007", "UP045"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B017"]  # pytest.raises(Exception) is fine in test code
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["arguslog"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]

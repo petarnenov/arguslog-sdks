@@ -1,0 +1,43 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "name": "arguslog",
+  "displayName": "Arguslog",
+  "description": "Read and manage Arguslog error tracking from any LLM agent — issues, events, projects, organizations, alert rules, releases, members, billing, and (for platform admins) the admin panel surface. Authenticate with a Personal Access Token from the dashboard.",
+  "version": "0.2.1",
+  "author": {
+    "name": "Petar Nenov",
+    "url": "https://arguslog.org"
+  },
+  "license": "MIT",
+  "homepage": "https://arguslog.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog",
+    "directory": "packages/mcp-server"
+  },
+  "package": "@arguslog/mcp-server",
+  "tags": ["error-tracking", "observability", "monitoring", "issues", "alerts", "ai", "agent"],
+  "category": "monitoring",
+  "transports": ["stdio", "streamable-http"],
+  "hosted": {
+    "url": "https://mcp.arguslog.org/mcp",
+    "authentication": {
+      "type": "bearer",
+      "description": "Personal Access Token from the Arguslog dashboard."
+    }
+  },
+  "config": {
+    "env": {
+      "ARGUSLOG_PAT": {
+        "description": "Personal Access Token from the Arguslog dashboard.",
+        "required": true,
+        "format": "password"
+      },
+      "ARGUSLOG_API_URL": {
+        "description": "Override only for self-hosted Arguslog. Default: https://api.arguslog.org",
+        "required": false,
+        "default": "https://api.arguslog.org"
+      }
+    }
+  }
+}

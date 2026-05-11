@@ -1,0 +1,9 @@
+{
+  "extends": "@arguslog/tsconfig/node.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "types": ["node", "vitest/globals"]
+  },
+  "include": ["src/**/*"]
+}

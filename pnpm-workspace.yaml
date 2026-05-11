@@ -1,0 +1,7 @@
+# pnpm workspace scope for the public mirror at petarnenov/arguslog-sdks.
+# Replaces pnpm-workspace.yaml during the sync (see scripts/sync-public-mirror.sh).
+# The private monorepo's workspace also includes apps/*, services/*, e2e, scripts/, etc.
+# none of which the mirror carries.
+packages:
+  - 'packages/*'
+  - 'cli'

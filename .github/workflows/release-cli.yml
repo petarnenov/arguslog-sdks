@@ -1,0 +1,87 @@
+name: Release cli
+
+# Tag-driven npm release. Push a tag matching `cli-v*` (e.g. `cli-v1.0.0`) and the matching
+# version in cli/package.json gets published to npm. The CLI has no workspace runtime
+# dependencies — it ships its own logic in dist/ — so no pre-build of sibling packages is
+# needed. Manual dispatch is kept for rehearsing the workflow with no real publish.
+on:
+  push:
+    tags:
+      - 'cli-v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to release (cli-vX.Y.Z). For dry-runs use any matching tag.'
+        required: true
+      dry-run:
+        description: 'Run pnpm publish with --dry-run (no upload).'
+        required: false
+        default: 'true'
+
+concurrency:
+  group: release-cli-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, verify, publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write # required for npm provenance attestations
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Resolve tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "value=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.10.0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Verify tag matches package.json version
+        run: |
+          node scripts/verify-tag-version.mjs \
+            "${{ steps.tag.outputs.value }}" \
+            cli \
+            cli/package.json
+
+      - name: Lint, typecheck, test
+        run: |
+          pnpm --filter @arguslog/cli lint
+          pnpm --filter @arguslog/cli typecheck
+          pnpm --filter @arguslog/cli test
+
+      - name: Build
+        run: pnpm --filter @arguslog/cli build
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          DRY_RUN_FLAG=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && \
+             [ "${{ github.event.inputs.dry-run }}" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+          fi
+          pnpm --filter @arguslog/cli publish \
+            --access public \
+            --no-git-checks \
+            --provenance \
+            $DRY_RUN_FLAG

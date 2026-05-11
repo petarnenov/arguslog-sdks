@@ -1,0 +1,23 @@
+{
+  "name": "arguslog-sdks",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Arguslog SDKs — JS/TS, Java, Python, MCP server, CLI. Public mirror.",
+  "license": "MIT",
+  "packageManager": "pnpm@9.10.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petarnenov/arguslog-sdks"
+  },
+  "homepage": "https://arguslog.org",
+  "scripts": {
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "clean": "pnpm -r clean && rm -rf node_modules"
+  }
+}

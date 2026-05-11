@@ -1,0 +1,43 @@
+{
+  "name": "@arguslog/sdk-core",
+  "version": "1.0.2",
+  "description": "Arguslog SDK core — platform-agnostic event pipeline shared by sdk-browser and sdk-node",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "gen-version": "node scripts/gen-version.mjs",
+    "prebuild": "node scripts/gen-version.mjs",
+    "predev": "node scripts/gen-version.mjs",
+    "pretest": "node scripts/gen-version.mjs",
+    "pretest:coverage": "node scripts/gen-version.mjs",
+    "pretypecheck": "node scripts/gen-version.mjs",
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "@arguslog/eslint-config": "workspace:*",
+    "@arguslog/tsconfig": "workspace:*",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.18.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.4"
+  }
+}

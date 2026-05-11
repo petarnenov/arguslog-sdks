@@ -1,0 +1,116 @@
+name: Release sdk-python
+
+# Tag-driven PyPI release. Push a tag matching `python-sdk-v*` (e.g. `python-sdk-v1.0.0`)
+# and the matching version in python-sdk/pyproject.toml gets published to PyPI.
+#
+# Auth: OIDC via PyPI's "trusted publisher" feature — no long-lived API token in repo
+# secrets. The PyPI project must have a trusted-publisher entry pointing at this exact
+# workflow file (release-sdk-python.yml) on this repo + branch (main). For the very first
+# publish (project doesn't exist yet) it has to be configured as a "pending publisher" at
+# https://pypi.org/manage/account/publishing/ before the tag is pushed.
+on:
+  push:
+    tags:
+      - 'python-sdk-v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to release (python-sdk-vX.Y.Z).'
+        required: true
+      dry-run:
+        description: 'Build only, skip the upload step.'
+        required: false
+        default: 'true'
+
+concurrency:
+  group: release-sdk-python-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, verify, publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write # required for PyPI trusted publisher (OIDC)
+    defaults:
+      run:
+        working-directory: python-sdk
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Resolve tag + version
+        id: tag
+        working-directory: ${{ github.workspace }}
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            TAG="${GITHUB_REF_NAME}"
+          else
+            TAG="${{ github.event.inputs.tag }}"
+          fi
+          echo "value=${TAG}" >> "$GITHUB_OUTPUT"
+          # Tag prefix `python-sdk-v` is stripped by verify-tag-version below; reuse the
+          # same parsing here so the build artifact version matches.
+          VERSION="${TAG#python-sdk-v}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      # Node is here only so we can run the shared verify-tag-version.mjs script.
+      # `package-manager-cache: false` disables setup-node@v5's pnpm-lock auto-detection —
+      # this workflow doesn't install pnpm and the cache step would error out.
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Verify tag matches pyproject.toml version
+        working-directory: ${{ github.workspace }}
+        run: |
+          # Hatchling's [project].version is a top-level string field; grep for the first
+          # `version = "..."` line under [project] (pyproject.toml has only one [project]
+          # table at the top) so we don't trip over [tool.*] sections.
+          PYVER=$(awk -F'"' '/^version =/ { print $2; exit }' python-sdk/pyproject.toml)
+          if [ -z "$PYVER" ]; then
+            echo "Could not extract version from python-sdk/pyproject.toml"; exit 1
+          fi
+          echo "${PYVER}" | \
+            node scripts/verify-tag-version.mjs \
+              "${{ steps.tag.outputs.value }}" \
+              python-sdk \
+              -
+
+      - name: Install package with dev extras
+        run: uv pip install --system -e ".[dev]"
+
+      - name: ruff check
+        run: ruff check .
+
+      - name: ruff format --check
+        run: ruff format --check .
+
+      - name: pytest
+        run: pytest --cov=arguslog --cov-report=term
+
+      - name: Build sdist + wheel
+        run: uv build
+
+      - name: List build artifacts
+        run: ls -la dist/
+
+      - name: Publish to PyPI (trusted publisher / OIDC)
+        if: github.event_name == 'push' || github.event.inputs.dry-run != 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: python-sdk/dist
+          # We've already verified the version matches the tag; reject anything else
+          # that might have slipped into dist/ from a stale checkout.
+          skip-existing: false
+          verbose: true

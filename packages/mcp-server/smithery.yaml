@@ -1,0 +1,56 @@
+# Smithery server manifest. Two install paths in one file:
+#
+# 1. Stdio — for users who run @arguslog/mcp-server locally via npx. Smithery generates a
+#    Claude Desktop config snippet from `startCommand`.
+# 2. Connector — for users who want to point at the hosted endpoint at mcp.arguslog.org.
+#    Smithery's "Connector" listing reads `connector.url` and renders a header-config UI.
+#
+# Submit via smithery.ai/new (auto-detects this file from the GitHub repo) or via the
+# "Add MCP Server" form (Connector tab → fill URL https://mcp.arguslog.org/mcp).
+
+# Local stdio install — kept for users without a Streamable-HTTP-aware client.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    title: "Arguslog MCP server (local)"
+    properties:
+      pat:
+        type: string
+        title: "Personal Access Token"
+        description: |
+          Generate one from your Arguslog dashboard → "Personal access tokens" page.
+          Format: arglog_pat_… The PAT's scopes determine which tools the agent can
+          actually invoke (read tools always work; writes require the matching scope
+          like orgs:write or releases:write).
+        format: password
+      apiUrl:
+        type: string
+        title: "API base URL"
+        description: |
+          Override only for self-hosted Arguslog or a staging environment.
+        default: "https://api.arguslog.org"
+    required:
+      - pat
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', '@arguslog/mcp-server'],
+      env: {
+        ARGUSLOG_PAT: config.pat,
+        ARGUSLOG_API_URL: config.apiUrl || 'https://api.arguslog.org',
+      },
+    })
+
+# Hosted Streamable-HTTP endpoint. Smithery's Connector listing forwards the user-supplied
+# Bearer token in the Authorization header on every request.
+connector:
+  url: https://mcp.arguslog.org/mcp
+  transport: streamable-http
+  authentication:
+    type: bearer
+    description: |
+      Generate a Personal Access Token from the Arguslog dashboard
+      (https://app.arguslog.org/me/tokens). The PAT's scopes gate which tools succeed —
+      read tools work with any PAT, write tools (org create, project create, member
+      invite, etc.) need the matching scope.

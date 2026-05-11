@@ -1,0 +1,4 @@
+{
+  "extends": "@arguslog/tsconfig/node.json",
+  "include": ["src/**/*"]
+}

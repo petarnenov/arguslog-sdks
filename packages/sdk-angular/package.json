@@ -1,0 +1,48 @@
+{
+  "name": "@arguslog/sdk-angular",
+  "version": "1.0.4",
+  "description": "Arguslog Angular SDK — ErrorHandler, provideArguslog(), ArguslogModule, service",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@arguslog/sdk-browser": "workspace:*"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=17.0.0 <21.0.0",
+    "rxjs": "^7.5.0"
+  },
+  "devDependencies": {
+    "@angular/core": "^19.0.0",
+    "@arguslog/eslint-config": "workspace:*",
+    "@arguslog/tsconfig": "workspace:*",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.18.0",
+    "jsdom": "^25.0.1",
+    "rxjs": "^7.8.1",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.4",
+    "zone.js": "^0.15.0"
+  }
+}

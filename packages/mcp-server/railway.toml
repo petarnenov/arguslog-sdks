@@ -1,0 +1,24 @@
+# Railway service config for arguslog-mcp — public hosted MCP server. Sits behind
+# mcp.arguslog.org and serves Streamable HTTP at POST /mcp; per-request PAT auth means one
+# instance handles every customer (no shared secret, no env-var PAT on this service).
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "packages/mcp-server/Dockerfile"
+# Scope "redeploy on push" — touching apps/web or services/* should not rebuild this image.
+# We DO rebuild when services/api/openapi.json changes because the codegen step bakes the
+# tool catalog from it; new endpoints become callable only after a redeploy.
+watchPatterns = [
+  "packages/mcp-server/**",
+  "services/api/openapi.json",
+  "package.json",
+  "pnpm-lock.yaml",
+  "pnpm-workspace.yaml",
+]
+
+[deploy]
+healthcheckPath = "/healthz"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+numReplicas = 1

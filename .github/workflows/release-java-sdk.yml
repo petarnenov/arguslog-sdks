@@ -1,0 +1,102 @@
+name: Release java-sdk
+
+# Tag-driven Maven Central release via the Sonatype Central Portal. Push a tag matching
+# `java-sdk-v*` (e.g. `java-sdk-v0.1.0`) and the artifact is staged + auto-released.
+#
+# The version is passed to Gradle via -Pversion=<x.y.z>; java-sdk/build.gradle.kts uses
+# project.version inside mavenPublishing.coordinates(...), so the published GAV ends up as
+# `org.arguslog:java-sdk:<x.y.z>` with no manual edit to the build script.
+#
+# Required secrets:
+#   MAVEN_CENTRAL_USERNAME    - Central Portal username token
+#   MAVEN_CENTRAL_PASSWORD    - Central Portal password token
+#   MAVEN_GPG_PRIVATE_KEY     - ASCII-armored GPG private key (no passphrase prompt)
+#   MAVEN_GPG_PASSPHRASE      - Passphrase for the above key (or empty if unprotected)
+on:
+  push:
+    tags:
+      - 'java-sdk-v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to release (java-sdk-vX.Y.Z).'
+        required: true
+      dry-run:
+        description: 'Run publishToMavenLocal instead of publishToMavenCentral.'
+        required: false
+        default: 'true'
+
+concurrency:
+  group: release-java-sdk-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, verify, publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Resolve tag + version
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            TAG="${GITHUB_REF_NAME}"
+          else
+            TAG="${{ github.event.inputs.tag }}"
+          fi
+          echo "value=${TAG}" >> "$GITHUB_OUTPUT"
+          # Tag prefix `java-sdk-v` is stripped by verify-tag-version below; reuse the same
+          # parsing here so the gradle -Pversion arg matches what got verified.
+          VERSION="${TAG#java-sdk-v}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      # Set up Node solely so verify-tag-version.mjs can run. No npm work happens here.
+      # `package-manager-cache: false` disables setup-node@v5's pnpm-lock auto-detection —
+      # this workflow doesn't install pnpm and the cache step would error with
+      # "Unable to locate executable file: pnpm". Same fix as the python release workflow.
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Verify tag matches java-sdk/gradle.properties
+        run: |
+          # Pin: the tag MUST match java-sdk/gradle.properties:version, which is also what
+          # Gradle reads as project.version. The shared verifier then guarantees parity
+          # (same check sdk-browser, sdk-node, etc. get against their package.json files),
+          # and PlatformsCatalogParityTest reads the same file to keep the platforms
+          # catalog row in lockstep.
+          grep '^version=' java-sdk/gradle.properties | cut -d= -f2 | \
+            node scripts/verify-tag-version.mjs \
+              "${{ steps.tag.outputs.value }}" \
+              java-sdk \
+              -
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Build & test
+        run: ./gradlew :java-sdk:build --stacktrace -Pversion=${{ steps.tag.outputs.version }}
+
+      - name: Publish
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && \
+             [ "${{ github.event.inputs.dry-run }}" = "true" ]; then
+            ./gradlew :java-sdk:publishToMavenLocal -Pversion=${{ steps.tag.outputs.version }}
+          else
+            ./gradlew :java-sdk:publishToMavenCentral -Pversion=${{ steps.tag.outputs.version }}
+          fi

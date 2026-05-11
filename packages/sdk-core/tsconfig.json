@@ -1,0 +1,7 @@
+{
+  "extends": "@arguslog/tsconfig/library.json",
+  "compilerOptions": {
+    "types": ["vitest/globals"]
+  },
+  "include": ["src/**/*"]
+}

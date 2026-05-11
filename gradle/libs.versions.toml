@@ -1,0 +1,77 @@
+[versions]
+java = "21"
+kotlin = "2.1.0"
+springBoot = "3.4.1"
+springDependencyManagement = "1.1.7"
+spotless = "7.0.1"
+springdoc = "2.7.0"
+testcontainers = "1.21.4"
+mapstruct = "1.6.3"
+flyway = "11.1.0"
+jooq = "3.19.16"
+lettuce = "6.5.1.RELEASE"
+awsSdk = "2.30.5"
+opentelemetry = "1.46.0"
+otelInstrumentation = "2.11.0"
+bucket4j = "8.14.0"
+stripeJava = "29.0.0"
+gson = "2.11.0"
+telegramBot = "7.10.0"
+resend = "4.0.1"
+argon2 = "2.11"
+caffeine = "3.1.8"
+mockito = "5.15.2"
+pact = "4.6.16"
+mavenPublish = "0.30.0"
+
+[libraries]
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
+spring-boot-starter-json = { module = "org.springframework.boot:spring-boot-starter-json" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-oauth2-resource-server = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server" }
+spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-jooq = { module = "org.springframework.boot:spring-boot-starter-jooq" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+springdoc-openapi-webmvc = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+postgres-driver = { module = "org.postgresql:postgresql" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
+testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
+testcontainers-junit = { module = "org.testcontainers:junit-jupiter" }
+testcontainers-postgres = { module = "org.testcontainers:postgresql" }
+testcontainers-keycloak = { module = "com.github.dasniko:testcontainers-keycloak", version = "3.5.1" }
+testcontainers-redis = { module = "com.redis:testcontainers-redis", version = "2.2.4" }
+testcontainers-localstack = { module = "org.testcontainers:localstack" }
+testcontainers-minio = { module = "org.testcontainers:minio" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+aws-s3 = { module = "software.amazon.awssdk:s3", version.ref = "awsSdk" }
+opentelemetry-bom = { module = "io.opentelemetry:opentelemetry-bom", version.ref = "opentelemetry" }
+otel-instrumentation-bom = { module = "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom", version.ref = "otelInstrumentation" }
+otel-spring-boot-starter = { module = "io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter" }
+bucket4j-redis = { module = "com.bucket4j:bucket4j_jdk17-redis", version.ref = "bucket4j" }
+bucket4j-core = { module = "com.bucket4j:bucket4j_jdk17-core", version.ref = "bucket4j" }
+stripe-java = { module = "com.stripe:stripe-java", version.ref = "stripeJava" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+telegram-bot = { module = "com.github.pengrad:java-telegram-bot-api", version.ref = "telegramBot" }
+resend-java = { module = "com.resend:resend-java", version.ref = "resend" }
+argon2-jvm = { module = "de.mkammerer:argon2-jvm", version.ref = "argon2" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-junit = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+pact-junit5 = { module = "au.com.dius.pact.consumer:junit5", version.ref = "pact" }
+pact-provider = { module = "au.com.dius.pact.provider:junit5spring", version.ref = "pact" }
+wiremock-standalone = { module = "org.wiremock:wiremock-standalone", version = "3.10.0" }
+awaitility = { module = "org.awaitility:awaitility", version = "4.2.2" }
+
+[plugins]
+springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
+springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }

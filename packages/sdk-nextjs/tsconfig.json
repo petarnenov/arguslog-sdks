@@ -1,0 +1,9 @@
+{
+  "extends": "@arguslog/tsconfig/library.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "types": ["vitest/globals", "node"]
+  },
+  "include": ["src/**/*"]
+}
