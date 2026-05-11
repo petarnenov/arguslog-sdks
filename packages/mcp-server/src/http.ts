@@ -34,7 +34,7 @@ import { ArguslogApiError, ArguslogClient } from './client.js';
 import { executeTool, listMcpTools } from './tools.js';
 
 const PACKAGE_NAME = '@arguslog/mcp-server';
-const PACKAGE_VERSION = '0.4.0';
+const PACKAGE_VERSION = '0.4.1';
 
 const PORT = Number(process.env.PORT ?? 8080);
 const ARGUSLOG_API_URL = process.env.ARGUSLOG_API_URL ?? 'https://api.arguslog.org';
@@ -42,10 +42,18 @@ const ARGUSLOG_API_URL = process.env.ARGUSLOG_API_URL ?? 'https://api.arguslog.o
 function extractPat(req: Request): string | null {
   const header = req.header('authorization') ?? req.header('Authorization');
   if (!header) return null;
-  const match = /^Bearer\s+(.+)$/i.exec(header.trim());
-  if (!match) return null;
-  const tok = match[1]?.trim();
-  return tok && tok.length > 0 ? tok : null;
+  const trimmed = header.trim();
+  // Accept both "Bearer arglog_pat_..." (RFC 6750 standard) and raw "arglog_pat_..."
+  // The latter shape is what Smithery's gateway forwards when the user enters their PAT
+  // into the connection config — Smithery doesn't auto-prefix with "Bearer ".
+  const bearerMatch = /^Bearer\s+(.+)$/i.exec(trimmed);
+  if (bearerMatch) {
+    const tok = bearerMatch[1]?.trim();
+    return tok && tok.length > 0 ? tok : null;
+  }
+  // Raw PAT — must look like one (starts with "arglog_pat_") so we don't accept random junk.
+  if (trimmed.startsWith('arglog_pat_')) return trimmed;
+  return null;
 }
 
 /** Builds a one-shot MCP {@link Server} bound to the request's PAT (or null when the
