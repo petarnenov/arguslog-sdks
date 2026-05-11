@@ -350,6 +350,15 @@ Capture closer to the original `try/except`.
 That's the Arguslog _CLI_, not the Python SDK — see
 [`@arguslog/cli`](https://www.npmjs.com/package/@arguslog/cli) for that flow.
 
+## Example apps
+
+- [`examples/django-todo`](https://github.com/petarnenov/arguslog-sdks/tree/main/python-sdk/examples/django-todo)
+  — a runnable Django 6 TODO app that wires every public SDK surface: `init` with the full
+  options bag, `install_excepthook` + `install_logging_handler`, request middleware with a
+  correlation id, `set_user` / `set_tag` / `set_context`, breadcrumbs, capture-message /
+  capture-exception, scrubbing, sync flush, severity ladder. Each demo URL fires one event so
+  you can click through the dashboard side-by-side with the source.
+
 ## Source
 
 The full implementation lives in the [arguslog monorepo](https://github.com/petarnenov/arguslog)
