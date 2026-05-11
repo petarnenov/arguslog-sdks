@@ -112,8 +112,8 @@ describe('installLongTaskBreadcrumbs', () => {
   it('no-ops when supportedEntryTypes lacks longtask (Firefox)', () => {
     installFakePO();
     (
-      (globalThis as { PerformanceObserver: { supportedEntryTypes: string[] } }).PerformanceObserver
-    ).supportedEntryTypes = ['paint', 'navigation'];
+      globalThis as { PerformanceObserver: { supportedEntryTypes: string[] } }
+    ).PerformanceObserver.supportedEntryTypes = ['paint', 'navigation'];
     const client = fakeClient();
     const off = installLongTaskBreadcrumbs(client);
     expect(observer).toBeUndefined();

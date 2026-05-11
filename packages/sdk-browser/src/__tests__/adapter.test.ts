@@ -56,9 +56,8 @@ describe('BrowserAdapter', () => {
 
   describe('Network Information API + matchMedia branches', () => {
     const originalConnection = Object.getOwnPropertyDescriptor(navigator, 'connection');
-    const originalMatchMedia = (
-      globalThis as { matchMedia?: (q: string) => MediaQueryList }
-    ).matchMedia;
+    const originalMatchMedia = (globalThis as { matchMedia?: (q: string) => MediaQueryList })
+      .matchMedia;
 
     afterEach(() => {
       if (originalConnection) {

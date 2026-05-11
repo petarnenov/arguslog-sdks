@@ -201,9 +201,7 @@ describe('installWorkerErrorBreadcrumbs', () => {
 
     // Non-arguslog messages are ignored (no extra breadcrumb).
     const before = (client.addBreadcrumb as ReturnType<typeof vi.fn>).mock.calls.length;
-    swListeners.message?.forEach((cb) =>
-      cb(new MessageEvent('message', { data: { foo: 'bar' } })),
-    );
+    swListeners.message?.forEach((cb) => cb(new MessageEvent('message', { data: { foo: 'bar' } })));
     expect((client.addBreadcrumb as ReturnType<typeof vi.fn>).mock.calls.length).toBe(before);
 
     off();
