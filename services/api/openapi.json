@@ -1054,6 +1054,87 @@
         }
       }
     },
+    "/api/v1/me/billing/portal" : {
+      "post" : {
+        "tags" : [ "me-billing-controller" ],
+        "operationId" : "portal_1",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CheckoutResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/billing/crypto-invoice" : {
+      "post" : {
+        "tags" : [ "me-billing-controller" ],
+        "operationId" : "cryptoInvoice",
+        "parameters" : [ {
+          "name" : "tier",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : "pro"
+          }
+        }, {
+          "name" : "duration",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 1
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CryptoCheckoutResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/billing/checkout-session" : {
+      "post" : {
+        "tags" : [ "me-billing-controller" ],
+        "operationId" : "start_2",
+        "parameters" : [ {
+          "name" : "interval",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : "monthly"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CheckoutResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/users/{userId}/grant" : {
       "post" : {
         "tags" : [ "admin-controller" ],

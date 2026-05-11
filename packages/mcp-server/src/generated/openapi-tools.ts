@@ -1401,6 +1401,104 @@ export const OPENAPI_TOOLS: OpenApiTool[] = [
     }
   },
   {
+    "name": "me_billing_portal_1",
+    "title": "Me billing portal 1",
+    "description": "POST /api/v1/me/billing/portal\n\nMethod: POST /api/v1/me/billing/portal",
+    "method": "POST",
+    "path": "/api/v1/me/billing/portal",
+    "pathParams": [],
+    "queryParams": [],
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/me/billing/portal",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
+  },
+  {
+    "name": "me_billing_crypto_invoice",
+    "title": "Me billing crypto invoice",
+    "description": "POST /api/v1/me/billing/crypto-invoice\n\nMethod: POST /api/v1/me/billing/crypto-invoice",
+    "method": "POST",
+    "path": "/api/v1/me/billing/crypto-invoice",
+    "pathParams": [],
+    "queryParams": [
+      {
+        "name": "tier",
+        "required": false,
+        "type": "string",
+        "description": "tier (string) — optional."
+      },
+      {
+        "name": "duration",
+        "required": false,
+        "type": "integer",
+        "description": "duration (integer) — optional."
+      }
+    ],
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "checkoutUrl": {
+          "type": "string"
+        },
+        "invoiceReference": {
+          "type": "string"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/me/billing/crypto-invoice",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
+  },
+  {
+    "name": "me_billing_start_2",
+    "title": "Me billing start 2",
+    "description": "POST /api/v1/me/billing/checkout-session\n\nMethod: POST /api/v1/me/billing/checkout-session",
+    "method": "POST",
+    "path": "/api/v1/me/billing/checkout-session",
+    "pathParams": [],
+    "queryParams": [
+      {
+        "name": "interval",
+        "required": false,
+        "type": "string",
+        "description": "interval (string) — optional."
+      }
+    ],
+    "hasBody": false,
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "annotations": {
+      "title": "POST /api/v1/me/billing/checkout-session",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "destructiveHint": false,
+      "openWorldHint": true
+    }
+  },
+  {
     "name": "admin_grant_user",
     "title": "Admin grant user",
     "description": "POST /api/v1/admin/users/{userId}/grant\n\nMethod: POST /api/v1/admin/users/{userId}/grant",
