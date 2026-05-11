@@ -23,10 +23,8 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 
 import { ArguslogApiError, ArguslogClient } from './client.js';
+import { PACKAGE_NAME, PACKAGE_VERSION } from './generated/version.js';
 import { executeTool, listMcpTools } from './tools.js';
-
-const PACKAGE_NAME = '@arguslog/mcp-server';
-const PACKAGE_VERSION = '0.4.2';
 
 async function main(): Promise<void> {
   // Build the client lazily — registry probes (Glama's introspection sandbox, Smithery's

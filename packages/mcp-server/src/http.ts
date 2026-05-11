@@ -43,10 +43,8 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 
 import { ArguslogApiError, ArguslogClient } from './client.js';
+import { PACKAGE_NAME, PACKAGE_VERSION } from './generated/version.js';
 import { executeTool, listMcpTools } from './tools.js';
-
-const PACKAGE_NAME = '@arguslog/mcp-server';
-const PACKAGE_VERSION = '0.4.2';
 
 const PORT = Number(process.env.PORT ?? 8080);
 const ARGUSLOG_API_URL = process.env.ARGUSLOG_API_URL ?? 'https://api.arguslog.org';
