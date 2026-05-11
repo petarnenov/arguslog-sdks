@@ -108,4 +108,79 @@ describe('installLongTaskBreadcrumbs', () => {
     off();
     expect(client.addBreadcrumb).not.toHaveBeenCalled();
   });
+
+  it('no-ops when supportedEntryTypes lacks longtask (Firefox)', () => {
+    installFakePO();
+    (
+      (globalThis as { PerformanceObserver: { supportedEntryTypes: string[] } }).PerformanceObserver
+    ).supportedEntryTypes = ['paint', 'navigation'];
+    const client = fakeClient();
+    const off = installLongTaskBreadcrumbs(client);
+    expect(observer).toBeUndefined();
+    off();
+  });
+
+  it('no-ops when observe() throws (some Safari versions)', () => {
+    function ThrowingObserver(this: FakeObserver, cb: PerformanceObserverCallback) {
+      this.callback = cb;
+      this.disconnect = vi.fn();
+    }
+    (ThrowingObserver.prototype as Record<string, unknown>).observe = () => {
+      throw new Error('observe rejected');
+    };
+    (
+      ThrowingObserver as unknown as { supportedEntryTypes: readonly string[] }
+    ).supportedEntryTypes = ['longtask'];
+    (globalThis as { PerformanceObserver: typeof PerformanceObserver }).PerformanceObserver =
+      ThrowingObserver as unknown as typeof PerformanceObserver;
+
+    const client = fakeClient();
+    const off = installLongTaskBreadcrumbs(client);
+    expect(() => off()).not.toThrow();
+  });
+
+  it('stamps attribution metadata when the browser supplies it', () => {
+    installFakePO();
+    const client = fakeClient();
+    installLongTaskBreadcrumbs(client);
+    const list = {
+      getEntries: () => [
+        Object.assign(
+          {
+            duration: 120,
+            startTime: 50,
+            name: 'self',
+            entryType: 'longtask',
+          } as PerformanceEntry,
+          {
+            attribution: [
+              { containerType: 'iframe', containerSrc: 'https://3rd.example', containerName: 'ad' },
+            ],
+          },
+        ),
+      ],
+    } as PerformanceObserverEntryList;
+    observer!.callback(list, observer as unknown as PerformanceObserver);
+
+    expect(client.addBreadcrumb).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          containerType: 'iframe',
+          containerSrc: 'https://3rd.example',
+          containerName: 'ad',
+        }),
+      }),
+    );
+  });
+
+  it('swallows addBreadcrumb throws (best-effort)', () => {
+    installFakePO();
+    const client = {
+      addBreadcrumb: vi.fn(() => {
+        throw new Error('store down');
+      }),
+    } as unknown as ArguslogClient;
+    installLongTaskBreadcrumbs(client);
+    expect(() => fireLongTask(100)).not.toThrow();
+  });
 });

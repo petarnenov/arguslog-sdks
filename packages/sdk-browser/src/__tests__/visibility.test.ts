@@ -67,4 +67,25 @@ describe('installVisibilityBreadcrumbs', () => {
     window.dispatchEvent(new Event('online'));
     expect(client.addBreadcrumb).not.toHaveBeenCalled();
   });
+
+  it('swallows addBreadcrumb throws across every handler (best-effort)', () => {
+    const client = {
+      addBreadcrumb: vi.fn(() => {
+        throw new Error('store down');
+      }),
+    } as unknown as ArguslogClient;
+    uninstall = installVisibilityBreadcrumbs(client);
+
+    expect(() => document.dispatchEvent(new Event('visibilitychange'))).not.toThrow();
+
+    const pagehide = new Event('pagehide') as PageTransitionEvent;
+    Object.defineProperty(pagehide, 'persisted', { value: false });
+    expect(() => window.dispatchEvent(pagehide)).not.toThrow();
+
+    expect(() => window.dispatchEvent(new Event('online'))).not.toThrow();
+    expect(() => window.dispatchEvent(new Event('offline'))).not.toThrow();
+
+    // All four handlers were invoked.
+    expect(client.addBreadcrumb).toHaveBeenCalledTimes(4);
+  });
 });
