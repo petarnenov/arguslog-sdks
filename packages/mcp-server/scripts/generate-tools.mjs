@@ -19,6 +19,7 @@
  *   <li>{@code title} — humanized form of the tool name for UIs that prefer it over the slug.</li>
  * </ul>
  */
+import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -185,6 +186,20 @@ export const PACKAGE_VERSION = '${PKG.version}';
   'utf8',
 );
 console.log(`✓ Generated version constants → ${VERSION_FILE}`);
+
+// Run prettier on the emitted files so they pass `format:check` straight after a regenerate.
+// Without this, JSON.stringify output drifts from the workspace's prettier config and the next
+// `pnpm format:check` flags the generated file — silently re-creating the bug that landed
+// 0.4.2 mismatched with package.json.
+try {
+  execFileSync(
+    'pnpm',
+    ['exec', 'prettier', '--write', '--log-level=silent', OUT_FILE, VERSION_FILE],
+    { stdio: 'inherit', cwd: ROOT },
+  );
+} catch (err) {
+  console.warn('⚠ prettier --write on generated files failed:', err.message);
+}
 
 function firstPathSegment(path) {
   return path.split('/').filter(Boolean)[0] ?? null;

@@ -44,2556 +44,2572 @@ export interface OpenApiTool {
 
 export const OPENAPI_TOOLS: OpenApiTool[] = [
   {
-    "name": "get_release",
-    "title": "Get release",
-    "description": "GET /api/v1/projects/{projectId}/releases/{id}\n\nMethod: GET /api/v1/projects/{projectId}/releases/{id}",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/releases/{id}",
-    "pathParams": [
+    name: 'get_release',
+    title: 'Get release',
+    description:
+      'GET /api/v1/projects/{projectId}/releases/{id}\n\nMethod: GET /api/v1/projects/{projectId}/releases/{id}',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/releases/{id}',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
         },
-        "projectId": {
-          "type": "integer",
-          "format": "int64"
+        projectId: {
+          type: 'integer',
+          format: 'int64',
         },
-        "version": {
-          "type": "string"
+        version: {
+          type: 'string',
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/releases/{id}",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/releases/{id}',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "update_release",
-    "title": "Update release",
-    "description": "PUT /api/v1/projects/{projectId}/releases/{id}\n\nMethod: PUT /api/v1/projects/{projectId}/releases/{id}",
-    "method": "PUT",
-    "path": "/api/v1/projects/{projectId}/releases/{id}",
-    "pathParams": [
+    name: 'update_release',
+    title: 'Update release',
+    description:
+      'PUT /api/v1/projects/{projectId}/releases/{id}\n\nMethod: PUT /api/v1/projects/{projectId}/releases/{id}',
+    method: 'PUT',
+    path: '/api/v1/projects/{projectId}/releases/{id}',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
         },
-        "projectId": {
-          "type": "integer",
-          "format": "int64"
+        projectId: {
+          type: 'integer',
+          format: 'int64',
         },
-        "version": {
-          "type": "string"
+        version: {
+          type: 'string',
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "PUT /api/v1/projects/{projectId}/releases/{id}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'PUT /api/v1/projects/{projectId}/releases/{id}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "delete_release",
-    "title": "Delete release",
-    "description": "DELETE /api/v1/projects/{projectId}/releases/{id}\n\nMethod: DELETE /api/v1/projects/{projectId}/releases/{id}",
-    "method": "DELETE",
-    "path": "/api/v1/projects/{projectId}/releases/{id}",
-    "pathParams": [
+    name: 'delete_release',
+    title: 'Delete release',
+    description:
+      'DELETE /api/v1/projects/{projectId}/releases/{id}\n\nMethod: DELETE /api/v1/projects/{projectId}/releases/{id}',
+    method: 'DELETE',
+    path: '/api/v1/projects/{projectId}/releases/{id}',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
     },
-    "annotations": {
-      "title": "DELETE /api/v1/projects/{projectId}/releases/{id}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'DELETE /api/v1/projects/{projectId}/releases/{id}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "get_alert_rule_1",
-    "title": "Get alert rule 1",
-    "description": "GET /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: GET /api/v1/projects/{projectId}/alert-rules/{id}",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
-    "pathParams": [
+    name: 'get_alert_rule_1',
+    title: 'Get alert rule 1',
+    description:
+      'GET /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: GET /api/v1/projects/{projectId}/alert-rules/{id}',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/alert-rules/{id}',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
         },
-        "projectId": {
-          "type": "integer",
-          "format": "int64"
+        projectId: {
+          type: 'integer',
+          format: 'int64',
         },
-        "name": {
-          "type": "string"
+        name: {
+          type: 'string',
         },
-        "conditions": {
-          "$ref": "#/components/schemas/JsonNode"
+        conditions: {
+          $ref: '#/components/schemas/JsonNode',
         },
-        "actions": {
-          "$ref": "#/components/schemas/JsonNode"
+        actions: {
+          $ref: '#/components/schemas/JsonNode',
         },
-        "throttleSeconds": {
-          "type": "integer",
-          "format": "int32"
+        throttleSeconds: {
+          type: 'integer',
+          format: 'int32',
         },
-        "enabled": {
-          "type": "boolean"
+        enabled: {
+          type: 'boolean',
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/alert-rules/{id}",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/alert-rules/{id}',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "update_alert_rule_1",
-    "title": "Update alert rule 1",
-    "description": "PUT /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: PUT /api/v1/projects/{projectId}/alert-rules/{id}",
-    "method": "PUT",
-    "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
-    "pathParams": [
+    name: 'update_alert_rule_1',
+    title: 'Update alert rule 1',
+    description:
+      'PUT /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: PUT /api/v1/projects/{projectId}/alert-rules/{id}',
+    method: 'PUT',
+    path: '/api/v1/projects/{projectId}/alert-rules/{id}',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
         },
-        "projectId": {
-          "type": "integer",
-          "format": "int64"
+        projectId: {
+          type: 'integer',
+          format: 'int64',
         },
-        "name": {
-          "type": "string"
+        name: {
+          type: 'string',
         },
-        "conditions": {
-          "$ref": "#/components/schemas/JsonNode"
+        conditions: {
+          $ref: '#/components/schemas/JsonNode',
         },
-        "actions": {
-          "$ref": "#/components/schemas/JsonNode"
+        actions: {
+          $ref: '#/components/schemas/JsonNode',
         },
-        "throttleSeconds": {
-          "type": "integer",
-          "format": "int32"
+        throttleSeconds: {
+          type: 'integer',
+          format: 'int32',
         },
-        "enabled": {
-          "type": "boolean"
+        enabled: {
+          type: 'boolean',
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "PUT /api/v1/projects/{projectId}/alert-rules/{id}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'PUT /api/v1/projects/{projectId}/alert-rules/{id}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "delete_alert_rule_1",
-    "title": "Delete alert rule 1",
-    "description": "DELETE /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: DELETE /api/v1/projects/{projectId}/alert-rules/{id}",
-    "method": "DELETE",
-    "path": "/api/v1/projects/{projectId}/alert-rules/{id}",
-    "pathParams": [
+    name: 'delete_alert_rule_1',
+    title: 'Delete alert rule 1',
+    description:
+      'DELETE /api/v1/projects/{projectId}/alert-rules/{id}\n\nMethod: DELETE /api/v1/projects/{projectId}/alert-rules/{id}',
+    method: 'DELETE',
+    path: '/api/v1/projects/{projectId}/alert-rules/{id}',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
     },
-    "annotations": {
-      "title": "DELETE /api/v1/projects/{projectId}/alert-rules/{id}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'DELETE /api/v1/projects/{projectId}/alert-rules/{id}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "get_alert_destination_2",
-    "title": "Get alert destination 2",
-    "description": "GET /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: GET /api/v1/orgs/{orgId}/alert-destinations/{id}",
-    "method": "GET",
-    "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
-    "pathParams": [
+    name: 'get_alert_destination_2',
+    title: 'Get alert destination 2',
+    description:
+      'GET /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: GET /api/v1/orgs/{orgId}/alert-destinations/{id}',
+    method: 'GET',
+    path: '/api/v1/orgs/{orgId}/alert-destinations/{id}',
+    pathParams: [
       {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
         },
-        "orgId": {
-          "type": "integer",
-          "format": "int64"
+        orgId: {
+          type: 'integer',
+          format: 'int64',
         },
-        "kind": {
-          "type": "string"
+        kind: {
+          type: 'string',
         },
-        "name": {
-          "type": "string"
+        name: {
+          type: 'string',
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "GET /api/v1/orgs/{orgId}/alert-destinations/{id}",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/orgs/{orgId}/alert-destinations/{id}',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "update_alert_destination_2",
-    "title": "Update alert destination 2",
-    "description": "PUT /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: PUT /api/v1/orgs/{orgId}/alert-destinations/{id}",
-    "method": "PUT",
-    "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
-    "pathParams": [
+    name: 'update_alert_destination_2',
+    title: 'Update alert destination 2',
+    description:
+      'PUT /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: PUT /api/v1/orgs/{orgId}/alert-destinations/{id}',
+    method: 'PUT',
+    path: '/api/v1/orgs/{orgId}/alert-destinations/{id}',
+    pathParams: [
       {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
         },
-        "orgId": {
-          "type": "integer",
-          "format": "int64"
+        orgId: {
+          type: 'integer',
+          format: 'int64',
         },
-        "kind": {
-          "type": "string"
+        kind: {
+          type: 'string',
         },
-        "name": {
-          "type": "string"
+        name: {
+          type: 'string',
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "PUT /api/v1/orgs/{orgId}/alert-destinations/{id}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'PUT /api/v1/orgs/{orgId}/alert-destinations/{id}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "delete_alert_destination_2",
-    "title": "Delete alert destination 2",
-    "description": "DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}",
-    "method": "DELETE",
-    "path": "/api/v1/orgs/{orgId}/alert-destinations/{id}",
-    "pathParams": [
+    name: 'delete_alert_destination_2',
+    title: 'Delete alert destination 2',
+    description:
+      'DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}\n\nMethod: DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}',
+    method: 'DELETE',
+    path: '/api/v1/orgs/{orgId}/alert-destinations/{id}',
+    pathParams: [
       {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
       },
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
-    },
-    "annotations": {
-      "title": "DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "stripe_webhook_receive",
-    "title": "Stripe webhook receive",
-    "description": "POST /api/v1/webhooks/stripe\n\nMethod: POST /api/v1/webhooks/stripe",
-    "method": "POST",
-    "path": "/api/v1/webhooks/stripe",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "outcome": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/webhooks/stripe",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "now_payments_webhook_receive_1",
-    "title": "Now payments webhook receive 1",
-    "description": "POST /api/v1/webhooks/nowpayments\n\nMethod: POST /api/v1/webhooks/nowpayments",
-    "method": "POST",
-    "path": "/api/v1/webhooks/nowpayments",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "outcome": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/webhooks/nowpayments",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "list_release",
-    "title": "List release",
-    "description": "GET /api/v1/projects/{projectId}/releases\n\nMethod: GET /api/v1/projects/{projectId}/releases",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/releases",
-    "pathParams": [
-      {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/ReleaseResponse"
-          }
-        }
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
       },
-      "required": [
-        "result"
-      ]
-    },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/releases",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "create_release",
-    "title": "Create release",
-    "description": "POST /api/v1/projects/{projectId}/releases\n\nMethod: POST /api/v1/projects/{projectId}/releases",
-    "method": "POST",
-    "path": "/api/v1/projects/{projectId}/releases",
-    "pathParams": [
-      {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
     ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "projectId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "version": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
     },
-    "annotations": {
-      "title": "POST /api/v1/projects/{projectId}/releases",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'DELETE /api/v1/orgs/{orgId}/alert-destinations/{id}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "list_source_map_artifact_1",
-    "title": "List source map artifact 1",
-    "description": "GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps\n\nMethod: GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
-    "pathParams": [
-      {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+    name: 'stripe_webhook_receive',
+    title: 'Stripe webhook receive',
+    description: 'POST /api/v1/webhooks/stripe\n\nMethod: POST /api/v1/webhooks/stripe',
+    method: 'POST',
+    path: '/api/v1/webhooks/stripe',
+    pathParams: [],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        outcome: {
+          type: 'string',
+        },
       },
+    },
+    annotations: {
+      title: 'POST /api/v1/webhooks/stripe',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'now_payments_webhook_receive_1',
+    title: 'Now payments webhook receive 1',
+    description: 'POST /api/v1/webhooks/nowpayments\n\nMethod: POST /api/v1/webhooks/nowpayments',
+    method: 'POST',
+    path: '/api/v1/webhooks/nowpayments',
+    pathParams: [],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        outcome: {
+          type: 'string',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/webhooks/nowpayments',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'list_release',
+    title: 'List release',
+    description:
+      'GET /api/v1/projects/{projectId}/releases\n\nMethod: GET /api/v1/projects/{projectId}/releases',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/releases',
+    pathParams: [
       {
-        "name": "releaseId",
-        "required": true,
-        "type": "integer",
-        "description": "releaseId (integer) — required."
-      }
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/SourceMapArtifactResponse"
-          }
-        }
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/ReleaseResponse',
+          },
+        },
       },
-      "required": [
-        "result"
-      ]
+      required: ['result'],
     },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/releases',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "create_source_map_artifact_1",
-    "title": "Create source map artifact 1",
-    "description": "POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps\n\nMethod: POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
-    "method": "POST",
-    "path": "/api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
-    "pathParams": [
+    name: 'create_release',
+    title: 'Create release',
+    description:
+      'POST /api/v1/projects/{projectId}/releases\n\nMethod: POST /api/v1/projects/{projectId}/releases',
+    method: 'POST',
+    path: '/api/v1/projects/{projectId}/releases',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
+        },
+        projectId: {
+          type: 'integer',
+          format: 'int64',
+        },
+        version: {
+          type: 'string',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/projects/{projectId}/releases',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'list_source_map_artifact_1',
+    title: 'List source map artifact 1',
+    description:
+      'GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps\n\nMethod: GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps',
+    pathParams: [
+      {
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "releaseId",
-        "required": true,
-        "type": "integer",
-        "description": "releaseId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "artifact": {
-          "$ref": "#/components/schemas/SourceMapArtifactResponse"
-        },
-        "uploadUrl": {
-          "type": "string",
-          "format": "uri"
-        },
-        "expiresAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "list_dsn_2",
-    "title": "List dsn 2",
-    "description": "GET /api/v1/projects/{projectId}/keys\n\nMethod: GET /api/v1/projects/{projectId}/keys",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/keys",
-    "pathParams": [
-      {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/DsnSummaryResponse"
-          }
-        }
+        name: 'releaseId',
+        required: true,
+        type: 'integer',
+        description: 'releaseId (integer) — required.',
       },
-      "required": [
-        "result"
-      ]
-    },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/keys",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "create_dsn_2",
-    "title": "Create dsn 2",
-    "description": "POST /api/v1/projects/{projectId}/keys\n\nMethod: POST /api/v1/projects/{projectId}/keys",
-    "method": "POST",
-    "path": "/api/v1/projects/{projectId}/keys",
-    "pathParams": [
-      {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/SourceMapArtifactResponse',
+          },
         },
-        "projectId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "dsnPublic": {
-          "type": "string"
-        },
-        "dsn": {
-          "type": "string"
-        },
-        "active": {
-          "type": "boolean"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/projects/{projectId}/keys",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "list_alert_rule_3",
-    "title": "List alert rule 3",
-    "description": "GET /api/v1/projects/{projectId}/alert-rules\n\nMethod: GET /api/v1/projects/{projectId}/alert-rules",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/alert-rules",
-    "pathParams": [
-      {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/AlertRuleResponse"
-          }
-        }
       },
-      "required": [
-        "result"
-      ]
+      required: ['result'],
     },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/alert-rules",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "create_alert_rule_3",
-    "title": "Create alert rule 3",
-    "description": "POST /api/v1/projects/{projectId}/alert-rules\n\nMethod: POST /api/v1/projects/{projectId}/alert-rules",
-    "method": "POST",
-    "path": "/api/v1/projects/{projectId}/alert-rules",
-    "pathParams": [
+    name: 'create_source_map_artifact_1',
+    title: 'Create source map artifact 1',
+    description:
+      'POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps\n\nMethod: POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps',
+    method: 'POST',
+    path: '/api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "projectId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "conditions": {
-          "$ref": "#/components/schemas/JsonNode"
-        },
-        "actions": {
-          "$ref": "#/components/schemas/JsonNode"
-        },
-        "throttleSeconds": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "enabled": {
-          "type": "boolean"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/projects/{projectId}/alert-rules",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "org_list_mine",
-    "title": "Org list mine",
-    "description": "GET /api/v1/orgs\n\nMethod: GET /api/v1/orgs",
-    "method": "GET",
-    "path": "/api/v1/orgs",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/OrgResponse"
-          }
-        }
-      },
-      "required": [
-        "result"
-      ]
-    },
-    "annotations": {
-      "title": "GET /api/v1/orgs",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "create_org_4",
-    "title": "Create org 4",
-    "description": "POST /api/v1/orgs\n\nMethod: POST /api/v1/orgs",
-    "method": "POST",
-    "path": "/api/v1/orgs",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "slug": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "plan": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/orgs",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "list_project_4",
-    "title": "List project 4",
-    "description": "GET /api/v1/orgs/{orgId}/projects\n\nMethod: GET /api/v1/orgs/{orgId}/projects",
-    "method": "GET",
-    "path": "/api/v1/orgs/{orgId}/projects",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/ProjectResponse"
-          }
-        }
-      },
-      "required": [
-        "result"
-      ]
-    },
-    "annotations": {
-      "title": "GET /api/v1/orgs/{orgId}/projects",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "create_project_5",
-    "title": "Create project 5",
-    "description": "POST /api/v1/orgs/{orgId}/projects\n\nMethod: POST /api/v1/orgs/{orgId}/projects",
-    "method": "POST",
-    "path": "/api/v1/orgs/{orgId}/projects",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "project": {
-          "$ref": "#/components/schemas/ProjectResponse"
-        },
-        "dsn": {
-          "$ref": "#/components/schemas/DsnResponse"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/orgs/{orgId}/projects",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "list_member_5",
-    "title": "List member 5",
-    "description": "GET /api/v1/orgs/{orgId}/members\n\nMethod: GET /api/v1/orgs/{orgId}/members",
-    "method": "GET",
-    "path": "/api/v1/orgs/{orgId}/members",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/MemberResponse"
-          }
-        }
-      },
-      "required": [
-        "result"
-      ]
-    },
-    "annotations": {
-      "title": "GET /api/v1/orgs/{orgId}/members",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "invite_member",
-    "title": "Invite member",
-    "description": "POST /api/v1/orgs/{orgId}/members\n\nMethod: POST /api/v1/orgs/{orgId}/members",
-    "method": "POST",
-    "path": "/api/v1/orgs/{orgId}/members",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "userId": {
-          "type": "string",
-          "format": "uuid"
-        },
-        "email": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "addedAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/orgs/{orgId}/members",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "checkout_portal",
-    "title": "Checkout portal",
-    "description": "POST /api/v1/orgs/{orgId}/billing/portal\n\nMethod: POST /api/v1/orgs/{orgId}/billing/portal",
-    "method": "POST",
-    "path": "/api/v1/orgs/{orgId}/billing/portal",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/orgs/{orgId}/billing/portal",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "crypto_checkout_start",
-    "title": "Crypto checkout start",
-    "description": "POST /api/v1/orgs/{orgId}/billing/crypto-invoice\n\nMethod: POST /api/v1/orgs/{orgId}/billing/crypto-invoice",
-    "method": "POST",
-    "path": "/api/v1/orgs/{orgId}/billing/crypto-invoice",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [
-      {
-        "name": "tier",
-        "required": false,
-        "type": "string",
-        "description": "tier (string) — optional."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "duration",
-        "required": false,
-        "type": "integer",
-        "description": "duration (integer) — optional."
-      }
-    ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "checkoutUrl": {
-          "type": "string"
-        },
-        "invoiceReference": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/orgs/{orgId}/billing/crypto-invoice",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "checkout_start_1",
-    "title": "Checkout start 1",
-    "description": "POST /api/v1/orgs/{orgId}/billing/checkout-session\n\nMethod: POST /api/v1/orgs/{orgId}/billing/checkout-session",
-    "method": "POST",
-    "path": "/api/v1/orgs/{orgId}/billing/checkout-session",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [
-      {
-        "name": "interval",
-        "required": false,
-        "type": "string",
-        "description": "interval (string) — optional."
-      }
-    ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/orgs/{orgId}/billing/checkout-session",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "list_alert_destination_6",
-    "title": "List alert destination 6",
-    "description": "GET /api/v1/orgs/{orgId}/alert-destinations\n\nMethod: GET /api/v1/orgs/{orgId}/alert-destinations",
-    "method": "GET",
-    "path": "/api/v1/orgs/{orgId}/alert-destinations",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/AlertDestinationResponse"
-          }
-        }
+        name: 'releaseId',
+        required: true,
+        type: 'integer',
+        description: 'releaseId (integer) — required.',
       },
-      "required": [
-        "result"
-      ]
-    },
-    "annotations": {
-      "title": "GET /api/v1/orgs/{orgId}/alert-destinations",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "create_alert_destination_6",
-    "title": "Create alert destination 6",
-    "description": "POST /api/v1/orgs/{orgId}/alert-destinations\n\nMethod: POST /api/v1/orgs/{orgId}/alert-destinations",
-    "method": "POST",
-    "path": "/api/v1/orgs/{orgId}/alert-destinations",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
     ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        artifact: {
+          $ref: '#/components/schemas/SourceMapArtifactResponse',
         },
-        "orgId": {
-          "type": "integer",
-          "format": "int64"
+        uploadUrl: {
+          type: 'string',
+          format: 'uri',
         },
-        "kind": {
-          "type": "string"
+        expiresAt: {
+          type: 'string',
+          format: 'date-time',
         },
-        "name": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/orgs/{orgId}/alert-destinations",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "list_me_tokens_7",
-    "title": "List me tokens 7",
-    "description": "GET /api/v1/me/tokens\n\nMethod: GET /api/v1/me/tokens",
-    "method": "GET",
-    "path": "/api/v1/me/tokens",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/PatResponse"
-          }
-        }
       },
-      "required": [
-        "result"
-      ]
     },
-    "annotations": {
-      "title": "GET /api/v1/me/tokens",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'POST /api/v1/projects/{projectId}/releases/{releaseId}/sourcemaps',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "create_me_tokens_7",
-    "title": "Create me tokens 7",
-    "description": "POST /api/v1/me/tokens\n\nMethod: POST /api/v1/me/tokens",
-    "method": "POST",
-    "path": "/api/v1/me/tokens",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "prefix": {
-          "type": "string"
-        },
-        "token": {
-          "type": "string"
-        },
-        "expiresAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "lastUsedAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "scopes": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/me/tokens",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "me_billing_portal_1",
-    "title": "Me billing portal 1",
-    "description": "POST /api/v1/me/billing/portal\n\nMethod: POST /api/v1/me/billing/portal",
-    "method": "POST",
-    "path": "/api/v1/me/billing/portal",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/me/billing/portal",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "me_billing_crypto_invoice",
-    "title": "Me billing crypto invoice",
-    "description": "POST /api/v1/me/billing/crypto-invoice\n\nMethod: POST /api/v1/me/billing/crypto-invoice",
-    "method": "POST",
-    "path": "/api/v1/me/billing/crypto-invoice",
-    "pathParams": [],
-    "queryParams": [
+    name: 'list_dsn_2',
+    title: 'List dsn 2',
+    description:
+      'GET /api/v1/projects/{projectId}/keys\n\nMethod: GET /api/v1/projects/{projectId}/keys',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/keys',
+    pathParams: [
       {
-        "name": "tier",
-        "required": false,
-        "type": "string",
-        "description": "tier (string) — optional."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
-      {
-        "name": "duration",
-        "required": false,
-        "type": "integer",
-        "description": "duration (integer) — optional."
-      }
     ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "checkoutUrl": {
-          "type": "string"
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/DsnSummaryResponse',
+          },
         },
-        "invoiceReference": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/me/billing/crypto-invoice",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "me_billing_start_2",
-    "title": "Me billing start 2",
-    "description": "POST /api/v1/me/billing/checkout-session\n\nMethod: POST /api/v1/me/billing/checkout-session",
-    "method": "POST",
-    "path": "/api/v1/me/billing/checkout-session",
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "interval",
-        "required": false,
-        "type": "string",
-        "description": "interval (string) — optional."
-      }
-    ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "POST /api/v1/me/billing/checkout-session",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "admin_grant_user",
-    "title": "Admin grant user",
-    "description": "POST /api/v1/admin/users/{userId}/grant\n\nMethod: POST /api/v1/admin/users/{userId}/grant",
-    "method": "POST",
-    "path": "/api/v1/admin/users/{userId}/grant",
-    "pathParams": [
-      {
-        "name": "userId",
-        "required": true,
-        "type": "string",
-        "description": "userId (string) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
-    },
-    "annotations": {
-      "title": "POST /api/v1/admin/users/{userId}/grant",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "admin_revoke_user",
-    "title": "Admin revoke user",
-    "description": "DELETE /api/v1/admin/users/{userId}/grant\n\nMethod: DELETE /api/v1/admin/users/{userId}/grant",
-    "method": "DELETE",
-    "path": "/api/v1/admin/users/{userId}/grant",
-    "pathParams": [
-      {
-        "name": "userId",
-        "required": true,
-        "type": "string",
-        "description": "userId (string) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
-    },
-    "annotations": {
-      "title": "DELETE /api/v1/admin/users/{userId}/grant",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "grant_admin",
-    "title": "Grant admin",
-    "description": "POST /api/v1/admin/orgs/{orgId}/grant\n\nMethod: POST /api/v1/admin/orgs/{orgId}/grant",
-    "method": "POST",
-    "path": "/api/v1/admin/orgs/{orgId}/grant",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
-    },
-    "annotations": {
-      "title": "POST /api/v1/admin/orgs/{orgId}/grant",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "revoke_admin",
-    "title": "Revoke admin",
-    "description": "DELETE /api/v1/admin/orgs/{orgId}/grant\n\nMethod: DELETE /api/v1/admin/orgs/{orgId}/grant",
-    "method": "DELETE",
-    "path": "/api/v1/admin/orgs/{orgId}/grant",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
-    },
-    "annotations": {
-      "title": "DELETE /api/v1/admin/orgs/{orgId}/grant",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "remove_member",
-    "title": "Remove member",
-    "description": "DELETE /api/v1/orgs/{orgId}/members/{userId}\n\nMethod: DELETE /api/v1/orgs/{orgId}/members/{userId}",
-    "method": "DELETE",
-    "path": "/api/v1/orgs/{orgId}/members/{userId}",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
       },
-      {
-        "name": "userId",
-        "required": true,
-        "type": "string",
-        "description": "userId (string) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
+      required: ['result'],
     },
-    "annotations": {
-      "title": "DELETE /api/v1/orgs/{orgId}/members/{userId}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/keys',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "member_change_role",
-    "title": "Member change role",
-    "description": "PATCH /api/v1/orgs/{orgId}/members/{userId}\n\nMethod: PATCH /api/v1/orgs/{orgId}/members/{userId}",
-    "method": "PATCH",
-    "path": "/api/v1/orgs/{orgId}/members/{userId}",
-    "pathParams": [
+    name: 'create_dsn_2',
+    title: 'Create dsn 2',
+    description:
+      'POST /api/v1/projects/{projectId}/keys\n\nMethod: POST /api/v1/projects/{projectId}/keys',
+    method: 'POST',
+    path: '/api/v1/projects/{projectId}/keys',
+    pathParams: [
       {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
+        },
+        projectId: {
+          type: 'integer',
+          format: 'int64',
+        },
+        dsnPublic: {
+          type: 'string',
+        },
+        dsn: {
+          type: 'string',
+        },
+        active: {
+          type: 'boolean',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/projects/{projectId}/keys',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'list_alert_rule_3',
+    title: 'List alert rule 3',
+    description:
+      'GET /api/v1/projects/{projectId}/alert-rules\n\nMethod: GET /api/v1/projects/{projectId}/alert-rules',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/alert-rules',
+    pathParams: [
+      {
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/AlertRuleResponse',
+          },
+        },
+      },
+      required: ['result'],
+    },
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/alert-rules',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'create_alert_rule_3',
+    title: 'Create alert rule 3',
+    description:
+      'POST /api/v1/projects/{projectId}/alert-rules\n\nMethod: POST /api/v1/projects/{projectId}/alert-rules',
+    method: 'POST',
+    path: '/api/v1/projects/{projectId}/alert-rules',
+    pathParams: [
+      {
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
+        },
+        projectId: {
+          type: 'integer',
+          format: 'int64',
+        },
+        name: {
+          type: 'string',
+        },
+        conditions: {
+          $ref: '#/components/schemas/JsonNode',
+        },
+        actions: {
+          $ref: '#/components/schemas/JsonNode',
+        },
+        throttleSeconds: {
+          type: 'integer',
+          format: 'int32',
+        },
+        enabled: {
+          type: 'boolean',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/projects/{projectId}/alert-rules',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'org_list_mine',
+    title: 'Org list mine',
+    description: 'GET /api/v1/orgs\n\nMethod: GET /api/v1/orgs',
+    method: 'GET',
+    path: '/api/v1/orgs',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/OrgResponse',
+          },
+        },
+      },
+      required: ['result'],
+    },
+    annotations: {
+      title: 'GET /api/v1/orgs',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'create_org_4',
+    title: 'Create org 4',
+    description: 'POST /api/v1/orgs\n\nMethod: POST /api/v1/orgs',
+    method: 'POST',
+    path: '/api/v1/orgs',
+    pathParams: [],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
+        },
+        slug: {
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        plan: {
+          type: 'string',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/orgs',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'list_project_4',
+    title: 'List project 4',
+    description: 'GET /api/v1/orgs/{orgId}/projects\n\nMethod: GET /api/v1/orgs/{orgId}/projects',
+    method: 'GET',
+    path: '/api/v1/orgs/{orgId}/projects',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/ProjectResponse',
+          },
+        },
+      },
+      required: ['result'],
+    },
+    annotations: {
+      title: 'GET /api/v1/orgs/{orgId}/projects',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'create_project_5',
+    title: 'Create project 5',
+    description: 'POST /api/v1/orgs/{orgId}/projects\n\nMethod: POST /api/v1/orgs/{orgId}/projects',
+    method: 'POST',
+    path: '/api/v1/orgs/{orgId}/projects',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        project: {
+          $ref: '#/components/schemas/ProjectResponse',
+        },
+        dsn: {
+          $ref: '#/components/schemas/DsnResponse',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/orgs/{orgId}/projects',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'list_member_5',
+    title: 'List member 5',
+    description: 'GET /api/v1/orgs/{orgId}/members\n\nMethod: GET /api/v1/orgs/{orgId}/members',
+    method: 'GET',
+    path: '/api/v1/orgs/{orgId}/members',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/MemberResponse',
+          },
+        },
+      },
+      required: ['result'],
+    },
+    annotations: {
+      title: 'GET /api/v1/orgs/{orgId}/members',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'invite_member',
+    title: 'Invite member',
+    description: 'POST /api/v1/orgs/{orgId}/members\n\nMethod: POST /api/v1/orgs/{orgId}/members',
+    method: 'POST',
+    path: '/api/v1/orgs/{orgId}/members',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        userId: {
+          type: 'string',
+          format: 'uuid',
+        },
+        email: {
+          type: 'string',
+        },
+        displayName: {
+          type: 'string',
+        },
+        role: {
+          type: 'string',
+        },
+        addedAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/orgs/{orgId}/members',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'checkout_portal',
+    title: 'Checkout portal',
+    description:
+      'POST /api/v1/orgs/{orgId}/billing/portal\n\nMethod: POST /api/v1/orgs/{orgId}/billing/portal',
+    method: 'POST',
+    path: '/api/v1/orgs/{orgId}/billing/portal',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        url: {
+          type: 'string',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/orgs/{orgId}/billing/portal',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'crypto_checkout_start',
+    title: 'Crypto checkout start',
+    description:
+      'POST /api/v1/orgs/{orgId}/billing/crypto-invoice\n\nMethod: POST /api/v1/orgs/{orgId}/billing/crypto-invoice',
+    method: 'POST',
+    path: '/api/v1/orgs/{orgId}/billing/crypto-invoice',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [
+      {
+        name: 'tier',
+        required: false,
+        type: 'string',
+        description: 'tier (string) — optional.',
       },
       {
-        "name": "userId",
-        "required": true,
-        "type": "string",
-        "description": "userId (string) — required."
-      }
+        name: 'duration',
+        required: false,
+        type: 'integer',
+        description: 'duration (integer) — optional.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": true,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "userId": {
-          "type": "string",
-          "format": "uuid"
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        checkoutUrl: {
+          type: 'string',
         },
-        "email": {
-          "type": "string"
+        invoiceReference: {
+          type: 'string',
         },
-        "displayName": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "addedAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+      },
     },
-    "annotations": {
-      "title": "PATCH /api/v1/orgs/{orgId}/members/{userId}",
-      "readOnlyHint": false,
-      "idempotentHint": false,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'POST /api/v1/orgs/{orgId}/billing/crypto-invoice',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "list_issue_8",
-    "title": "List issue 8",
-    "description": "GET /api/v1/projects/{projectId}/issues\n\nMethod: GET /api/v1/projects/{projectId}/issues",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/issues",
-    "pathParams": [
+    name: 'checkout_start_1',
+    title: 'Checkout start 1',
+    description:
+      'POST /api/v1/orgs/{orgId}/billing/checkout-session\n\nMethod: POST /api/v1/orgs/{orgId}/billing/checkout-session',
+    method: 'POST',
+    path: '/api/v1/orgs/{orgId}/billing/checkout-session',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
     ],
-    "queryParams": [
+    queryParams: [
       {
-        "name": "status",
-        "required": false,
-        "type": "string",
-        "description": "status (string) — optional."
+        name: 'interval',
+        required: false,
+        type: 'string',
+        description: 'interval (string) — optional.',
+      },
+    ],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        url: {
+          type: 'string',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/orgs/{orgId}/billing/checkout-session',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'list_alert_destination_6',
+    title: 'List alert destination 6',
+    description:
+      'GET /api/v1/orgs/{orgId}/alert-destinations\n\nMethod: GET /api/v1/orgs/{orgId}/alert-destinations',
+    method: 'GET',
+    path: '/api/v1/orgs/{orgId}/alert-destinations',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/AlertDestinationResponse',
+          },
+        },
+      },
+      required: ['result'],
+    },
+    annotations: {
+      title: 'GET /api/v1/orgs/{orgId}/alert-destinations',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'create_alert_destination_6',
+    title: 'Create alert destination 6',
+    description:
+      'POST /api/v1/orgs/{orgId}/alert-destinations\n\nMethod: POST /api/v1/orgs/{orgId}/alert-destinations',
+    method: 'POST',
+    path: '/api/v1/orgs/{orgId}/alert-destinations',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
+        },
+        orgId: {
+          type: 'integer',
+          format: 'int64',
+        },
+        kind: {
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/orgs/{orgId}/alert-destinations',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'list_me_tokens_7',
+    title: 'List me tokens 7',
+    description: 'GET /api/v1/me/tokens\n\nMethod: GET /api/v1/me/tokens',
+    method: 'GET',
+    path: '/api/v1/me/tokens',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/PatResponse',
+          },
+        },
+      },
+      required: ['result'],
+    },
+    annotations: {
+      title: 'GET /api/v1/me/tokens',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'create_me_tokens_7',
+    title: 'Create me tokens 7',
+    description: 'POST /api/v1/me/tokens\n\nMethod: POST /api/v1/me/tokens',
+    method: 'POST',
+    path: '/api/v1/me/tokens',
+    pathParams: [],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
+        },
+        name: {
+          type: 'string',
+        },
+        prefix: {
+          type: 'string',
+        },
+        token: {
+          type: 'string',
+        },
+        expiresAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        lastUsedAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        scopes: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/me/tokens',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'me_billing_portal_1',
+    title: 'Me billing portal 1',
+    description: 'POST /api/v1/me/billing/portal\n\nMethod: POST /api/v1/me/billing/portal',
+    method: 'POST',
+    path: '/api/v1/me/billing/portal',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        url: {
+          type: 'string',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/me/billing/portal',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'me_billing_crypto_invoice',
+    title: 'Me billing crypto invoice',
+    description:
+      'POST /api/v1/me/billing/crypto-invoice\n\nMethod: POST /api/v1/me/billing/crypto-invoice',
+    method: 'POST',
+    path: '/api/v1/me/billing/crypto-invoice',
+    pathParams: [],
+    queryParams: [
+      {
+        name: 'tier',
+        required: false,
+        type: 'string',
+        description: 'tier (string) — optional.',
       },
       {
-        "name": "level",
-        "required": false,
-        "type": "string",
-        "description": "level (string) — optional."
+        name: 'duration',
+        required: false,
+        type: 'integer',
+        description: 'duration (integer) — optional.',
+      },
+    ],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        checkoutUrl: {
+          type: 'string',
+        },
+        invoiceReference: {
+          type: 'string',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/me/billing/crypto-invoice',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'me_billing_start_2',
+    title: 'Me billing start 2',
+    description:
+      'POST /api/v1/me/billing/checkout-session\n\nMethod: POST /api/v1/me/billing/checkout-session',
+    method: 'POST',
+    path: '/api/v1/me/billing/checkout-session',
+    pathParams: [],
+    queryParams: [
+      {
+        name: 'interval',
+        required: false,
+        type: 'string',
+        description: 'interval (string) — optional.',
+      },
+    ],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        url: {
+          type: 'string',
+        },
+      },
+    },
+    annotations: {
+      title: 'POST /api/v1/me/billing/checkout-session',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'admin_grant_user',
+    title: 'Admin grant user',
+    description:
+      'POST /api/v1/admin/users/{userId}/grant\n\nMethod: POST /api/v1/admin/users/{userId}/grant',
+    method: 'POST',
+    path: '/api/v1/admin/users/{userId}/grant',
+    pathParams: [
+      {
+        name: 'userId',
+        required: true,
+        type: 'string',
+        description: 'userId (string) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'POST /api/v1/admin/users/{userId}/grant',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'admin_revoke_user',
+    title: 'Admin revoke user',
+    description:
+      'DELETE /api/v1/admin/users/{userId}/grant\n\nMethod: DELETE /api/v1/admin/users/{userId}/grant',
+    method: 'DELETE',
+    path: '/api/v1/admin/users/{userId}/grant',
+    pathParams: [
+      {
+        name: 'userId',
+        required: true,
+        type: 'string',
+        description: 'userId (string) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'DELETE /api/v1/admin/users/{userId}/grant',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'grant_admin',
+    title: 'Grant admin',
+    description:
+      'POST /api/v1/admin/orgs/{orgId}/grant\n\nMethod: POST /api/v1/admin/orgs/{orgId}/grant',
+    method: 'POST',
+    path: '/api/v1/admin/orgs/{orgId}/grant',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'POST /api/v1/admin/orgs/{orgId}/grant',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'revoke_admin',
+    title: 'Revoke admin',
+    description:
+      'DELETE /api/v1/admin/orgs/{orgId}/grant\n\nMethod: DELETE /api/v1/admin/orgs/{orgId}/grant',
+    method: 'DELETE',
+    path: '/api/v1/admin/orgs/{orgId}/grant',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'DELETE /api/v1/admin/orgs/{orgId}/grant',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'remove_member',
+    title: 'Remove member',
+    description:
+      'DELETE /api/v1/orgs/{orgId}/members/{userId}\n\nMethod: DELETE /api/v1/orgs/{orgId}/members/{userId}',
+    method: 'DELETE',
+    path: '/api/v1/orgs/{orgId}/members/{userId}',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
       },
       {
-        "name": "cursor",
-        "required": false,
-        "type": "string",
-        "description": "cursor (string) — optional."
+        name: 'userId',
+        required: true,
+        type: 'string',
+        description: 'userId (string) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'DELETE /api/v1/orgs/{orgId}/members/{userId}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'member_change_role',
+    title: 'Member change role',
+    description:
+      'PATCH /api/v1/orgs/{orgId}/members/{userId}\n\nMethod: PATCH /api/v1/orgs/{orgId}/members/{userId}',
+    method: 'PATCH',
+    path: '/api/v1/orgs/{orgId}/members/{userId}',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
       },
       {
-        "name": "limit",
-        "required": false,
-        "type": "integer",
-        "description": "limit (integer) — optional."
-      }
+        name: 'userId',
+        required: true,
+        type: 'string',
+        description: 'userId (string) — required.',
+      },
     ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/IssueResponse"
-          }
+    queryParams: [],
+    hasBody: true,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        userId: {
+          type: 'string',
+          format: 'uuid',
         },
-        "page": {
-          "$ref": "#/components/schemas/PageMeta"
-        }
-      }
+        email: {
+          type: 'string',
+        },
+        displayName: {
+          type: 'string',
+        },
+        role: {
+          type: 'string',
+        },
+        addedAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/issues",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'PATCH /api/v1/orgs/{orgId}/members/{userId}',
+      readOnlyHint: false,
+      idempotentHint: false,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "issue_get_one",
-    "title": "Issue get one",
-    "description": "GET /api/v1/projects/{projectId}/issues/{issueId}\n\nMethod: GET /api/v1/projects/{projectId}/issues/{issueId}",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/issues/{issueId}",
-    "pathParams": [
+    name: 'list_issue_8',
+    title: 'List issue 8',
+    description:
+      'GET /api/v1/projects/{projectId}/issues\n\nMethod: GET /api/v1/projects/{projectId}/issues',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/issues',
+    pathParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
+    ],
+    queryParams: [
+      {
+        name: 'status',
+        required: false,
+        type: 'string',
+        description: 'status (string) — optional.',
       },
       {
-        "name": "issueId",
-        "required": true,
-        "type": "integer",
-        "description": "issueId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "projectId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "fingerprint": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        },
-        "level": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "culprit": {
-          "type": "string"
-        },
-        "firstSeenAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "lastSeenAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "occurrenceCount": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/issues/{issueId}",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "issue_list_events",
-    "title": "Issue list events",
-    "description": "GET /api/v1/projects/{projectId}/issues/{issueId}/events\n\nMethod: GET /api/v1/projects/{projectId}/issues/{issueId}/events",
-    "method": "GET",
-    "path": "/api/v1/projects/{projectId}/issues/{issueId}/events",
-    "pathParams": [
-      {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'level',
+        required: false,
+        type: 'string',
+        description: 'level (string) — optional.',
       },
       {
-        "name": "issueId",
-        "required": true,
-        "type": "integer",
-        "description": "issueId (integer) — required."
-      }
-    ],
-    "queryParams": [
-      {
-        "name": "cursor",
-        "required": false,
-        "type": "string",
-        "description": "cursor (string) — optional."
+        name: 'cursor',
+        required: false,
+        type: 'string',
+        description: 'cursor (string) — optional.',
       },
       {
-        "name": "limit",
-        "required": false,
-        "type": "integer",
-        "description": "limit (integer) — optional."
-      }
-    ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/EventResponse"
-          }
-        },
-        "page": {
-          "$ref": "#/components/schemas/PageMeta"
-        }
-      }
-    },
-    "annotations": {
-      "title": "GET /api/v1/projects/{projectId}/issues/{issueId}/events",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "list_platform_9",
-    "title": "List platform 9",
-    "description": "GET /api/v1/platforms\n\nMethod: GET /api/v1/platforms",
-    "method": "GET",
-    "path": "/api/v1/platforms",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "result": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/PlatformResponse"
-          }
-        }
+        name: 'limit',
+        required: false,
+        type: 'integer',
+        description: 'limit (integer) — optional.',
       },
-      "required": [
-        "result"
-      ]
-    },
-    "annotations": {
-      "title": "GET /api/v1/platforms",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "usage_current",
-    "title": "Usage current",
-    "description": "GET /api/v1/orgs/{orgId}/usage\n\nMethod: GET /api/v1/orgs/{orgId}/usage",
-    "method": "GET",
-    "path": "/api/v1/orgs/{orgId}/usage",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "plan": {
-          "type": "string"
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        data: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/IssueResponse',
+          },
         },
-        "monthlyPriceCents": {
-          "type": "integer",
-          "format": "int32"
+        page: {
+          $ref: '#/components/schemas/PageMeta',
         },
-        "eventsUsed": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "eventCap": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "projectCap": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "retentionDays": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "ratio": {
-          "type": "number",
-          "format": "double"
-        },
-        "exceeded": {
-          "type": "boolean"
-        },
-        "paymentGraceUntil": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "billingInterval": {
-          "type": "string"
-        },
-        "renewsAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "bonus": {
-          "$ref": "#/components/schemas/BonusInfo"
-        }
-      }
+      },
     },
-    "annotations": {
-      "title": "GET /api/v1/orgs/{orgId}/usage",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/issues',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "get_project_3",
-    "title": "Get project 3",
-    "description": "GET /api/v1/orgs/{orgId}/projects/{projectId}\n\nMethod: GET /api/v1/orgs/{orgId}/projects/{projectId}",
-    "method": "GET",
-    "path": "/api/v1/orgs/{orgId}/projects/{projectId}",
-    "pathParams": [
+    name: 'issue_get_one',
+    title: 'Issue get one',
+    description:
+      'GET /api/v1/projects/{projectId}/issues/{issueId}\n\nMethod: GET /api/v1/projects/{projectId}/issues/{issueId}',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/issues/{issueId}',
+    pathParams: [
       {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
+        name: 'issueId',
+        required: true,
+        type: 'integer',
+        description: 'issueId (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
         },
-        "orgId": {
-          "type": "integer",
-          "format": "int64"
+        projectId: {
+          type: 'integer',
+          format: 'int64',
         },
-        "slug": {
-          "type": "string"
+        fingerprint: {
+          type: 'string',
         },
-        "name": {
-          "type": "string"
+        status: {
+          type: 'string',
         },
-        "platform": {
-          "type": "string"
+        level: {
+          type: 'string',
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
+        title: {
+          type: 'string',
+        },
+        culprit: {
+          type: 'string',
+        },
+        firstSeenAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        lastSeenAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        occurrenceCount: {
+          type: 'integer',
+          format: 'int64',
+        },
+      },
     },
-    "annotations": {
-      "title": "GET /api/v1/orgs/{orgId}/projects/{projectId}",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/issues/{issueId}',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "archive_project",
-    "title": "Archive project",
-    "description": "DELETE /api/v1/orgs/{orgId}/projects/{projectId}\n\nMethod: DELETE /api/v1/orgs/{orgId}/projects/{projectId}",
-    "method": "DELETE",
-    "path": "/api/v1/orgs/{orgId}/projects/{projectId}",
-    "pathParams": [
+    name: 'issue_list_events',
+    title: 'Issue list events',
+    description:
+      'GET /api/v1/projects/{projectId}/issues/{issueId}/events\n\nMethod: GET /api/v1/projects/{projectId}/issues/{issueId}/events',
+    method: 'GET',
+    path: '/api/v1/projects/{projectId}/issues/{issueId}/events',
+    pathParams: [
       {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
       },
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
-      }
+        name: 'issueId',
+        required: true,
+        type: 'integer',
+        description: 'issueId (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
-    },
-    "annotations": {
-      "title": "DELETE /api/v1/orgs/{orgId}/projects/{projectId}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "me_me",
-    "title": "Me me",
-    "description": "GET /api/v1/me\n\nMethod: GET /api/v1/me",
-    "method": "GET",
-    "path": "/api/v1/me",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "userId": {
-          "type": "string",
-          "format": "uuid"
-        },
-        "email": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "isPlatformAdmin": {
-          "type": "boolean"
-        },
-        "plan": {
-          "type": "string"
-        },
-        "planRenewsAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "paymentGraceUntil": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "bonusUntil": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "bonusReason": {
-          "type": "string"
-        }
-      }
-    },
-    "annotations": {
-      "title": "GET /api/v1/me",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "info_health_info",
-    "title": "Info health info",
-    "description": "GET /api/v1/info\n\nMethod: GET /api/v1/info",
-    "method": "GET",
-    "path": "/api/v1/info",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
-    },
-    "annotations": {
-      "title": "GET /api/v1/info",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "billing_plans_plans",
-    "title": "Billing plans plans",
-    "description": "GET /api/v1/billing/plans\n\nMethod: GET /api/v1/billing/plans",
-    "method": "GET",
-    "path": "/api/v1/billing/plans",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "currency": {
-          "type": "string"
-        },
-        "tiers": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/TierInfo"
-          }
-        }
-      }
-    },
-    "annotations": {
-      "title": "GET /api/v1/billing/plans",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "admin_users",
-    "title": "Admin users",
-    "description": "GET /api/v1/admin/users\n\nMethod: GET /api/v1/admin/users",
-    "method": "GET",
-    "path": "/api/v1/admin/users",
-    "pathParams": [],
-    "queryParams": [
+    queryParams: [
       {
-        "name": "q",
-        "required": false,
-        "type": "string",
-        "description": "q (string) — optional."
+        name: 'cursor',
+        required: false,
+        type: 'string',
+        description: 'cursor (string) — optional.',
       },
       {
-        "name": "offset",
-        "required": false,
-        "type": "integer",
-        "description": "offset (integer) — optional."
+        name: 'limit',
+        required: false,
+        type: 'integer',
+        description: 'limit (integer) — optional.',
+      },
+    ],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        data: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/EventResponse',
+          },
+        },
+        page: {
+          $ref: '#/components/schemas/PageMeta',
+        },
+      },
+    },
+    annotations: {
+      title: 'GET /api/v1/projects/{projectId}/issues/{issueId}/events',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'list_platform_9',
+    title: 'List platform 9',
+    description: 'GET /api/v1/platforms\n\nMethod: GET /api/v1/platforms',
+    method: 'GET',
+    path: '/api/v1/platforms',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        result: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/PlatformResponse',
+          },
+        },
+      },
+      required: ['result'],
+    },
+    annotations: {
+      title: 'GET /api/v1/platforms',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'usage_current',
+    title: 'Usage current',
+    description: 'GET /api/v1/orgs/{orgId}/usage\n\nMethod: GET /api/v1/orgs/{orgId}/usage',
+    method: 'GET',
+    path: '/api/v1/orgs/{orgId}/usage',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        plan: {
+          type: 'string',
+        },
+        monthlyPriceCents: {
+          type: 'integer',
+          format: 'int32',
+        },
+        eventsUsed: {
+          type: 'integer',
+          format: 'int64',
+        },
+        eventCap: {
+          type: 'integer',
+          format: 'int64',
+        },
+        projectCap: {
+          type: 'integer',
+          format: 'int32',
+        },
+        retentionDays: {
+          type: 'integer',
+          format: 'int64',
+        },
+        ratio: {
+          type: 'number',
+          format: 'double',
+        },
+        exceeded: {
+          type: 'boolean',
+        },
+        paymentGraceUntil: {
+          type: 'string',
+          format: 'date-time',
+        },
+        billingInterval: {
+          type: 'string',
+        },
+        renewsAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        bonus: {
+          $ref: '#/components/schemas/BonusInfo',
+        },
+      },
+    },
+    annotations: {
+      title: 'GET /api/v1/orgs/{orgId}/usage',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'get_project_3',
+    title: 'Get project 3',
+    description:
+      'GET /api/v1/orgs/{orgId}/projects/{projectId}\n\nMethod: GET /api/v1/orgs/{orgId}/projects/{projectId}',
+    method: 'GET',
+    path: '/api/v1/orgs/{orgId}/projects/{projectId}',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
       },
       {
-        "name": "limit",
-        "required": false,
-        "type": "integer",
-        "description": "limit (integer) — optional."
-      }
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
     ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/AdminUserResponse"
-          }
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer',
+          format: 'int64',
         },
-        "total": {
-          "type": "integer",
-          "format": "int64"
+        orgId: {
+          type: 'integer',
+          format: 'int64',
         },
-        "offset": {
-          "type": "integer",
-          "format": "int32"
+        slug: {
+          type: 'string',
         },
-        "limit": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
+        name: {
+          type: 'string',
+        },
+        platform: {
+          type: 'string',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "GET /api/v1/admin/users",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/orgs/{orgId}/projects/{projectId}',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "admin_stats",
-    "title": "Admin stats",
-    "description": "GET /api/v1/admin/stats\n\nMethod: GET /api/v1/admin/stats",
-    "method": "GET",
-    "path": "/api/v1/admin/stats",
-    "pathParams": [],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "totalUsers": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "totalOrgs": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "totalProjects": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "totalIssues": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "orgsByPlan": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "activeBonusGrants": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "events7d": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "events30d": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
-    "annotations": {
-      "title": "GET /api/v1/admin/stats",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "admin_orgs",
-    "title": "Admin orgs",
-    "description": "GET /api/v1/admin/orgs\n\nMethod: GET /api/v1/admin/orgs",
-    "method": "GET",
-    "path": "/api/v1/admin/orgs",
-    "pathParams": [],
-    "queryParams": [
+    name: 'archive_project',
+    title: 'Archive project',
+    description:
+      'DELETE /api/v1/orgs/{orgId}/projects/{projectId}\n\nMethod: DELETE /api/v1/orgs/{orgId}/projects/{projectId}',
+    method: 'DELETE',
+    path: '/api/v1/orgs/{orgId}/projects/{projectId}',
+    pathParams: [
       {
-        "name": "q",
-        "required": false,
-        "type": "string",
-        "description": "q (string) — optional."
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
       },
       {
-        "name": "offset",
-        "required": false,
-        "type": "integer",
-        "description": "offset (integer) — optional."
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'DELETE /api/v1/orgs/{orgId}/projects/{projectId}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'me_me',
+    title: 'Me me',
+    description: 'GET /api/v1/me\n\nMethod: GET /api/v1/me',
+    method: 'GET',
+    path: '/api/v1/me',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        userId: {
+          type: 'string',
+          format: 'uuid',
+        },
+        email: {
+          type: 'string',
+        },
+        displayName: {
+          type: 'string',
+        },
+        isPlatformAdmin: {
+          type: 'boolean',
+        },
+        plan: {
+          type: 'string',
+        },
+        planRenewsAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        paymentGraceUntil: {
+          type: 'string',
+          format: 'date-time',
+        },
+        bonusUntil: {
+          type: 'string',
+          format: 'date-time',
+        },
+        bonusReason: {
+          type: 'string',
+        },
+      },
+    },
+    annotations: {
+      title: 'GET /api/v1/me',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'info_health_info',
+    title: 'Info health info',
+    description: 'GET /api/v1/info\n\nMethod: GET /api/v1/info',
+    method: 'GET',
+    path: '/api/v1/info',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'GET /api/v1/info',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'billing_plans_plans',
+    title: 'Billing plans plans',
+    description: 'GET /api/v1/billing/plans\n\nMethod: GET /api/v1/billing/plans',
+    method: 'GET',
+    path: '/api/v1/billing/plans',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        currency: {
+          type: 'string',
+        },
+        tiers: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/TierInfo',
+          },
+        },
+      },
+    },
+    annotations: {
+      title: 'GET /api/v1/billing/plans',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'admin_users',
+    title: 'Admin users',
+    description: 'GET /api/v1/admin/users\n\nMethod: GET /api/v1/admin/users',
+    method: 'GET',
+    path: '/api/v1/admin/users',
+    pathParams: [],
+    queryParams: [
+      {
+        name: 'q',
+        required: false,
+        type: 'string',
+        description: 'q (string) — optional.',
       },
       {
-        "name": "limit",
-        "required": false,
-        "type": "integer",
-        "description": "limit (integer) — optional."
-      }
-    ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/AdminOrgResponse"
-          }
-        },
-        "total": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "offset": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "annotations": {
-      "title": "GET /api/v1/admin/orgs",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "admin_org",
-    "title": "Admin org",
-    "description": "GET /api/v1/admin/orgs/{orgId}\n\nMethod: GET /api/v1/admin/orgs/{orgId}",
-    "method": "GET",
-    "path": "/api/v1/admin/orgs/{orgId}",
-    "pathParams": [
-      {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
-    ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "orgId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "slug": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "plan": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "ownerId": {
-          "type": "string",
-          "format": "uuid"
-        },
-        "ownerEmail": {
-          "type": "string"
-        },
-        "projects": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "members": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "events30d": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "renewsAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "bonusUntil": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "bonusReason": {
-          "type": "string"
-        },
-        "bonusGrantedByEmail": {
-          "type": "string"
-        },
-        "paymentGraceUntil": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "annotations": {
-      "title": "GET /api/v1/admin/orgs/{orgId}",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "admin_audit",
-    "title": "Admin audit",
-    "description": "GET /api/v1/admin/audit\n\nMethod: GET /api/v1/admin/audit",
-    "method": "GET",
-    "path": "/api/v1/admin/audit",
-    "pathParams": [],
-    "queryParams": [
-      {
-        "name": "offset",
-        "required": false,
-        "type": "integer",
-        "description": "offset (integer) — optional."
+        name: 'offset',
+        required: false,
+        type: 'integer',
+        description: 'offset (integer) — optional.',
       },
       {
-        "name": "limit",
-        "required": false,
-        "type": "integer",
-        "description": "limit (integer) — optional."
-      }
+        name: 'limit',
+        required: false,
+        type: 'integer',
+        description: 'limit (integer) — optional.',
+      },
     ],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/AdminAuditResponse"
-          }
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        items: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/AdminUserResponse',
+          },
         },
-        "total": {
-          "type": "integer",
-          "format": "int64"
+        total: {
+          type: 'integer',
+          format: 'int64',
         },
-        "offset": {
-          "type": "integer",
-          "format": "int32"
+        offset: {
+          type: 'integer',
+          format: 'int32',
         },
-        "limit": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
+        limit: {
+          type: 'integer',
+          format: 'int32',
+        },
+      },
     },
-    "annotations": {
-      "title": "GET /api/v1/admin/audit",
-      "readOnlyHint": true,
-      "idempotentHint": true,
-      "destructiveHint": false,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/admin/users',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "revoke_dsn_1",
-    "title": "Revoke dsn 1",
-    "description": "DELETE /api/v1/projects/{projectId}/keys/{keyId}\n\nMethod: DELETE /api/v1/projects/{projectId}/keys/{keyId}",
-    "method": "DELETE",
-    "path": "/api/v1/projects/{projectId}/keys/{keyId}",
-    "pathParams": [
+    name: 'admin_stats',
+    title: 'Admin stats',
+    description: 'GET /api/v1/admin/stats\n\nMethod: GET /api/v1/admin/stats',
+    method: 'GET',
+    path: '/api/v1/admin/stats',
+    pathParams: [],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        totalUsers: {
+          type: 'integer',
+          format: 'int64',
+        },
+        totalOrgs: {
+          type: 'integer',
+          format: 'int64',
+        },
+        totalProjects: {
+          type: 'integer',
+          format: 'int64',
+        },
+        totalIssues: {
+          type: 'integer',
+          format: 'int64',
+        },
+        orgsByPlan: {
+          type: 'object',
+          additionalProperties: {
+            type: 'integer',
+            format: 'int64',
+          },
+        },
+        activeBonusGrants: {
+          type: 'integer',
+          format: 'int64',
+        },
+        events7d: {
+          type: 'integer',
+          format: 'int64',
+        },
+        events30d: {
+          type: 'integer',
+          format: 'int64',
+        },
+      },
+    },
+    annotations: {
+      title: 'GET /api/v1/admin/stats',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'admin_orgs',
+    title: 'Admin orgs',
+    description: 'GET /api/v1/admin/orgs\n\nMethod: GET /api/v1/admin/orgs',
+    method: 'GET',
+    path: '/api/v1/admin/orgs',
+    pathParams: [],
+    queryParams: [
       {
-        "name": "projectId",
-        "required": true,
-        "type": "integer",
-        "description": "projectId (integer) — required."
+        name: 'q',
+        required: false,
+        type: 'string',
+        description: 'q (string) — optional.',
       },
       {
-        "name": "keyId",
-        "required": true,
-        "type": "integer",
-        "description": "keyId (integer) — required."
-      }
+        name: 'offset',
+        required: false,
+        type: 'integer',
+        description: 'offset (integer) — optional.',
+      },
+      {
+        name: 'limit',
+        required: false,
+        type: 'integer',
+        description: 'limit (integer) — optional.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        items: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/AdminOrgResponse',
+          },
+        },
+        total: {
+          type: 'integer',
+          format: 'int64',
+        },
+        offset: {
+          type: 'integer',
+          format: 'int32',
+        },
+        limit: {
+          type: 'integer',
+          format: 'int32',
+        },
+      },
     },
-    "annotations": {
-      "title": "DELETE /api/v1/projects/{projectId}/keys/{keyId}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/admin/orgs',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "delete_org_3",
-    "title": "Delete org 3",
-    "description": "DELETE /api/v1/orgs/{orgId}\n\nMethod: DELETE /api/v1/orgs/{orgId}",
-    "method": "DELETE",
-    "path": "/api/v1/orgs/{orgId}",
-    "pathParams": [
+    name: 'admin_org',
+    title: 'Admin org',
+    description: 'GET /api/v1/admin/orgs/{orgId}\n\nMethod: GET /api/v1/admin/orgs/{orgId}',
+    method: 'GET',
+    path: '/api/v1/admin/orgs/{orgId}',
+    pathParams: [
       {
-        "name": "orgId",
-        "required": true,
-        "type": "integer",
-        "description": "orgId (integer) — required."
-      }
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        orgId: {
+          type: 'integer',
+          format: 'int64',
+        },
+        slug: {
+          type: 'string',
+        },
+        name: {
+          type: 'string',
+        },
+        plan: {
+          type: 'string',
+        },
+        createdAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        ownerId: {
+          type: 'string',
+          format: 'uuid',
+        },
+        ownerEmail: {
+          type: 'string',
+        },
+        projects: {
+          type: 'integer',
+          format: 'int32',
+        },
+        members: {
+          type: 'integer',
+          format: 'int32',
+        },
+        events30d: {
+          type: 'integer',
+          format: 'int64',
+        },
+        renewsAt: {
+          type: 'string',
+          format: 'date-time',
+        },
+        bonusUntil: {
+          type: 'string',
+          format: 'date-time',
+        },
+        bonusReason: {
+          type: 'string',
+        },
+        bonusGrantedByEmail: {
+          type: 'string',
+        },
+        paymentGraceUntil: {
+          type: 'string',
+          format: 'date-time',
+        },
+      },
     },
-    "annotations": {
-      "title": "DELETE /api/v1/orgs/{orgId}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
+    annotations: {
+      title: 'GET /api/v1/admin/orgs/{orgId}',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
   },
   {
-    "name": "delete_me_tokens_4",
-    "title": "Delete me tokens 4",
-    "description": "DELETE /api/v1/me/tokens/{id}\n\nMethod: DELETE /api/v1/me/tokens/{id}",
-    "method": "DELETE",
-    "path": "/api/v1/me/tokens/{id}",
-    "pathParams": [
+    name: 'admin_audit',
+    title: 'Admin audit',
+    description: 'GET /api/v1/admin/audit\n\nMethod: GET /api/v1/admin/audit',
+    method: 'GET',
+    path: '/api/v1/admin/audit',
+    pathParams: [],
+    queryParams: [
       {
-        "name": "id",
-        "required": true,
-        "type": "integer",
-        "description": "id (integer) — required."
-      }
+        name: 'offset',
+        required: false,
+        type: 'integer',
+        description: 'offset (integer) — optional.',
+      },
+      {
+        name: 'limit',
+        required: false,
+        type: 'integer',
+        description: 'limit (integer) — optional.',
+      },
     ],
-    "queryParams": [],
-    "hasBody": false,
-    "outputSchema": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "No response body — successful response is a 204 No Content or similar."
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      properties: {
+        items: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/AdminAuditResponse',
+          },
+        },
+        total: {
+          type: 'integer',
+          format: 'int64',
+        },
+        offset: {
+          type: 'integer',
+          format: 'int32',
+        },
+        limit: {
+          type: 'integer',
+          format: 'int32',
+        },
+      },
     },
-    "annotations": {
-      "title": "DELETE /api/v1/me/tokens/{id}",
-      "readOnlyHint": false,
-      "idempotentHint": true,
-      "destructiveHint": true,
-      "openWorldHint": true
-    }
-  }
+    annotations: {
+      title: 'GET /api/v1/admin/audit',
+      readOnlyHint: true,
+      idempotentHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'revoke_dsn_1',
+    title: 'Revoke dsn 1',
+    description:
+      'DELETE /api/v1/projects/{projectId}/keys/{keyId}\n\nMethod: DELETE /api/v1/projects/{projectId}/keys/{keyId}',
+    method: 'DELETE',
+    path: '/api/v1/projects/{projectId}/keys/{keyId}',
+    pathParams: [
+      {
+        name: 'projectId',
+        required: true,
+        type: 'integer',
+        description: 'projectId (integer) — required.',
+      },
+      {
+        name: 'keyId',
+        required: true,
+        type: 'integer',
+        description: 'keyId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'DELETE /api/v1/projects/{projectId}/keys/{keyId}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'delete_org_3',
+    title: 'Delete org 3',
+    description: 'DELETE /api/v1/orgs/{orgId}\n\nMethod: DELETE /api/v1/orgs/{orgId}',
+    method: 'DELETE',
+    path: '/api/v1/orgs/{orgId}',
+    pathParams: [
+      {
+        name: 'orgId',
+        required: true,
+        type: 'integer',
+        description: 'orgId (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'DELETE /api/v1/orgs/{orgId}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
+  },
+  {
+    name: 'delete_me_tokens_4',
+    title: 'Delete me tokens 4',
+    description: 'DELETE /api/v1/me/tokens/{id}\n\nMethod: DELETE /api/v1/me/tokens/{id}',
+    method: 'DELETE',
+    path: '/api/v1/me/tokens/{id}',
+    pathParams: [
+      {
+        name: 'id',
+        required: true,
+        type: 'integer',
+        description: 'id (integer) — required.',
+      },
+    ],
+    queryParams: [],
+    hasBody: false,
+    outputSchema: {
+      type: 'object',
+      additionalProperties: true,
+      description: 'No response body — successful response is a 204 No Content or similar.',
+    },
+    annotations: {
+      title: 'DELETE /api/v1/me/tokens/{id}',
+      readOnlyHint: false,
+      idempotentHint: true,
+      destructiveHint: true,
+      openWorldHint: true,
+    },
+  },
 ];
