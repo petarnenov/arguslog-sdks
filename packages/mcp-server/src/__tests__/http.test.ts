@@ -101,7 +101,7 @@ describe('createApp — security middleware', () => {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-cf-origin-token': 'not-the-real-token',
+          'x-origin-token': 'not-the-real-token',
         },
         body: JSON.stringify({ jsonrpc: '2.0', method: 'tools/list', id: 1 }),
       });
@@ -120,7 +120,7 @@ describe('createApp — security middleware', () => {
         headers: {
           'content-type': 'application/json',
           'accept': 'application/json, text/event-stream',
-          'x-cf-origin-token': 'secret-token-value',
+          'x-origin-token': 'secret-token-value',
         },
         body: JSON.stringify({ jsonrpc: '2.0', method: 'tools/list', id: 1 }),
       });

@@ -159,7 +159,7 @@ explain to the user what scope is missing.
 | ----------------------------- | ----------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ARGUSLOG_PAT`                | stdio mode only   | —                             | Bearer token from the dashboard. Not needed for the hosted HTTP server — there it comes from each request's `Authorization` header.                               |
 | `ARGUSLOG_API_URL`            | no                | `https://api.arguslog.org`    | Override for self-hosted / staging environments.                                                                                                                  |
-| `CF_ORIGIN_TOKEN`             | hosted HTTP only  | —                             | When set, `POST /mcp` requires the matching value in the `X-CF-Origin-Token` header. Configure a Cloudflare Transform Rule on `mcp.arguslog.org` to inject it.    |
+| `CF_ORIGIN_TOKEN`             | hosted HTTP only  | —                             | When set, `POST /mcp` requires the matching value in the `X-Origin-Token` header. Configure a Cloudflare Transform Rule on `mcp.arguslog.org` to inject it. (CF reserves the `X-CF-*` prefix.) |
 | `MCP_RATE_LIMIT_PER_MINUTE`   | no                | `120`                         | Per-PAT (or per-IP when unauthenticated) rate cap for `POST /mcp`. `/healthz` is exempt.                                                                          |
 
 ## Local development

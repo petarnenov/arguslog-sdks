@@ -4,9 +4,12 @@
 #
 # Optional hardening env vars (set in Railway UI, NOT in this file):
 #   CF_ORIGIN_TOKEN           — shared secret. When set, /mcp requires header
-#                               `X-CF-Origin-Token: <value>`. A Cloudflare Transform Rule
-#                               on mcp.arguslog.org injects the same value, closing the
-#                               *.up.railway.app direct-hit bypass. Leave unset to disable.
+#                               `X-Origin-Token: <value>`. A Cloudflare Transform Rule on
+#                               mcp.arguslog.org injects the same value, closing the
+#                               *.up.railway.app direct-hit bypass. (Header is X-Origin-Token
+#                               and NOT X-CF-Origin-Token because CF reserves the X-CF-*
+#                               namespace for its own internal headers.) Leave unset to
+#                               disable the guard.
 #   MCP_RATE_LIMIT_PER_MINUTE — int, default 120. Per-PAT (or per-IP when unauth) limit.
 
 [build]

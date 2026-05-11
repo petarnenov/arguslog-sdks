@@ -21,8 +21,9 @@
  *
  * <p>Defense in depth: {@link helmet} for default secure response headers,
  * {@link rateLimit per-PAT rate limiting} so a leaked or abusive PAT can't exhaust the
- * process, and an optional Cloudflare origin-token check that closes the
- * {@code *.up.railway.app} bypass when {@code CF_ORIGIN_TOKEN} is configured.
+ * process, and an optional Cloudflare origin-token check (header {@code X-Origin-Token},
+ * since CF reserves the {@code X-CF-*} namespace for its own internal headers) that closes
+ * the {@code *.up.railway.app} bypass when {@code CF_ORIGIN_TOKEN} is configured.
  *
  * <p>Health: {@code GET /healthz} returns 200 OK so Railway's healthchecks don't churn the
  * service. It is intentionally excluded from the Cloudflare guard (Railway's healthcheck
@@ -172,14 +173,18 @@ async function handleMcpRequest(req: Request, res: Response): Promise<void> {
 
 /** Cloudflare origin-token middleware. Closes the {@code *.up.railway.app} bypass: when
  * {@code CF_ORIGIN_TOKEN} is set, a Cloudflare Transform Rule injects the same value into
- * {@code X-CF-Origin-Token} on every request that traverses the CDN. Requests that don't
+ * {@code X-Origin-Token} on every request that traverses the CDN. Requests that don't
  * carry the token (i.e. direct origin hits) get 403. Returns {@code null} when the env
- * var is unset — local dev and the first deployment of this change skip the guard. */
+ * var is unset — local dev and the first deployment of this change skip the guard.
+ *
+ * <p>Header is {@code X-Origin-Token} (not {@code X-CF-Origin-Token}) because CF blocks
+ * Transform Rules from setting {@code X-CF-*} headers — that prefix is reserved for its
+ * own internal headers. */
 function makeCfOriginGuard(): RequestHandler | null {
   const expected = (process.env.CF_ORIGIN_TOKEN ?? '').trim();
   if (!expected) return null;
   return (req, res, next) => {
-    const provided = req.header('x-cf-origin-token') ?? '';
+    const provided = req.header('x-origin-token') ?? '';
     if (!provided || !timingSafeEq(provided, expected)) {
       res.status(403).json({
         jsonrpc: '2.0',
